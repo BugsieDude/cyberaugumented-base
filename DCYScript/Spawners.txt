@@ -71,5 +71,6 @@ Class DCY_BFGSpawner : RandomSpawner
   Default
   {
 	DropItem "DCY_PhotonCrux", 255, 100;
+	DropItem "DCY_Liquidation", 255, 50;
   }
 }

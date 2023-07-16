@@ -300,7 +300,7 @@ Class CyberaugumentedProtagonist : PlayerPawn
   Player.WeaponSlot 4, "DCY_Dispatchbringer", "DCY_Nightfall";
   Player.WeaponSlot 5, "DCY_Legionnaire", "DCY_Intervention";
   Player.WeaponSlot 6, "DCY_EnergyExtravasation", "DCY_MesonDischarge";
-  Player.WeaponSlot 7, "DCY_PhotonCrux";
+  Player.WeaponSlot 7, "DCY_PhotonCrux", "DCY_Liquidation";
   PainSound "dcyprotag/pain";
   TeleFogSourceType "DCY_PlayerSourceTeleport";
   TeleFogDestType "DCY_PlayerTeleport";
