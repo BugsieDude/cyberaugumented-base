@@ -1,1 +1,1 @@
-# cyberaugumented-base
+The gameplay part of Cyberaugumented. Contains two classes and a bunch of brand new mechanics.
