@@ -12,8 +12,8 @@ Class DCY_PhotonCrux : DCY_Weapon
 	Weapon.AmmoUse2 10;
 	Weapon.AmmoGive1 100;
 	Weapon.AmmoGive2 100;
-	Weapon.AmmoType1 "Cell";
-	Weapon.AmmoType2 "Cell";
+	Weapon.AmmoType1 "DCY_Battery";
+	Weapon.AmmoType2 "DCY_Battery";
 	Inventory.PickupSound "dcy/bigfuckinggunpickup";
   }
   
