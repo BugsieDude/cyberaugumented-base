@@ -77,3 +77,24 @@ Crux/Impact "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_impact.ogg"
 Crux/DistantImpact "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_impact_distant.ogg"
 
 SteamCooldown "DCYSounds/Weapons/Slot 7/Crux/dcy_steamcooldown.ogg"
+
+Liquidation/Start "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_start.ogg"
+Liquidation/Heat "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_heat.ogg"
+Liquidation/Fire "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_fire.ogg"
+Liquidation/Stop "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_stop.ogg"
+Liquidation/Loop "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_loop.ogg"
+Liquidation/Laser "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_laser.ogg"
+Liquidation/Spin "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_spin.ogg"
+Liquidation/SpinStop "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_spin_stop.ogg"
+Liquidation/Cool "DCYSounds/Weapons/Slot 7/Liquidation/dcy_liquidation_cool.ogg"
+
+$pitchshift SteamCooldown 0
+$pitchshift Liquidation/Start 0
+$pitchshift Liquidation/Heat 0
+$pitchshift Liquidation/Fire 0
+$pitchshift Liquidation/Stop 0
+$pitchshift Liquidation/Laser 0
+$pitchshift Liquidation/Loop 0
+$pitchshift Liquidation/Spin 0
+$pitchshift Liquidation/SpinStop 0
+$pitchshift Liquidation/Cool 0
