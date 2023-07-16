@@ -1,0 +1,180 @@
+DEFAULTLISTMENU
+{
+	Font "DSBIGFONT", "w1", "l5"
+	IfGame(Doom, Chex)
+	{
+		Selector "M_SKULL1", -32, -5
+		Linespacing 16
+		Font "DSBIGFONT", "w1", "f0"
+	}
+	IfGame(Strife)
+	{
+		Selector "M_CURS1", -28, -5
+		Linespacing 19
+	}
+	IfGame(Heretic, Hexen)
+	{
+		Selector "M_SLCTR1", -28, -1
+		Linespacing 20
+	}
+}
+
+LISTMENU "MainMenu"
+{
+	IfGame(Doom, Chex, Heretic, Hexen, Strife)
+	{
+		StaticPatch 65, 2, "M_DOOM"
+		Position 97, 72
+		IfOption(ReadThis)
+		{
+			Position 97, 62
+		}
+	}
+	IfGame(Doom, Chex, Heretic, Hexen, Strife)
+	{
+		TextItem "New Game", "n", "PlayerclassMenu"
+		TextItem "Options","o", "OptionsMenu"
+		TextItem "Quick Access","o", "DCYModOptionsMenu"
+		TextItem "Load Game", "l", "LoadGameMenu"
+		TextItem "Save Game", "s", "SaveGameMenu"
+		TextItem "Quit Game", "q", "QuitMenu"
+	}
+}
+
+OptionValue "DisableEnableAnnounce"
+{
+  0, "Announce"
+  1, "Stay Silent"
+}
+
+OptionValue "BossPiano"
+{
+  0, "Silence"
+  1, "Play"
+}
+
+OptionValue "EnableDisable2"
+{
+  0, "Off"
+  1, "On"
+}
+
+OptionValue "YesNoIOS"
+{
+  0, "Vanilla"
+  1, "Cyberaugumented"
+}
+
+OptionValue "EnemySpawnYN"
+{
+  0, "Normal"
+  1, "Vanilla Tier"
+}
+
+OptionValue "AestheticYN"
+{
+  0, "Vanilla!!"
+  1, "DCY Aesthetics"
+}
+
+OptionValue "Scienceyn"
+{
+  0, "Off"
+  1, "Tag + Scientific Name"
+  2, "Scientific Name only"
+  3, "Tag + Scientific Name (Except for humans)"
+  4, "Scientific Name only (Except for humans)"
+}
+
+OptionValue "DisableEnableAnnounce2"
+{
+  0, "Distance-based"
+  1, "Instant"
+}
+
+AddOptionMenu "OptionsMenu"
+{
+	StaticText " "
+	Submenu "DCY", "DCYModOptionsMenu"
+}
+
+AddOptionMenu "OptionsMenuSimple"
+{
+	StaticText " "
+	Submenu "DCY", "DCYModOptionsMenu"
+}
+
+OptionMenu "DCYModOptionsMenu"
+{
+	Title "Cyberaugumented Options"
+	Class "DCY_Tooltip"
+    StaticText "You can modify all of these to your liking."
+	StaticText ""
+	SubMenu "Player Mechanics", "CyberaugumentedDashingMenu"
+	StaticText ""
+	Option "Level Stat Tracker", "dcy_tracker", "EnableDisable2"
+	Option "Completionist Rewards", "dcy_completionist", "YesNo"
+	StaticText ""
+	Slider "Player Effect Distance", "cl_effectdistance2", 0, 25535, 1
+	StaticText ""
+	Option "HUD Shake",	"cl_hudshake", "EnableDisable2"
+	Option "Map Name on HUD", "cl_dcy_mapname", "EnableDisable2"
+	Option "Map Filename on HUD", "cl_dcy_mapinfo", "EnableDisable2"
+	Option "HUD Stats", "cl_dcy_hudinfo", "EnableDisable2"
+	Option "HUD Time", "cl_dcy_hudtime", "EnableDisable2"
+	Option "HUD Total Time", "cl_dcy_hudtotaltime", "EnableDisable2"
+	Option "Show Destination", "cl_dcy_position", "EnableDisable2"
+	StaticText ""
+	Option "Liquid Prospect", "dcy_liquids", "LiquidChanger"
+	StaticText ""
+	Option "Let there be bloodshed", "dcy_gibbing", "EnableDisable2"
+	Slider "Gib Fading Time", "dcy_gibtime", 20, 2000, 1
+	StaticText ""
+	Option "Get Psyched!", "dcy_wolfensteincutscene", "DCY_GPOption"
+}
+
+
+OptionMenu "CyberaugumentedDashingMenu" 
+{
+	Title "Mechanics"
+	Class "DCY_Tooltip"
+	StaticText ""
+	Option "Enable Double Jump", 	"sv_allowdoublejump", "YesNo"
+	Option "Enable Dashing", 	"sv_allowdash", "YesNo"
+	Slider "Dash Cooldown", "sv_dashcooldown", 35, 80, 35
+	StaticText ""
+	Option "Enable Dash Sound", 	"cl_allowdashsound", "YesNo"
+	Option "Enable Double Jump Sound", "cl_allowdjumpsound", "YesNo"
+	StaticText ""
+	Option "Dash Sound Type", "cl_dashsoundtype", "DashSoundType"
+	Option "Double Jump Sound Type", "cl_djumpsoundtype", "DJumpSoundType"
+	StaticText ""
+	Slider "Dash Power", "sv_dashpower", 26, 40, 2
+	Slider "Upward Dash Power", "sv_dashpowerup", 0, 10, 1
+}
+
+OptionValue "DashSoundType"
+{
+	0, "DOOM Eternal"
+	1, "Dash Sound"
+	2, "Genocide"
+}
+
+OptionValue "DJumpSoundType"
+{
+	0, "Double Jump Sound"
+	1, "DOOM (2016)"
+}
+
+OptionValue "LiquidChanger"
+{
+	0, "Vanilla Liquids"
+	1, "Full-on Overhaul"
+	2, "Liquids only"
+}
+
+OptionValue "DCY_GPOption"
+{
+	0, "I'm exhausted."
+	1, "Oh yeah!!"
+}

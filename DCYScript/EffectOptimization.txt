@@ -1,0 +1,29 @@
+Mixin Class DCY_FX
+{
+	bool DCY_EffectDistance(double distance)
+	{			
+		for (int i = 0; i < MAXPLAYERS; i++)
+			if(playeringame[i] && CheckSight(players[i].mo) && !CheckRange(distance))
+				return true;
+		
+		return false;
+	}
+	
+	bool DCY_EffectSight()
+	{			
+		for (int i = 0; i < MAXPLAYERS; i++)
+			if(playeringame[i] && CheckSight(players[i].mo))
+				return true;
+		
+		return false;
+	}
+	
+	bool DCY_EffectRange(double distance)
+	{			
+		for (int i = 0; i < MAXPLAYERS; i++)
+			if(playeringame[i] && !CheckRange(distance))
+				return true;
+		
+		return false;
+	}
+}

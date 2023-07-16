@@ -1,0 +1,79 @@
+Legionnaire/Fire "DCYSounds/Weapons/Slot 5/Legionnaire/dcy_legionnaire_rocket_fire.ogg"
+
+Underline/Pickup "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_silver_up.ogg"
+$random Underline/Fire {UNDLFIR1 UNDLFIR2 UNDLFIR3 UNDLFIR4 UNDLFIR5}
+UNDLFIR1 "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_silver_shot1.ogg"
+UNDLFIR2 "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_silver_shot2.ogg"
+UNDLFIR3 "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_silver_shot3.ogg"
+UNDLFIR4 "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_silver_shot4.ogg"
+UNDLFIR5 "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_silver_shot5.ogg"
+Underline/Plasma "DCYSounds/Weapons/Slot 3/Silver Blaster/dcy_plasma_bolt.ogg"
+
+$random BurstPistol/Fire { BPISFIR1 BPISFIR2 }
+BPISFIR1 "DCYSounds/Weapons/Slot 2/Burst Pistol/dcy_burst_fire1.ogg"
+BPISFIR2 "DCYSounds/Weapons/Slot 2/Burst Pistol/dcy_burst_fire2.ogg"
+$random BurstPistol/Burst { BPISBRST BPISBRS2 BPISBRS3 }
+BPISBRST "DCYSounds/Weapons/Slot 2/Burst Pistol/dcy_burst_triple1.ogg"
+BPISBRS2 "DCYSounds/Weapons/Slot 2/Burst Pistol/dcy_burst_triple2.ogg"
+BPISBRS3 "DCYSounds/Weapons/Slot 2/Burst Pistol/dcy_burst_triple3.ogg"
+
+DCYNightfall/WindUp "DCYSounds/Weapons/Slot 4/Nightfall/dcy_nightfall_windup.ogg"
+DCYNightfall/WindDown "DCYSounds/Weapons/Slot 4/Nightfall/dcy_nightfall_winddown.ogg"
+DCYNightfall/Spin "DCYSounds/Weapons/Slot 4/Nightfall/dcy_nightfall_spin.ogg"
+DCYNightfall/Fireloop "DCYSounds/Weapons/Slot 4/Nightfall/dcy_nightfall_loop.ogg"
+DCYNightfall/Stop "DCYSounds/Weapons/Slot 4/Nightfall/dcy_nightfall_stop.ogg"
+
+IArc/Up "DCYSounds/Weapons/Slot 1/Ionized Arc/dcy_arc_up.ogg"
+$random IArc/Swing { IArc/Swing1 IArc/Swing2 }
+IArc/Swing1 "DCYSounds/Weapons/Slot 1/Ionized Arc/dcy_arc_swing1.ogg"
+IArc/Swing2 "DCYSounds/Weapons/Slot 1/Ionized Arc/dcy_arc_swing2.ogg"
+IArc/Upgrade "DCYSounds/Weapons/Slot 1/Ionized Arc/dcy_arc_heated.ogg"
+
+$random Rifle/Fire { RIFLEFI1 RIFLEFI2 RIFLEFI3 }
+RIFLEFI1 "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_fire1.ogg"
+RIFLEFI2 "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_fire2.ogg"
+RIFLEFI3 "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_fire3.ogg"
+
+$random Rifle/Laser { RIFLALT1 RIFLALT2 RIFLALT3 }
+RIFLALT1 "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_piercer_fire1.ogg" 
+RIFLALT2 "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_piercer_fire2.ogg"  
+RIFLALT3 "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_piercer_fire3.ogg"  
+Rifle/LaserExplosive "DCYSounds/Weapons/Slot 4/Dispatchbringer/dcy_warbringer_piercer_explosive.ogg"
+
+$random DCYShotgun/Fire { SHOTFIR1 SHOTFIR2 SHOTFIR3 SHOTFIR4 }
+SHOTFIR1 "DCYSounds/Weapons/Slot 3/Pump Action/dcy_combatsg_shotgun1.ogg"
+SHOTFIR2 "DCYSounds/Weapons/Slot 3/Pump Action/dcy_combatsg_shotgun2.ogg"
+SHOTFIR3 "DCYSounds/Weapons/Slot 3/Pump Action/dcy_combatsg_shotgun3.ogg"
+SHOTFIR4 "DCYSounds/Weapons/Slot 3/Pump Action/dcy_combatsg_shotgun4.ogg"
+
+$random DCYSuperShotgun/Fire { SSGFIR1 SSGFIR2 SSGFIR3 SSGFIR4 }
+SSGFIR1 "DCYSounds/Weapons/Slot 3/Double Barrel/dcy_ssg_fire1.ogg"
+SSGFIR2 "DCYSounds/Weapons/Slot 3/Double Barrel/dcy_ssg_fire2.ogg"
+SSGFIR3 "DCYSounds/Weapons/Slot 3/Double Barrel/dcy_ssg_fire3.ogg"
+SSGFIR4 "DCYSounds/Weapons/Slot 3/Double Barrel/dcy_ssg_fire4.ogg"
+$random DCYSuperShotgun/Reload { SSGREL1 SSGREL2 }
+SSGREL1 "DCYSounds/Weapons/Slot 3/Double Barrel/dcy_ssg_reload1.ogg"
+SSGREL2 "DCYSounds/Weapons/Slot 3/Double Barrel/dcy_ssg_reload2.ogg"
+
+DCYPlasmaGun/Fire "DCYSounds/Weapons/Slot 6/Plasma/dcy_plasma_player.ogg"
+DCYPlasmaGun/End "DCYSounds/Weapons/Slot 6/Plasma/dcy_plasma_end.ogg"
+
+DCYBallista/Fire "DCYSounds/Weapons/Slot 6/Meson/dcy_ballista_fire.ogg"
+DCYBallista/Reload "DCYSounds/Weapons/Slot 6/Meson/dcy_ballista_reload.ogg"
+DCYBallista/Explode "DCYSounds/Weapons/Slot 6/Meson/dcy_ballista_explode.ogg"
+
+Caduceus/Switch "DCYSounds/Weapons/Slot 6/Caduceus/dcy_caduceus_switch.ogg"
+Caduceus/Fire "DCYSounds/Weapons/Slot 6/Caduceus/dcy_caduceus_ray.ogg"
+Caduceus/OrbDeath "DCYSounds/Weapons/Slot 6/Caduceus/dcy_caduceus_orb_impact.ogg"
+Caduceus/OrbFire "DCYSounds/Weapons/Slot 6/Caduceus/dcy_caduceus_orb.ogg"
+
+Grenade/Launch "DCYSounds/Weapons/Slot 5/Intervention/dcy_intervention_grenade_fire.ogg"
+
+$random Crux/Fire { Crux/Fire1 Crux/Fire2 Crux/Fire3 }
+Crux/Fire1 "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_fire1.ogg"
+Crux/Fire2 "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_fire2.ogg"
+Crux/Fire3 "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_fire3.ogg"
+Crux/Impact "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_impact.ogg"
+Crux/DistantImpact "DCYSounds/Weapons/Slot 7/Crux/dcy_bfg_impact_distant.ogg"
+
+SteamCooldown "DCYSounds/Weapons/Slot 7/Crux/dcy_steamcooldown.ogg"

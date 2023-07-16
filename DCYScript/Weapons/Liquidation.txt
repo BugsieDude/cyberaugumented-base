@@ -1,0 +1,120 @@
+Class DCY_Dispatchbringer : DCY_Weapon
+{
+  Default
+  {
+	Weapon.Selectionorder 2500;
+	Weapon.AmmoUse1 1;
+	Weapon.AmmoGive 40;
+	Weapon.AmmoType1 "Cell";
+	Weapon.Kickback 100;
+	Weapon.SlotNumber 7;
+	Height 20;
+	Inventory.Pickupmessage "Aquired the 'Aurum-powered 'Liquidation' Laser Blaster 777'! It says what it's written on the tin. It liquidates everywhing.";
+	Weapon.UpSound "dcy/bigfuckinggunpickup";
+	Inventory.PickupSound "";
+	Tag "Aurum-powered 'Liquidation' Laser Blaster 777";
+	Obituary "All of %o's remains was blasted by %k's Liquidation.";
+	+WEAPON.BFG;
+	+WEAPON.NOAUTOFIRE;
+	+WEAPON.NOAUTOAIM;
+	//Decal BFGLightning;
+  }
+  
+  action void A_Liquidation()
+  {
+	A_RailAttack(100, 0, 0, "", "", RGF_SILENT|RGF_FULLBRIGHT, pufftype: "DCY_LiquidationPuff", sparsity: 5, spawnclass: "DCY_LiquidationTrail");
+	invoker.DepleteAmmo(invoker.bAltFire, true);
+	A_GunFlash();
+  }
+  
+  States
+  {
+  Spawn:
+	L1QU Z -1;
+	Stop;
+  OverlayIdle:
+	L1QU A 1;
+	Loop;
+  OverlayCharge:
+	L1QU ABCDEF 1;
+	Stop;
+  OverlayFire:
+	R1F_ D 1
+	{
+		invoker.lower += 7;
+		A_WeaponOffset(0 - (invoker.lower / 11), 32 + (invoker.lower / 2), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	R1F_ EFAAA 1
+	{
+		if (invoker.lower > 0.01) invoker.lower *= 0.65; else invoker.lower = 0;
+		A_WeaponOffset(0 - (invoker.lower / 11), 32 + (invoker.lower / 2), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	Stop;
+  Feel:
+	TNT1 A 1 A_ZoomFactor(0.96);
+	TNT1 A 1 A_ZoomFactor(0.9775);
+	TNT1 A 1 A_ZoomFactor(0.9825);
+	TNT1 A 1 A_ZoomFactor(0.9926);
+	TNT1 A 1 A_ZoomFactor(0.995);
+	TNT1 A 1 A_ZoomFactor(0.997);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		invoker.offsx = 100;
+		invoker.offsy = 150;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Raise(0.4);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+		return (invoker.offsx <= 0.1 || invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		invoker.offsx = invoker.saveoffsx + 2;
+		invoker.offsy = invoker.saveoffsy + 2;
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Lower(1.75, 1.2);
+		
+		return (invoker.offsx >= 150 || invoker.offsy >= 150) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Overlay(5, "OverlayIdle");
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 5
+	{
+		A_Overlay(10, "Feel");
+		A_Overlay(5, "OverlayFire");
+		A_RifleF();
+	}
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Refire();
+	}
+	Goto Ready;
+  }
+}

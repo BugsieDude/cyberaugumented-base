@@ -1,0 +1,118 @@
+Mixin Class DCY_Pickup
+{
+	override string PickupMessage()
+	{
+		double f = G_SkillPropertyFloat(SKILLP_HealthFactor);
+		int str = int(amount * f);
+		return string.Format("%s [+%d]", GetTag(), str);	
+	}
+}
+
+Mixin Class DCY_ArmorPickup
+{
+	override string PickupMessage()
+	{
+		double f = G_SkillPropertyFloat(SKILLP_ArmorFactor);
+		int str = int(self.saveamount * f);
+		return string.Format("%s + [+%d]", GetTag(), str);	
+	}
+}
+
+Class DCY_Powerup : Inventory abstract
+{
+  mixin DCY_FX;
+  
+  string effectcolor;
+  property EffectColor1 : effectcolor;
+  bool lighty;
+  property SpawnLight : lighty;
+  float lightr;
+  property LightRadius : lightr;
+  bool wobbly;
+  property Pulse : wobbly;
+  sound noise;
+  property AmbientNoise : noise;
+  
+  int bobstate;
+  
+  Default
+  {
+	DCY_Powerup.EffectColor1 "ffffff";
+	DCY_Powerup.SpawnLight True;
+	DCY_Powerup.LightRadius 40;
+	DCY_Powerup.AmbientNoise "";
+	+FLOATBOB
+	+COUNTITEM
+	+INVENTORY.AUTOACTIVATE
+	RenderStyle "Add";
+	FloatBobStrength 0.25;
+	Inventory.PickupMessage "\c[White]???\c-";
+  }
+  
+  override void PostBeginPlay()
+  {
+	if (lighty) A_AttachLight("poweruplight", (wobbly) ? DynamicLight.PulseLight : DynamicLight.PointLight, effectcolor, lightr, (wobbly) ? (lightr / 1.35) : lightr);
+	if (noise != "") A_StartSound(noise, 15, CHANF_LOOPING, volume: 0.6);
+  }
+  
+  override void DoPickupSpecial(actor toucher)
+  {
+	A_StopSound(15);
+  }
+  
+  void A_SphereEffect()
+  {
+	for (int i = 0; i < 360; i += 10)
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 100, random(12, 16), i, frandom(5, 10), 0, frandom(0, 30), frandom(-0.1, 0.1) + 3, frandom(-0.1, 0.1) + 1, frandom(0.5, 1.5), accelx: -0.1, accely: 0.15, accelz: 0.025, startalphaf: 1, fadestepf: 0.015, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 100, 70, i, frandom(20, 32), 0, frandom(0, 30), frandom(1, 3), 1.5, 0, 0.15, startalphaf: 1, fadestepf: 0.025, sizestep: 1, startroll: frandom(0, 360), rollvel: frandom(-5, 5));	
+	}
+  }
+}
+
+Mixin Class CYPowerup
+{
+  int time;
+  string tag;
+  property PowerName : tag;
+  
+  void PowerTimer(sound warnsound, sound expiresound, color c, color c2, string n, string col)
+  {
+	switch (time)
+	{
+		case 105:
+			Owner.A_StartSound(warnsound, 20, flags: CHANF_LOCAL|CHANF_OVERLAP);
+			Owner.A_SetBlend(c, 0.25, 25, c2);
+			DCY_HudMessageFade.Show(PlayerNumber(), "\c["..col.."]"..n.."\c- is about to wear off.", 4580, (320, 180), 45, 0, 10, 0, DCY_HudMessage.AlignCenter, fnt: "SMALLFONT", screensize:(640, 360));
+			break;
+		
+		case 2:
+			Owner.A_SetBlend(c, 0.6, 20, c2);
+			Owner.A_StartSound(expiresound, 20, flags: CHANF_LOCAL|CHANF_OVERLAP);
+			break;
+	}
+  }
+}
+
+mixin class DCY_ItemEffects
+{
+  transient protected textureID tex;
+  
+  void A_RuneEffect(string effectcolor = "ffffff")
+  {
+	int rand = 2 * random(1, -1);
+	for (int i = 0; i < 360; i += 5) owner.A_SpawnParticleEx(effectcolor, tex, STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 100, random(12, 16), i, frandom(5, 10), 0, frandom(0, 30), frandom(-0.1, 0.1) + 2, frandom(-0.1, 0.1) - rand, frandom(0.5, 1.5), accelx: -0.05, accely: -0.05 * (rand / 2), startalphaf: 1, fadestepf: 0.015, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+  }
+}
+
+Class DCY_InvItem : Inventory
+{
+  mixin DCY_ItemEffects;
+  mixin DCY_FX;
+}
+
+Class DCY_InvCustomItem : CustomInventory
+{
+  mixin DCY_ItemEffects;
+  mixin DCY_FX;
+}

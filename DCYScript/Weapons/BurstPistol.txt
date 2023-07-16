@@ -1,0 +1,132 @@
+Class DCY_BurstPistol : DCY_Weapon
+{
+  Default
+  {
+	Tag "UAC Burst Pistol";
+	Inventory.PickupSound "dcy/riflepickup";
+	Weapon.SelectionOrder 1900;
+	Weapon.AmmoUse1 1;
+	Weapon.AmmoGive1 50;
+	Weapon.AmmoUse2 1;
+	Weapon.AmmoGive2 50;
+	Weapon.SlotNumber 2;
+	Weapon.AmmoType2 "DCY_Clip";
+	Weapon.AmmoType1 "DCY_Clip";
+	Obituary "$OB_MPPISTOL";
+	Inventory.PickupMessage "You got back your Burst Pistol.";
+	+WEAPON.WIMPY_WEAPON;
+	+WEAPON.NOAUTOFIRE;
+  }
+  
+  action void A_PistolFire(int dist = 256)
+  {
+	A_GunFlash();
+	invoker.DepleteAmmo(invoker.bAltFire, true);
+	A_FireBullets(Random2[GunShot]() * (5.625 / dist), Random2[GunShot]() * (3.549 / dist), 1, 5 * random[GunShot](1, 2), "DCY_Null", FBF_NORANDOM, 8192, "DCY_TracerPlayer", 0);
+	DCY_Muzzle(0.375, (160, 90));
+  }
+  
+  States
+  {
+  OverlayIdle:
+	PII_ A 1
+	{
+		if (invoker.lower > 0.01)
+		{
+			invoker.lower /= 1.25;
+			A_WeaponOffset(0 - (invoker.lower / 10), 32 + invoker.lower, WOF_INTERPOLATE);
+			DCY_HandleScale(5);
+		}
+		else
+		{
+			invoker.lower = 0;
+		}
+	}
+	Stop;
+  OverlayFire:
+	PII_ A 1;
+	PII_ B 0 { invoker.lower += 5.75; A_WeaponOffset(frandom(-1, 1), frandom(0.1, 1) + (invoker.lower / 2), WOF_ADD|WOF_INTERPOLATE); }
+	PII_ BB 1
+	{
+		invoker.lower /= 1.5;
+		A_WeaponOffset(0 - (invoker.lower / 10), 32 + invoker.lower, WOF_KEEPX|WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	PII_ CC 1;
+	Stop;
+  OverlayMuzzle:
+	MUZ_ AA 1 Bright
+	{
+		invoker.t += 0.05;
+		A_OverlayRotate(-1, frandom(0, 360));
+		A_OverlayScale(-1, invoker.t, invoker.t);
+	}
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		invoker.offsx = -75;
+		invoker.offsy = 250;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, invoker.offsy / 3.5, WOF_INTERPOLATE);
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Raise(0.225);
+		return (invoker.offsx >= -0.1 && invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		invoker.offsx = invoker.saveoffsx - 2;
+		invoker.offsy = invoker.saveoffsy + 2;
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Lower(1.775, 1.25);
+		
+		return (invoker.offsx <= -75 || invoker.offsy >= 250) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayFire");
+	}
+	TNT1 A 2
+	{
+		A_StartSound("BurstPistol/Fire", CHAN_WEAPON);
+		A_PistolFire();
+	}
+	TNT1 A 2 A_WeaponReady(WRF_NOBOB);
+	Goto Ready;
+  AltFire:
+  NormalAltFire:
+	TNT1 A 1 A_StartSound("BurstPistol/Burst", CHAN_WEAPON);
+	TNT1 AAA 2
+	{
+		A_Overlay(5, "OverlayFire");
+		A_PistolFire(128);
+	}
+	TNT1 A 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	TNT1 AAAAAAAA 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	}
+	Goto Ready;
+  }
+}

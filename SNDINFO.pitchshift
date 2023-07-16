@@ -1,0 +1,83 @@
+$pitchshift menu/activate 0
+$pitchshift menu/prompt 0
+$pitchshift menu/cursor 0
+$pitchshift menu/change 0
+$pitchshift menu/invalid 0
+$pitchshift menu/dismiss 0
+$pitchshift menu/backup 0
+$pitchshift menu/choose 0
+$pitchshift menu/clear 0
+
+$pitchshift SoulSphere/PickedUp 0
+$pitchshift Doom4/Megasphere 0
+$pitchshift Powersphere/PickedUp 0
+$pitchshift InvulnerabilitySphere/PickedUp 0
+$pitchshift InvulnerabilitySphere/Warning 0
+$pitchshift Raze/Pickup 0
+$pitchshift RadiationSphere/PickedUp 0
+$pitchshift Berserk/Warning 0
+$pitchshift PowerGem/Pickup 0
+$pitchshift GreaterPowerGem/Pickup 0
+
+$pitchshift dcyprotag/paintiny 0
+$pitchshift dcyprotag/painsmall 0
+$pitchshift dcyprotag/pain 0
+$pitchshift dcyprotag/painbig 0
+$pitchshift dcyprotag/painhuge 0
+$pitchshift dcyprotag/painmassive 0
+
+$pitchshift DCYNightfall/WindUp 0
+$pitchshift DCYNightfall/WindDown 0
+$pitchshift DCYNightfall/Spin 0
+$pitchshift DCYNightfall/Fireloop 0
+$pitchshift DCYNightfall/Stop 0
+
+$pitchshift misc/startupdone 0
+$pitchshift CYBECREP 0
+$pitchshift misc/secret 0
+$pitchshift PIANPIAN 0
+$pitchshift misc/hellotherer 0
+$pitchshift misc/pausegame 0
+$pitchshift misc/dcygameinfo 0
+$pitchshift misc/gamemsg 0
+
+$pitchshift Announce/Complete 0
+$pitchshift Announce/CompletionistReward 0
+$pitchshift dcy/mapdone 0
+$pitchshift dcy/fail 0
+$pitchshift dcy/allover 0
+
+$pitchshift dcy/flashback 0
+$pitchshift dcy/deadlydejavu 0
+$pitchshift dcy/decimalerror 0
+$pitchshift dcy/wakeup 0
+$pitchshift dcy/peace 0
+
+$pitchshift dcy/allover 0
+$pitchshift intermission/tick 0
+$pitchshift intermission/cooptotal 0
+$pitchshift intermission/nextstage 0
+$pitchshift intermission/paststats 0
+
+$pitchshift D4BEEP2 0
+$pitchshift D4BEEP3 0
+
+$pitchshift SW1TCHA 0
+$pitchshift SW1TCHB 0
+$pitchshift SW1TCHC 0
+$pitchshift SW1TCHD 0
+$pitchshift SW1TCHE 0
+$pitchshift SW1TCHF 0
+$pitchshift SW1TCHG 0
+$pitchshift SW1TCHH 0
+$pitchshift SW1TCHI 0
+$pitchshift SW1TCHJ 0
+$pitchshift SW1TCHK 0
+$pitchshift SW1TCHL 0
+$pitchshift SW1TCHL1 0
+$pitchshift SW1TCHL2 0
+$pitchshift SW1TCHM 0
+$pitchshift SW1TCHN 0
+
+$pitchshift InvulnerabilitySphere/Chime 0
+$pitchshift Raze/Chime 0

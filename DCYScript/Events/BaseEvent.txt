@@ -1,0 +1,60 @@
+CLASS CyberaugumentedEventHandler : EventHandler
+{
+  //Cutscene Stuff
+  bool restartmus;
+  bool cutscene;
+  
+  static double lerp (double a, double b, double t) {
+	return a + ((b - a) * t);
+  }
+  
+  static Vector3 lerp3 (Vector3 a, Vector3 b, double t) {
+	return a + ((b - a) * t);
+  }
+  
+  override void WorldLoaded(WorldEvent e)
+  {
+	let x = CA_Variables.Get();
+	DroneSpawner();
+  }
+  
+  override void WorldUnloaded(WorldEvent e)
+  {
+	cutscene = false;
+	let d = CA_Variables.Get();
+  }
+  
+  override void WorldTick()
+  {
+	Tracker();
+	if(liquidtex != dcy_liquids) DCY_ReplaceLiquidTextures();
+	liquidtex = dcy_liquids;
+	if ((level.time > 20) && restartmus) { S_ChangeMusic("*"); restartmus = false; }
+  }
+  
+  vector3 GetSectorVec3(sector mySector)
+  {
+	Vector3 mins = (double.max, double.max, double.max);
+	Vector3 maxs = -mins;
+
+	for (int i = 0; i < mySector.lines.Size(); i++)
+	{
+	  Line l = mySector.lines[i];
+	  mins.x = min(mins.x, l.v1.p.x, l.v2.p.x);
+	  maxs.x = max(maxs.x, l.v1.p.x, l.v2.p.x);
+	  
+	  mins.y = min(mins.y, l.v1.p.y, l.v2.p.y);
+	  maxs.y = max(maxs.y, l.v1.p.y, l.v2.p.y);
+
+	  double floor1 = mySector.floorPlane.ZAtPoint(l.v1.p);
+	  double floor2 = mySector.floorPlane.ZAtPoint(l.v2.p);
+	  mins.z = min(mins.z, floor1, floor2);
+
+	  double ceiling1 = mySector.ceilingPlane.ZAtPoint(l.v1.p);
+	  double ceiling2 = mySector.ceilingPlane.ZAtPoint(l.v2.p);
+	  maxs.z = max(maxs.z, ceiling1, ceiling2);
+	}
+	
+	return (maxs - mins);
+  }
+}

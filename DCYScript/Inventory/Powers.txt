@@ -1,0 +1,325 @@
+Class DCY_Infrared : Infrared
+{
+  Default
+  {
+  Inventory.PickupMessage "Night vision is acquired; you picked up the Global Vision NG-80 Triple Eyed Visor.";
+  Tag "Global Vision NG-80 Triple Eyed Visor";
+  Inventory.PickupSound "dcy/visor";
+  Powerup.Type "DCY_LightAmplification";
+  }
+  
+  States
+  {
+  Spawn:
+    PV1S ABCB 5;
+    Loop;
+  }
+}
+
+Class DCY_LightAmplification : PowerLightAmp
+{
+	mixin CYPowerup;
+	
+	Default { Tag "\c[n9]Visor\c-"; }
+	
+	override void DoEffect()
+	{
+		Super.DoEffect();
+		time = EffectTics;
+		if (owner && owner.health > 0) PowerTimer("", "", "e9ffc2", "91a66c", "Visor", "n9");
+	}
+}
+
+Class DCY_Adamantine : DCY_Powerup
+{
+  Default
+  {
+  Inventory.PickupSound "InvulnerabilitySphere/PickedUp";
+  Inventory.PickupMessage "\c[a6]Upon clipping through the Embodiment of Adamantine, you become indestructable.\c-";
+  Tag "Embodiment of Adamantine";
+  RenderStyle "Add";
+  DCY_Powerup.AmbientNoise "Invulnerability/IdleNoise";
+  DCY_Powerup.EffectColor1 "327300";
+  Alpha 1.0;
+  -FLOATBOB
+  +BRIGHT
+  +VISIBILITYPULSE
+  }
+  
+  override void Tick()
+  {
+	super.Tick();
+	if (DCY_EffectDistance(2000) && !level.isFrozen())
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 100, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.5), startalphaf: 0.15, fadestepf: 0.005, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		if (!(level.time % 2)) A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 60, frandom(1, 2), 0, frandom(60, -60), frandom(-60, 60), 0, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, 0.5), startalphaf: 1, sizestep: -0.025);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	P_NV ABCD 12;
+	P_NV D 50;
+	P_NV CBA 12;
+	P_NV A 50;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.A_SetBlend("White", 0.82, 23, "Green");
+	Owner.GiveInventory("DCY_PowerInvulCAGiver", 1);
+	Owner.A_StartSound("InvulnerabilitySphere/Chime", 210, CHANF_UI);
+	
+	spawn("DCY_AdamantineExplode", pos + (0, 0, 30));
+	
+	for (int i = 45; i < 360; i += 90)
+	{
+		for (int j = 10; j > 0; j--)
+		{
+			A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 60, random(6, 12), i, frandom(5, -5), frandom(5, -5), frandom(5, -5) + 36, frandom(-0.1, 0.1) + j, frandom(-0.1, 0.1), frandom(0.5, 1.5), accelx: -(j / 25), startalphaf: 0.5, fadestepf: 0.05, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+			A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 100, 50, i, frandom(5, -5), frandom(5, -5), frandom(5, -5) + 36, frandom(-0.1, 0.1) + j + 0.5, frandom(-0.1, 0.1), frandom(-0.1, 0.1), accelx: -(j / 25), startalphaf: 0.5, fadestepf: 0.015, sizestep: 0.05, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		}
+	}
+	
+	return true;
+  }
+}
+
+Class DCY_AdamantineExplode : Actor
+{
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	
+	alpha -= 0.075;
+	scale *= 1.15;
+	
+	if (alpha <= 0) Destroy();
+  }
+  
+  Default { +NOINTERACTION +BRIGHT RenderStyle "Add"; }
+  
+  States
+  {
+  Spawn:
+	P_NV Z -1;
+	Stop;
+  }
+}
+
+Class DCY_PowerInvulCAGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_PowerInvulCA";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_PowerInvulCA : PowerInvulnerable
+{
+  Mixin CYPowerup;
+  
+  Default { Tag "\c[a6]Adamantine"; }
+  
+  override void DoEffect()
+  {
+	Super.DoEffect();
+	time = EffectTics;
+	
+	if (owner && owner.health > 0)
+	{
+		if (!(level.time % 2)) owner.A_SpawnParticleEx("327300", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 80, 100, 0, frandom(10, -10), frandom(-10, 10), frandom(-10, 10), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.5), startalphaf: 0.15, fadestepf: 0.0075, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		if (!(level.time % 4)) owner.A_SpawnParticleEx("327300", TexMan.CheckForTexture("graphics/Particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 60, frandom(1, 2), 0, frandom(30, -30), frandom(-30, 30), 0, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, 0.5), startalphaf: 1, sizestep: -0.025);
+		PowerTimer("InvulnerabilitySphere/Warning", "", "66d988", "66d988", "The Embodiment of Adamantine", "a6");
+	}
+  }
+}
+
+Class DCY_Boots : DCY_Powerup
+{
+  Default
+  {
+  -FLOATBOB
+  -BRIGHT
+  RenderStyle "Normal";
+  Alpha 1.0;
+  Scale 1.1;
+  Inventory.PickupSound "RadiationSphere/PickedUp";
+  Inventory.PickupMessage "\c[Green]You feel protection against most hazards.\c-";
+  Tag "Temporary Anti-Hazard Boots";
+  DCY_Powerup.EffectColor1 "004a0b";
+  DCY_Powerup.LightRadius 15;
+  DCY_Powerup.Pulse true;
+  }
+  
+  States
+  {
+  Spawn:
+	BI0S A 1;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.A_SetBlend("Green", 0.6, 30, "Yellow");
+	Owner.GiveInventory("DCY_HazardProtectionGiver", 1);
+	
+	for (int i = 0; i < 360; i += random(10, 45))
+		owner.A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 150, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1) + 7, frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.5, fadestepf: 0.05, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+	
+	return true;
+  }
+}
+
+Class DCY_HazardProtectionGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_HazardProtection";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_HazardProtection : PowerIronFeet
+{
+	Mixin CYPowerup;
+	Default { Tag "\c[g4]Temporary Anti-Hazard Boots"; Powerup.Color "ffffff", 0; }
+	
+	override void DoEffect()
+	{
+		Super.DoEffect();
+		time = EffectTics;
+		
+		if (owner && owner.health > 0) PowerTimer("", "", "66d988", "66d988", "Temporary Anti-Hazard Boots", "g4");
+	}
+}
+
+Class DCY_Overload : Actor
+{
+	const DCY_OVERLOADRANGE = 500;
+	
+	Default
+	{
+	Tag "Overcharged Soul";
+	RenderStyle "Add";
+	Translation "0:255=%[0.00,0.00,0.00]:[1.45,0.72,0.56]";
+	+FLOATBOB
+	+SHOOTABLE
+	+DONTTHRUST
+	-COUNTKILL
+	+THRUACTORS
+	+NOBLOOD
+	Height 56;
+	Radius 20;
+	FloatBobStrength 0.15;
+	}
+	
+	mixin DCY_FX;
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		for (int i = 0; i < 2; i++) A_StartSound((!i) ? "DCYBerserk/IdleNoise2" : "DCYBerserk/IdleNoise", 200 + i, CHANF_LOOP, 0.75, 0.9);
+		A_AttachLight("DCYBerserkLight", DynamicLight.PulseLight, "854428", 56, 70, DynamicLight.LF_DONTLIGHTSELF, ofs: (0, 0, 30));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if (DCY_EffectDistance(2000) && bSHOOTABLE)
+			A_SpawnParticleEx(0x854428, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 50, random(30, 60), angle, zoff: 30, startalphaf: 1, fadestepf: 0.1, sizestep: random(-1, -2), startroll: frandom(0, 360));
+	}
+	
+	void OverloadExplodeFX()
+	{
+		for (int i = 0; i < 360; i += random(6, 15))
+		{
+			for (int j = 1; j < 12; j++)
+				A_SpawnParticleEx(0x854428, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 180, random(5, 100), i, frandom(20, -20), frandom(-20, 20), frandom(-20, 20) + 25, frandom(-0.01, 0.01) + (50 / j), frandom(-0.01, 0.01), frandom(0.01, -0.01), startalphaf: 0.9, fadestepf: 0.025, sizestep: 8.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		}
+	}
+	
+	void OverloadExplode()
+	{
+		BlockThingsIterator ti = BlockThingsIterator.Create(self, DCY_OVERLOADRANGE);
+		actor a;
+		
+		A_StopSounds(0, 250);
+		A_StartSound("DCYBerserk/Explode", 300, attenuation: 0.25);
+		A_RemoveLight("DCYBerserkLight");
+		OverloadExplodeFX();
+		A_QuakeEx(4, 4, 4, 50, 0, 2000, flags: QF_SCALEDOWN, rollintensity: 2.0, rollwave: 0.141);
+		
+		while(ti.Next())
+		{
+			a = ti.thing;
+			double rad = abs((DCY_OVERLOADRANGE - Distance3D(a)) / 1.5);
+			if (a && a.Health > 0 && a.bSHOOTABLE && distance3D(a) < DCY_OVERLOADRANGE && !a.bDONTTHRUST)
+			{
+				if (!(a is "PlayerPawn"))
+				{
+					if (checkSight(a))
+					{
+						a.DamageMobj(self, self, 500 - int(Distance3D(a) / 2), "Plasma", DMG_FORCED|DMG_PLAYERATTACK|DMG_THRUSTLESS);
+						a.Vel3DFromAngle((rad / 2) / (a.Mass / (a.Mass / 4)), self.AngleTo(a), self.PitchTo(a));
+						if (a.GetMaxHealth() < 2500) a.vel.z += 5 + ((rad / 5) / ((a.Mass > 600) ? 2.5 : 1));
+						a.vel.z = clamp(a.vel.z, -30, 30);
+					}
+				}
+				else
+				{
+					if (distance3D(a) < (DCY_OVERLOADRANGE / 2))
+					{
+						a.GiveBody(100, 200);
+						a.A_SetBlend("White", 1.0, 25, "Orange");
+						a.A_GiveInventory("DCY_OverloadStrengthGiver");
+						console.printF("\c[x1]Power overload starts to possess you and your ions.\c-");
+					}
+				}
+			}
+		}
+	}
+	
+	override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		if (!bNODAMAGE && source is 'PlayerPawn' && mod == "Melee")
+		{
+			bNODAMAGE = true;
+			bSHOOTABLE = false;
+			SetStateLabel("Death");
+		}
+		
+		return 0;
+	}
+
+	States
+	{
+	Spawn:
+		TNT1 A -1;
+		Stop;
+	Death:
+		TNT1 A 60 OverloadExplode();
+		Stop;
+	}
+}
+
+Class DCY_OverloadStrengthGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_OverloadStrength";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_OverloadStrength : PowerStrength
+{
+	Default { Tag "\c[x1]Overcharged"; Powerup.Color "ffffff", 0; }
+}

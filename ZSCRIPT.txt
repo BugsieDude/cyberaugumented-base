@@ -1,0 +1,63 @@
+version "4.10.0"
+
+//Misc
+#include "DCYScript/Methinks.txt"
+#include "DCYScript/TeleportFX.txt"
+#include "DCYScript/EffectOptimization.txt"
+#include "DCYScript/BEWM.txt"
+#include "DCYScript/BouncingFX.txt"
+#include "DCYScript/BaseProjectiles.txt"
+
+//The Player
+#include "DCYScript/Player/NewPlayer.txt"
+#include "DCYScript/Player/HUD.txt"
+
+//Items
+#include "DCYScript/Inventory/Base.txt"
+#include "DCYScript/Inventory/Supplies.txt"
+#include "DCYScript/Inventory/Spheres.txt"
+#include "DCYScript/Inventory/Powers.txt"
+#include "DCYScript/Inventory/Portables.txt"
+#include "DCYScript/Inventory/Keys.txt"
+#include "DCYScript/Inventory/Ammo.txt"
+#include "DCYScript/Upgrade/Droid.txt"
+#include "DCYScript/Spawners.txt"
+
+//Events
+#include "DCYScript/Events/Anti.txt"
+#include "DCYScript/Events/BaseEvent.txt"
+#include "DCYScript/Events/UIText.txt"
+#include "DCYScript/Events/Completionist.txt"
+#include "DCYScript/Events/Replacers.txt"
+#include "DCYScript/Events/Texture.txt"
+#include "DCYScript/Events/Spawning.txt"
+#include "DCYScript/Events/PlayerMovement.txt"
+#include "DCYScript/Events/DeathExit.txt"
+#include "DCYScript/Events/Enemies.txt"
+
+//Menus
+#include "DCYScript/Menus/intermission.txt"
+#include "DCYScript/Menus/messagemenu.txt"
+#include "DCYScript/Menus/tooltips.txt"
+
+//Props
+#include "DCYScript/Props/Eye.txt"
+#include "DCYScript/Props/Gore.txt"
+#include "DCYScript/Props/Lights.txt"
+#include "DCYScript/Props/Barrel.txt"
+
+//Weps
+#include "DCYScript/Weapons/WeaponBase.txt"
+#include "DCYScript/Weapons/IonizedArc.txt"
+#include "DCYScript/Weapons/BurstPistol.txt"
+#include "DCYScript/Weapons/PumpAction.txt"
+#include "DCYScript/Weapons/Silver.txt"
+#include "DCYScript/Weapons/DoubleBarrel.txt"
+#include "DCYScript/Weapons/Rifle.txt"
+#include "DCYScript/Weapons/Nightfall.txt"
+#include "DCYScript/Weapons/Legionnaire.txt"
+#include "DCYScript/Weapons/Intervention.txt"
+#include "DCYScript/Weapons/Plasma.txt"
+#include "DCYScript/Weapons/Meson.txt"
+#include "DCYScript/Weapons/Caduceus.txt"
+#include "DCYScript/Weapons/Crux.txt"

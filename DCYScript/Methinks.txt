@@ -1,0 +1,30 @@
+Class CA_Variables : Thinker
+{
+  bool gameannounce;
+  bool EffectChoker;
+  bool hasAntimateriaWeapons;
+  
+  CA_Variables init()
+  {
+	ChangeStatNum(STAT_STATIC);
+	return self;
+  }
+  
+  static CA_Variables Get()
+  {
+	let ti = ThinkerIterator.Create("CA_Variables", STAT_STATIC);
+	CA_Variables cur, prev = null;
+	
+	while((cur = CA_Variables(ti.Next())) != null)
+	{
+		if (prev != null)
+			prev.Destroy();
+		prev = cur;
+	}
+	
+	if (prev == null)
+		prev = new("CA_Variables").init();
+	
+	return prev;
+  }
+}

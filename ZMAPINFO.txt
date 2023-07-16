@@ -1,0 +1,97 @@
+gameinfo
+{
+	menufontcolor_title = "j1" 
+	menufontcolor_label = "l5"
+	menufontcolor_value = "f0"
+	menufontcolor_action = "a4"
+	menufontcolor_header = "w3" 
+	menufontcolor_highlight = "w1"
+	menufontcolor_selection = "c1"
+	infopage = "DCYINFO1", "DCYINFO2"
+	dimcolor = "Black"
+	dimamount = 0.6
+	cursorpic = "DCYC0RSU"
+	statscreen_single = "DCY_Intermission"
+	messageboxclass = "DCY_MessageBox"
+	addeventhandlers = "CyberaugumentedEventHandler", "DCY_Interceptor", "CyberaugumentedStartupHandler", "PlayerControlsDCY", "DCY_HudMessageHandler"
+	StatusBarClass = "DCyb_HUD"
+	BackpackType = "DCY_Backpack"
+	playerclasses = "CyberaugumentedProtagonist"
+	Endoom = "DCY_BYEBYE.bin"
+	quitmessages = "lmfao"
+	PickupColor = "1e48c7"
+	HelpMenuClass = "ReadThisMenu"
+}
+
+clearskills
+
+//Easy Difficulties
+skill DCY_Ez
+{
+ AutoUseHealth
+ AmmoFactor = 2
+ DamageFactor = 0.5
+ TextColor = "l7"
+ EasyBossBrain
+ SpawnFilter = 2
+ Name = "Tiny Sightseer"
+ Key = "i"
+}
+
+//Easy Difficulty
+skill DCY_Normal
+{
+ TextColor = "l5"
+ SpawnFilter = 3
+ Name = "Just The Begining"
+ Key = "h"
+}
+
+//U-V Difficulty
+skill DCY_UV
+{
+ TextColor = "p7"
+ SpawnFilter = 4
+ Name = "Ravaging Carnage"
+ Key = "u"
+ DefaultSkill
+}
+
+//Nightmare Difficulty
+skill DCY_Insane
+{
+ AmmoFactor = 2
+ ACSReturn = 4
+ TextColor = "w9"
+ FastMonsters
+ RespawnTime = 12
+ SpawnFilter = 5
+ Name = "Pure Disruption"
+ MustConfirm = "Just like DOOM's nightmare. Maybe this is too meta."
+ Key = "n"
+}
+
+//Hard Difficulty
+skill DCY_Deadly
+{
+ TextColor = "j8"
+ SpawnFilter = 4
+ Name = "OVER TURNED"
+ NoInfighting
+ MustConfirm = "Monsters cannot infight now. Have fun."
+}
+
+//Harder Difficulty
+skill HOLYFUCK
+{
+ TextColor = "v6"
+ AmmoFactor = 2
+ ACSReturn = 4
+ FastMonsters
+ SpawnFilter = 4
+ RespawnTime = .5
+ monsterHealth = .5
+ NoInfighting
+ Name = "Demise Incarnate"
+ MustConfirm = "Here comes the danger zone."
+}

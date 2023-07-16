@@ -1,0 +1,74 @@
+Class DCY_Weapon : Weapon abstract
+{
+	double offsx, offsy, saveoffsx, saveoffsy, lower;
+	float t;
+	
+	const WEAPON_SMOKE = 50;
+	protected double w_pa[WEAPON_SMOKE], w_pp[WEAPON_SMOKE];
+	
+	Default
+	{
+	Weapon.BobRangeX 0.45;
+	Weapon.BobRangeY 0.25;
+	Weapon.BobSpeed 1.45;
+	}
+	
+	action void DCY_HandleScale(int overlay)
+	{
+		A_OverlayPivotAlign(overlay, PSPA_CENTER, PSPA_TOP);
+		A_OverlayScale(overlay, 1 + (invoker.lower / 100), 1 + (invoker.lower / 100));
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let p = owner.player;
+		if (p && p.readyweapon) p.weaponstate != WF_WEAPONBOBBING;
+	}
+	
+	action void DCY_Raise(double rspeed = 0.5)
+	{
+		A_WeaponReady(WRF_NOFIRE);
+		
+		invoker.offsx *= rspeed;
+		invoker.offsy *= rspeed;
+		invoker.saveoffsx = invoker.offsx;
+		invoker.saveoffsy = invoker.offsy;
+		A_WeaponOffset(invoker.offsx, invoker.offsy + 32, WOF_INTERPOLATE);
+	}
+	
+	action void DCY_Lower(double rspeed = 1.5, double away = 1.25)
+	{
+		invoker.offsx *= (rspeed - (away / 10)); //1.5 / 1.25;
+		invoker.offsy *= rspeed;
+		A_WeaponOffset(invoker.offsx, invoker.offsy + 32, WOF_INTERPOLATE);
+	}
+	
+	action void DCY_Muzzle(double bscale = 0.5, vector2 bpos = (160, 100), int layer = -1)
+	{
+		invoker.t = bscale;
+		A_Overlay(layer, "OverlayMuzzle");
+		A_OverlayOffset(layer, bpos.x, bpos.y);
+		A_OverlayPivotAlign(layer, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(layer, frandom(0, 360));
+		A_OverlayFlags(layer, PSPF_RENDERSTYLE, true);
+		A_OverlayRenderStyle(layer, STYLE_ADD);
+	}
+	
+	States
+	{
+	DeselectLoop:
+		TNT1 A 0 { A_ClearOverlays(-999, 999); A_WeaponOffset(0, 0, WOF_KEEPY); A_Lower(); }
+		Wait;
+	OverlayNull:
+		TNT1 A 1;
+		Stop;
+	OverlayMuzzle:
+		MUZ_ A 1 Bright
+		{
+			A_OverlayRotate(-1, frandom(0, 360));
+			A_OverlayScale(-1, invoker.t, invoker.t);
+		}
+		Stop;
+	}
+}

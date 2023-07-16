@@ -1,0 +1,168 @@
+Class DCY_Helth : HealthBonus
+{
+  Mixin DCY_Pickup;
+  
+  Default
+  {
+  Inventory.PickupSound "D4BEEP1";
+  Tag "\c[l5]Health Container\c-";
+  }
+  
+  States
+  {
+  Spawn:
+	H9B_ ABCDCB 3;
+	Loop;
+  }
+}
+
+Class DCY_Steempack : Stimpack
+{
+  Mixin DCY_Pickup;
+  
+  Default 
+  {
+  Inventory.PickupSound "D4BEEP2"; 
+  Tag "\c[l5]Stimpack\c-";
+  }
+  
+  States
+  {
+  Spawn:
+	ST1M ABCDCB 7;
+	Loop;
+  }
+}
+
+Class DCY_ThatOneMediKit : Medikit
+{
+  Mixin DCY_Pickup;
+  
+  Default
+  {
+  Inventory.PickupSound "D4BEEP3";
+  Tag "\c[l5]Medical Kit\c-";
+  }
+  
+  States
+  {
+  Spawn:
+	MK1T ABCDCB 6;
+	Loop;
+  }
+}
+
+Class DCY_Canister : ArmorBonus
+{
+  Mixin DCY_ArmorPickup;
+  
+  Default
+  {
+  Inventory.PickupSound "D4ARMR1";
+  Tag "\c[a6]Armor Canister\c-";
+  }
+  
+  States
+  {
+  Spawn:
+	A9B_ ABCDCB 3;
+	Loop;
+  }
+}
+
+Class DCY_Safeguard : GreenArmor
+{
+  Mixin DCY_ArmorPickup;
+  
+  Default
+  {
+  Inventory.PickupSound "Safeguard/Pickup";
+  Tag "\c[Green]Safeguard Chestplate\c-";
+  Inventory.Icon "D_A1A0";
+  }
+  
+  States
+  {
+  Spawn:
+    D_A1 A 25;
+	D_A1 BCB 5;
+    Loop;
+  }
+}
+
+Class DCY_Shatterproof : BlueArmor
+{
+  Mixin DCY_ArmorPickup;
+  
+  Default
+  {
+  Inventory.PickupSound "Shatterproof/Pickup";
+  Tag "\c[Sapphire]Shatterproof Chestplate\c-";
+  Inventory.Icon "D_A2A0";
+  }
+  
+  States
+  {
+  Spawn:
+    D_A2 A 25;
+	D_A2 BCB 7;
+    Loop;
+  }
+}
+
+Class DCY_Defiance : BlueArmor
+{
+  Mixin DCY_ArmorPickup;
+  
+  Default
+  {
+  Inventory.PickupSound "Defiance/Pickup";
+  DamageFactor 0.75;
+  DamageFactor "Explosive", 0.5;
+  DamageFactor "Plasma", 0.5;
+  DamageFactor "BFG", 0.5;
+  DamageFactor "Lunacy", 0.75;
+  Armor.SavePercent 80;
+  Armor.SaveAmount 300;
+  Inventory.Icon "D_A3A0";
+  Tag "\c[Red]Defiance Chestplate\c-";
+  }
+  
+  States
+  {
+  Spawn:
+    D_A3 A 25;
+	D_A3 BCB 7;
+    Loop;
+  }
+}
+
+Class DCY_MarineArmorThing : RandomSpawner
+{
+  Default
+  {
+  DropItem "DCY_Shatterproof", 255, 150;
+  DropItem "DCY_Defiance", 255, 60;
+  }
+}
+
+Class DCY_AllMap : AllMap
+{
+  Default
+  {
+  Inventory.PickupSound "AllMap/PickedUp";
+  ActiveSound "AllMap/Loop";
+  Tag "Advanced GPU";
+  Inventory.PickupMessage "\c[Orange]You can see where you are right now.\c-";
+  }
+  
+  States
+  {
+  Spawn:
+	M_P_ ABCD 6 A_LoopActiveSound();
+	Loop;
+  Pickup:
+	M_P_ A 0 Bright A_StopSound(CHAN_BODY);
+	Stop;
+  }
+}

@@ -1,0 +1,190 @@
+Class DCY_AmmoBase : Ammo abstract
+{
+	string nme, snd;
+	name type;
+	property AmmoType : type;
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		switch(type)
+		{
+			case 'clip': sprite = GetSpriteIndex("D__A"); snd = "dcy/clip"; nme = "Stripper Clip"; break;
+			case 'clipbox': sprite = GetSpriteIndex("D__B"); snd = "dcy/clip"; nme = "Stripper Clip Container"; break;
+			case 'shell': sprite = GetSpriteIndex("D__C"); snd = "dcy/shell"; nme = "Combat Ark Shells"; break;
+			case 'shellbox': sprite = GetSpriteIndex("D__S"); snd = "dcy/shell"; nme = "Combat Ark Shell Pack"; break;
+			case 'rocket': sprite = GetSpriteIndex("D__R"); snd = "dcy/rocket"; nme = "SM-20 Missile"; break;
+			case 'rocketbox': sprite = GetSpriteIndex("D__K"); snd = "dcy/rocket"; nme = "Packed SM-20 Missiles"; break;
+			case 'battery': sprite = GetSpriteIndex("_DLL"); snd = "dcy/cell"; nme = "Verytex Electrotechnical Battery"; SetStateLabel("Battery"); break;
+			case 'batterybox': sprite = GetSpriteIndex("_DLX"); snd = "dcy/cellpack"; nme = "Vertex 62170 Battery Box"; SetStateLabel("BatteryPack"); break;
+			case 'antimatter': sprite = GetSpriteIndex("D__L"); snd = "dcy/antimatter"; nme = "Antimateria Equalizer"; SetStateLabel("Antimateria"); break;
+		}
+		
+		SetTag(nme);
+	}
+	
+	override Class<Ammo> GetParentAmmo()
+	{
+		class<Object> type = GetClass();
+		while (type.GetParentClass() != "DCY_AmmoBase" && type.GetParentClass() != NULL) type = type.GetParentClass();
+		return (class<Ammo>)(type);
+	}
+	
+	override string PickupMessage()
+	{
+		double f = G_SkillPropertyFloat(SKILLP_AmmoFactor) * (bDROPPED ? -G_SkillPropertyFloat(SKILLP_DropAmmoFactor) : 1);
+		int str = int(amount * f);
+		A_StartSound(snd, 400, CHANF_NOPAUSE, 0.75);
+		return string.Format("%s [+%d]", GetTag(), str);	
+	}
+	
+	Default { Inventory.PickupSound ""; Tag ""; }
+	
+	States
+	{
+	Spawn:
+		TNT1 A 0;
+		#### A -1;
+		Goto Spawn+1;
+	Battery:
+		_DLL ABCDEFGHGFEDCB random(3, 6);
+		Loop;
+	BatteryPack:
+		_DLX ABCDCB 4;
+		Loop;
+	Antimateria:
+		D__L A 0
+		{
+			if (!random(0, 1)) SetStateLabel("CReverse");
+			else SetStateLabel("CNormal");
+		}
+		Goto CNormal;
+	CNormal:
+		#### ABCDEFGHIJKL 2;
+		Loop;
+	CReverse:
+		#### LKJIHGFEDCBA 2;
+		Loop;
+	LoadSprites:
+		D__A A 0; D__B A 0; D__C A 0; D__K A 0; D__S A 0; D__R A 0; D__L ABCDEFGHIJKL 0; _DLL ABCDEFGH 0; _DLX ABCD 0; 
+	}
+}
+
+Class DCY_Clip : DCY_AmmoBase
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "clip";
+		Inventory.Amount 10;
+		Inventory.MaxAmount 200;
+		Ammo.BackpackAmount 10;
+		Ammo.BackpackMaxAmount 400;
+		Inventory.Icon "D__AA0";
+	}
+}
+
+Class DCY_ClipBox : DCY_Clip
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "clipbox";
+		Inventory.Amount 50;
+	}
+}
+
+Class DCY_Shell : DCY_AmmoBase
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "shell";
+		Inventory.Amount 4;
+		Inventory.MaxAmount 50;
+		Ammo.BackpackAmount 4;
+		Ammo.BackpackMaxAmount 100;
+		Inventory.Icon "D__CA0";
+	}
+}
+
+Class DCY_ShellBox : DCY_Shell
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "shellbox";
+		Inventory.Amount 20;
+	}
+}
+
+Class DCY_RocketAmmo : DCY_AmmoBase
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "rocket";
+		Inventory.Amount 1;
+		Inventory.MaxAmount 50;
+		Ammo.BackpackAmount 1;
+		Ammo.BackpackMaxAmount 100;
+		Inventory.Icon "D__RA0";
+	}
+}
+
+Class DCY_RocketBox : DCY_RocketAmmo
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "rocketbox";
+		Inventory.Amount 5;
+	}
+}
+
+Class DCY_Battery : DCY_AmmoBase
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "battery";
+		Inventory.Amount 20;
+		Inventory.MaxAmount 300;
+		Ammo.BackpackAmount 20;
+		Ammo.BackpackMaxAmount 600;
+		Inventory.Icon "_DLLA0";
+	}
+}
+
+Class DCY_BatteryBox : DCY_Battery
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "batterybox";
+		Inventory.Amount 100;
+	}
+}
+
+Class DCY_Antimateria : DCY_AmmoBase
+{
+	Default
+	{
+		DCY_AmmoBase.AmmoType "antimatter";
+		Inventory.Amount 10;
+		Inventory.MaxAmount 500;
+		Ammo.BackpackAmount 30;
+		Ammo.BackpackMaxAmount 500;
+		Inventory.Icon "D__LA0";
+	}
+}
+
+Class DCY_Backpack : Backpack
+{ 
+  Default
+  {
+  Inventory.PickupSound "dcy/backpack";
+  Inventory.PickupMessage "Time to get those weapons locked up. (Ammo increased.)";
+  Tag "Tactical Range Backpack";
+  }
+  
+  States
+  {
+  Spawn:
+    BCPA ABCDEFG 3;
+    Loop;
+  }
+}

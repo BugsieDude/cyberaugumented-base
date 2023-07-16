@@ -1,0 +1,121 @@
+//Other
+warp2 texture M771Z0
+
+//HUD
+ 
+TEXTURE CHUDARR1
+	Pic CHUDARR1 Tics 5
+	Pic CHUDARR2 Tics 5
+	Pic CHUDARR1 Tics 5
+	Pic CHUDARR3 Tics 5
+
+TEXTURE CHUDARL1
+	Pic CHUDARL1 Tics 5
+	Pic CHUDARL2 Tics 5
+	Pic CHUDARL1 Tics 5
+	Pic CHUDARL3 Tics 5
+ 
+//Switches (By Enjay)
+switch doom 1 SW1BRCOM on sound SW1TCHA pic SW2BRCOM tics 0
+switch doom 1 SW1BRN1 on sound SW1TCHH pic SW2BRN1 tics 0
+switch doom 1 SW1BRN2 on sound SW1TCHK pic SW2BRN2 tics 0
+switch doom 1 SW1BRNGN on sound SW1TCHK pic SW2BRNGN tics 0
+switch doom 1 SW1BROWN on sound SW1TCHI pic SW2BROWN tics 0
+switch doom 1 SW1COMM on sound SW1TCHE pic SW2COMM tics 0
+switch doom 1 SW1COMP on sound SW1TCHG pic SW2COMP tics 0
+switch doom 1 SW1DIRT on sound SW1TCHD pic SW2DIRT tics 0
+switch doom 1 SW1EXIT on sound SW1TCHD pic SW2EXIT tics 0
+switch doom 1 SW1GRAY on sound SW1TCHK pic SW2GRAY tics 0
+switch doom 1 SW1GRAY1 on sound SW1TCHH pic SW2GRAY1 tics 0
+switch doom 1 SW1METAL on sound SW1TCHL pic SW2METAL tics 0
+switch doom 1 SW1PIPE on sound SW1TCHB pic SW2PIPE tics 0
+switch doom 1 SW1SLAD on sound SW1TCHA pic SW2SLAD tics 0
+switch doom 1 SW1STARG on sound SW1TCHB pic SW2STARG tics 0
+switch doom 1 SW1STON1 on sound SW1TCHF pic SW2STON1 tics 0
+switch doom 1 SW1STON2 on sound SW1TCHE pic SW2STON2 tics 0
+switch doom 1 SW1STONE on sound SW1TCHL pic SW2STONE tics 0
+switch doom 1 SW1STRTN on sound SW1TCHL pic SW2STRTN tics 0
+
+switch doom 2 SW1BLUE on sound SW1TCHM pic SW2BLUE tics 0
+switch doom 2 SW1CMT on sound SW1TCHM pic SW2CMT tics 0
+switch doom 2 SW1GARG on sound SW1TCHJ pic SW2GARG tics 0
+switch doom 2 SW1GSTON on sound SW1TCHJ pic SW2GSTON tics 0
+switch doom 2 SW1HOT on sound SW1TCHM pic SW2HOT tics 0
+switch doom 2 SW1LION on sound SW1TCHM pic SW2LION tics 0
+switch doom 2 SW1SATYR on sound SW1TCHM pic SW2SATYR tics 0
+switch doom 2 SW1SKIN on sound SW1TCHC pic SW2SKIN tics 0
+switch doom 2 SW1VINE on sound SW1TCHM pic SW2VINE tics 0
+switch doom 2 SW1WOOD on sound SW1TCHM pic SW2WOOD tics 0
+
+switch doom 3 SW1WDMET on sound SW1TCHJ pic SW2WDMET tics 0
+switch doom 3 SW1BRIK on sound SW1TCHN pic SW2BRIK tics 0
+switch doom 3 SW1MARB on sound SW1TCHM pic SW2MARB tics 0
+switch doom 3 SW1MET2 on sound SW1TCHL pic SW2MET2 tics 0
+switch doom 3 SW1MOD1 on sound SW1TCHF pic SW2MOD1 tics 0
+switch doom 3 SW1PANEL on sound SW1TCHM pic SW2PANEL tics 0
+switch doom 3 SW1ROCK on sound SW1TCHJ pic SW2ROCK tics 0
+switch doom 3 SW1SKULL on sound SW1TCHM pic SW2SKULL tics 0
+switch doom 3 SW1STON6 on sound SW1TCHK pic SW2STON6 tics 0
+switch doom 3 SW1TEK on sound SW1TCHH pic SW2TEK tics 0
+switch doom 3 SW1ZIM on sound SW1TCHJ pic SW2ZIM tics 0
+
+/*
+texture DC_WFLL1
+pic DC_WFLL1 tics 4
+pic DC_WFLL2 tics 4
+pic DC_WFLL3 tics 4
+pic DC_WFLL4 tics 4
+
+texture DC_BFLL1
+pic DC_BFLL1 tics 4
+pic DC_BFLL2 tics 4
+pic DC_BFLL3 tics 4
+pic DC_BFLL4 tics 4
+
+texture DC_LFLL1
+pic DC_LFLL1 tics 12
+pic DC_LFLL2 tics 12
+pic DC_LFLL3 tics 12
+pic DC_LFLL4 tics 12
+
+texture DC_SFLL1
+pic DC_SFLL1 tics 8
+pic DC_SFLL2 tics 8
+pic DC_SFLL3 tics 8
+pic DC_SFLL4 tics 8
+*/
+
+texture "Graphics/Quit/MSG_DCY_QUITMSG16.png"
+pic "Graphics/Quit/MSG_DCY_QUITMSG16.png" tics 6
+pic "Graphics/Quit/MSG_DCY_QUITMSG16B.png" tics 6
+
+texture "Graphics/Quit/MSG_DCY_QUITMSG8.png"
+pic "Graphics/Quit/MSG_DCY_QUITMSG8.png" tics 5
+pic "Graphics/Quit/MSG_DCY_QUITMSG8B.png" tics 5
+pic "Graphics/Quit/MSG_DCY_QUITMSG8C.png" tics 5
+pic "Graphics/Quit/MSG_DCY_QUITMSG8B.png" tics 5
+
+texture "Graphics/Quit/MSG_DCY_QUITMSG7.png"
+pic "Graphics/Quit/MSG_DCY_QUITMSG7.png" tics 2
+pic "Graphics/Quit/MSG_DCY_QUITMSG7B.png" tics 2
+pic "Graphics/Quit/MSG_DCY_QUITMSG7C.png" tics 2
+
+texture "Graphics/Quit/MSG_DCY_QUITMSG13.png"
+pic "Graphics/Quit/MSG_DCY_QUITMSG13.png" tics 8
+pic "Graphics/Quit/MSG_DCY_QUITMSG13B.png" tics 8
+pic "Graphics/Quit/MSG_DCY_QUITMSG13C.png" tics 8
+pic "Graphics/Quit/MSG_DCY_QUITMSG13D.png" tics 8
+
+texture "Graphics/Quit/MSG_DCY_QUITMSG21.png"
+pic "Graphics/Quit/MSG_DCY_QUITMSG21.png" tics 4
+pic "Graphics/Quit/MSG_DCY_QUITMSG21B.png" tics 4
+pic "Graphics/Quit/MSG_DCY_QUITMSG21C.png" tics 4
+pic "Graphics/Quit/MSG_DCY_QUITMSG21B.png" tics 4
+
+texture "Graphics/Quit/MSG_QUITGAME.png"
+pic "Graphics/Quit/MSG_QUITGAME.png" tics 10
+pic "Graphics/Quit/MSG_QUITGAMEB.png" tics 10
+
+texture "Graphics/dcy_elite.png"
+pic "Graphics/dcy_elite.png" tics 2
+pic "Graphics/dcy_elite2.png" tics 2

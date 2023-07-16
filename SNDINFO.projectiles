@@ -1,0 +1,28 @@
+$random DCYRocket { DCYRocket1 DCYRocket2 DCYRocket3 DCYRocket4 }
+DCYRocket1 "DCYSounds/Weapons/Slot 5/Legionnaire/dcy_missile1.ogg"
+DCYRocket2 "DCYSounds/Weapons/Slot 5/Legionnaire/dcy_missile2.ogg"
+DCYRocket3 "DCYSounds/Weapons/Slot 5/Legionnaire/dcy_missile3.ogg"
+DCYRocket4 "DCYSounds/Weapons/Slot 5/Legionnaire/dcy_missile4.ogg"
+
+$random Rec { BULREC1 BULREC2 BULREC3 BULREC4 BULREC5 BULREC6 BULREC7 BULREC8 BULREC9 BULREC10 }
+BULREC1 "DCYSounds/Projectiles/dcy_bullet_whiz1.ogg"
+BULREC2 "DCYSounds/Projectiles/dcy_bullet_whiz2.ogg"
+BULREC3 "DCYSounds/Projectiles/dcy_bullet_whiz3.ogg"
+BULREC4 "DCYSounds/Projectiles/dcy_bullet_whiz4.ogg"
+BULREC5 "DCYSounds/Projectiles/dcy_bullet_whiz5.ogg"
+BULREC6 "DCYSounds/Projectiles/dcy_bullet_whiz6.ogg"
+BULREC7 "DCYSounds/Projectiles/dcy_bullet_whiz7.ogg"
+BULREC8 "DCYSounds/Projectiles/dcy_bullet_whiz8.ogg"
+BULREC9 "DCYSounds/Projectiles/dcy_bullet_whiz9.ogg"
+BULREC10 "DCYSounds/Projectiles/dcy_bullet_whiz10.ogg"
+$random DCYBullet/Hit { BULHIT1 BULHIT2 BULHIT3 BULHIT4 BULHIT5 }
+BULHIT1 "DCYSounds/Projectiles/dcy_bullet_hit1.ogg"
+BULHIT2 "DCYSounds/Projectiles/dcy_bullet_hit2.ogg"
+BULHIT3 "DCYSounds/Projectiles/dcy_bullet_hit3.ogg"
+BULHIT4 "DCYSounds/Projectiles/dcy_bullet_hit4.ogg"
+BULHIT5 "DCYSounds/Projectiles/dcy_bullet_hit5.ogg"
+
+$random dcygrenade/bounce { db1 db2 db3 }
+db1 "DCYSounds/Projectiles/dcy_grenade_bounce1.ogg"
+db2 "DCYSounds/Projectiles/dcy_grenade_bounce2.ogg"
+db3 "DCYSounds/Projectiles/dcy_grenade_bounce3.ogg"

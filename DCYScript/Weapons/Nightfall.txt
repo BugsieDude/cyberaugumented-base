@@ -1,0 +1,237 @@
+Class DCY_Nightfall : DCY_Weapon
+{
+  const NIGHTFALL_MAX = 5;
+  const NIGHTFALL_MIN = 0.125;
+  
+  Default
+  {
+	Tag "Nightfall Augumented";
+	Inventory.PickupSound "dcy/rocketpickup";
+	Inventory.PickupMessage "You got the Nightfall Augumented! It's about to get chaotic in there. Is it? I don't know.";
+	Weapon.SlotNumber 4;
+	+FLOORCLIP;
+	+DONTGIB;
+	+WEAPON.ALT_USES_BOTH;
+	Weapon.AmmoUse 1;
+	Weapon.AmmoGive 20;
+	Weapon.AmmoType "DCY_Clip";
+	Weapon.SelectionOrder 600;
+  }
+  
+  action void A_Minigun()
+  {
+	double w1 = frandom(-0.5, 0.5);
+	double w2 = frandom(-0.5, 0.5);
+	
+	A_GunFlash();
+	invoker.DepleteAmmo(invoker.bAltFire, true);
+	
+	A_StartSound("DCYNightfall/Spin", 35, CHANF_LOOPING, volume: 0.65);
+	A_StartSound("DCYNightfall/FireLoop", CHAN_WEAPON, CHANF_LOOPING, volume: 0.65);
+	A_QuakeEx(1, 1, 1, 20, 0, 100, "none", QF_SCALEDOWN, falloff: 200);
+	A_FireBullets(0.75, 0.75, 1, 10, "DCY_Null", FBF_NORANDOM, 8192, "DCY_TracerPlayer", 0);
+	A_WeaponOffset(w1, 32 + w2, WOF_INTERPOLATE);
+	
+	invoker.overheat++;
+	
+	DCY_Muzzle();
+  }
+  
+  double spintic, spinning, winding, save, overheat;
+  bool spin;
+  
+  override void PostBeginPlay()
+  {
+	super.PostBeginPlay();
+	save = spinning = NIGHTFALL_MAX;
+  }
+  
+  override void Tick()
+  {
+	super.Tick();
+	if (overheat >= 0 && winding != 30 && !(level.time % 3)) overheat--;
+	overheat = clamp(overheat, 0, 100);
+	
+	if (spintic >= 7.5) spintic = 0;
+	if (spinning < 5) spintic += 1 / spinning;
+	spintic = clamp(spintic, 0, 7.5);
+  }
+  
+  States
+  {
+  LoadSprites:
+	NIT_ ABCDEFGH 0;
+  Spawn:
+	NIT_ Z -1;
+	Stop;
+  OverlayIdle:
+	NIT_ A 1
+	{
+		let p = player.FindPSprite(OverlayID());
+		if (p) p.frame = int(invoker.spintic);
+	}
+	Loop;
+  OverlayLED:
+	N0T_ ABCDEF 3 Bright;
+	Loop;
+  OverlayBody:
+	NIT_ I -1;
+	Loop;
+  OverlayTrans:
+	NIT_ # 1;
+	Stop;
+  OverlayMuzzle:
+	MUZ_ A 1 Bright
+	{
+		A_OverlayRotate(-1, frandom(0, 360));
+		A_OverlayScale(-1, invoker.t, invoker.t);
+	}
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		invoker.save = invoker.spinning = NIGHTFALL_MAX;
+		invoker.winding = 0;
+		invoker.offsx = -100;
+		invoker.offsy = 150;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, invoker.offsy / 3.5, WOF_INTERPOLATE);
+		A_Overlay(5, "OverlayIdle");
+		A_Overlay(6, "OverlayBody");
+		A_Overlay(7, "OverlayLED");
+	}
+	TNT1 A 1
+	{
+		DCY_Raise(0.65);
+		return (invoker.offsx >= -0.1 && invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		invoker.offsx = invoker.saveoffsx - 2;
+		invoker.offsy = invoker.saveoffsy + 2;
+		
+		A_StopSound(CHAN_WEAPON);
+		A_StopSound(35);
+	}
+	TNT1 A 1
+	{
+		DCY_Lower(1.45, 1.05);
+		
+		return (invoker.offsx <= -100 || invoker.offsy >= 150) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 0
+	{
+		if (invoker.winding < 20) A_StartSound("DCYNightfall/WindUp", 33, pitch: frandom(0.96, 1.06));
+		invoker.spinning = invoker.save;
+	}
+	Goto WindingLoop;
+  WindingLoop:
+	TNT1 A 1
+	{
+		if (invoker.spinning > 1.5)
+		{
+			invoker.spinning -= NIGHTFALL_MIN;
+			invoker.spinning = clamp(invoker.spinning, 1, 5);
+		}
+		else invoker.spinning = 1;
+		
+		if (invoker.winding < 30) invoker.winding++;
+		else { invoker.spinning = 1; return ResolveState("FireLoop"); }
+		
+		return resolvestate(null);
+	}
+	TNT1 A 0 A_Refire("WindingLoop");
+	Goto Cool;
+  FireLoop:
+	TNT1 A 2 { A_Overlay(10, "Feel"); A_Minigun(); }
+	TNT1 A 1 A_Refire("FireLoop");
+	TNT1 A 0 A_StartSound("DCYNightfall/Stop", 34);
+	Goto Cool;
+  Feel:
+	TNT1 A 1 A_ZoomFactor(frandom(0.975, 0.985));
+	TNT1 A 1 A_ZoomFactor(0.98);
+	TNT1 A 1 A_ZoomFactor(0.985);
+	TNT1 A 1 A_ZoomFactor(0.99);
+	TNT1 A 1 A_ZoomFactor(0.9925);
+	TNT1 A 1 A_ZoomFactor(0.9935);
+	TNT1 A 1 A_ZoomFactor(0.99445);
+	TNT1 A 1 A_ZoomFactor(0.99535);
+	TNT1 A 1 A_ZoomFactor(0.99625);
+	TNT1 A 1 A_ZoomFactor(0.99715);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Cool:
+	TNT1 A 0
+	{
+		A_StopSound(CHAN_WEAPON);
+		A_StopSound(35);
+		A_StartSound("DCYNightfall/WindDown", 33, pitch: frandom(0.96, 1.06));
+	}
+	TNT1 A 1
+	{
+		invoker.spin = 0;
+		A_WeaponReady();
+		
+		if (invoker.winding > 0) invoker.winding -= 0.5;
+		if (invoker.spinning <= 5)
+		{
+			invoker.spinning += 0.0833333333;
+			invoker.spinning = clamp(invoker.spinning, 1, 5);
+		}
+		
+		invoker.save = invoker.spinning;
+		
+		if (invoker.winding <= 0) { invoker.spinning = NIGHTFALL_MAX; invoker.winding = 0; return ResolveState("Ready"); }
+		return ResolveState(null);
+	}
+	Goto Cool+1;
+  AltFire:
+  NormalAltFire:
+	TNT1 A 0
+	{
+		A_StartSound("DCYNightfall/WindUp", 33, pitch: frandom(0.96, 1.06));
+		invoker.spinning = invoker.save;
+		Return ResolveState(null);
+	}
+	Goto WindingLoop2;
+  WindingLoop2:
+	TNT1 A 1
+	{
+		if (invoker.spinning > 1.5)
+		{
+			invoker.spinning -= NIGHTFALL_MIN;
+			invoker.spinning = clamp(invoker.spinning, 1, 5);
+		}
+		else invoker.spinning = 1;
+		
+		if (invoker.winding < 30) invoker.winding++;
+		else { invoker.spinning = 1; invoker.spin = 1; return ResolveState("Winding"); }
+		
+		return resolvestate(null);
+	}
+	TNT1 A 0 A_Refire("WindingLoop2");
+	Goto Cool;
+  Winding:
+	TNT1 A 1
+	{
+		A_StopSound(33);
+		A_StartSound("DCYNightfall/Spin", 35, CHANF_LOOPING, volume: 0.65);
+		A_WeaponReady(WRF_NOSECONDARY|WRF_NOSWITCH);
+	}
+	TNT1 A 0 A_Refire("Winding");
+	Goto Cool;
+  }
+}

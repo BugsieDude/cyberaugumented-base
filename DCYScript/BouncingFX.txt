@@ -1,0 +1,67 @@
+Class DCY_ScrapBase : Actor
+{
+  Default
+  {
+  Scale 1.0;
+  BounceType "Doom";
+  Speed 8;
+  BounceFactor 0.5;
+  Radius 8;
+  Height 8;
+  Gravity 0.65;
+  Projectile;
+  -NOGRAVITY
+  +THRUACTORS
+  +BOUNCEONFLOORS
+  +BOUNCEONWALLS
+  +ROLLSPRITE
+  +CANNOTPUSH
+  +MOVEWITHSECTOR
+  }
+  
+  int xroll;
+  
+  override void PostBeginPlay()
+  {
+	xroll = random(3, 10) * randompick(-1, 1);
+  }
+}
+
+Class DCY_BarrelPart : DCY_ScrapBase
+{  
+  Default { BounceFactor 0.3; }
+  
+  override void PostBeginPlay()
+  {
+	frame = random(0, 3);
+	scale *= frandom(0.8, 0.4);
+	xroll = frandom(2, 20) * randompick(-1, 1);
+  }
+  
+  override void Tick()
+  {
+	super.Tick();
+	
+	if (vel.z == 0 && (GetAge() > 200))
+	{
+		A_FadeOut(0.005);
+		if (alpha <= 0) Destroy();
+	}
+  }
+
+  States
+  {
+  LoadSprites:
+	_BZZ ABCD 0;
+  Spawn:
+	_BZZ # 1 { roll += xroll; }
+	Loop;
+  Bounce:
+	#### # 0 { roll /= 2; }
+	Goto Spawn;
+  Death:
+  Crash:
+	_BZZ # -1 { roll = 0; }
+	Stop;
+  }
+}

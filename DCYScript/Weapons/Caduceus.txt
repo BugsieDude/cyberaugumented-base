@@ -1,0 +1,196 @@
+Class DCY_Caduceus : DCY_Weapon
+{
+  Default
+  {
+	Tag "Caduceus";
+	Obituary "%o couldn't even surpass %k's Caduceus.";
+	Weapon.AmmoType "DCY_Antimateria";
+	Weapon.AmmoUse 1;
+	Weapon.AmmoGive 40;
+	+WEAPON.EXPLOSIVE;
+	DamageType "Neonic";
+	Weapon.SlotNumber 6;
+	Weapon.SelectionOrder 2000;
+	Inventory.Icon "NNW3Z0";
+	Inventory.PickupSound "dcy/plasmariflepickup";
+	Inventory.PickupMessage "You hands hold the presence of the \c[l5]Caduceus.\cL Not your general plasma rifle.";
+  }
+  
+  override Inventory CreateCopy(Actor other)
+  {
+	let x = CA_Variables.Get();
+	if (x && !x.hasAntimateriaWeapons) x.hasAntimateriaWeapons = true;
+	return Super.CreateCopy(other);
+  }
+  
+  action void A_NeonLaser()
+  {
+	A_GunFlash();
+	A_StartSound("Caduceus/Fire", CHAN_WEAPON);
+	//A_RailAttack(random(50, 100), 0, 0, flags: RGF_FULLBRIGHT|RGF_SILENT, pufftype: "DCY_NeonicRing", sparsity: 30, spawnclass: "DCY_NeonicWandTrail");
+	invoker.DepleteAmmo(invoker.bAltFire, true);
+	
+	FLineTraceData d;
+	
+	A_FireBullets(0, 0, 1, 0, "DCY_Null2", 0);
+	LineTrace(angle, 8192, pitch, TRF_NOSKY, height / 2, 0, 0, d);
+	let h = d.HitActor;
+		
+	if (d.HitType == TRACE_HitWall || d.HitType == TRACE_HitActor || d.HitType == TRACE_HitCeiling || d.HitType == TRACE_HitFloor)
+	{
+		actor puff = Actor(Spawn("DCY_CaduceusRing"));
+		
+		if (!puff) return;
+		puff.SetOrigin(d.HitLocation, false);
+		puff.A_Face(invoker.owner);
+	
+		if (h && h.bSHOOTABLE && h.Health > 0)
+			h.DamageMobj(self, invoker.owner, random(40, 80), "Plasma", DMG_FORCED|DMG_PLAYERATTACK);
+	}
+		
+	for (int i = 0; i < d.distance - 7; i += 7)
+	{
+		actor y = Actor(Spawn("DCY_CaduceusTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
+		y.A_Face(invoker.owner);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	NNW3 Z -1;
+	Stop;
+  OverlayIdle:
+	NW3_ A 1;
+	Stop;
+  OverlayFire:
+	NW3_ AB 1
+	{
+		A_OverlayPivot(5, 0.175, 0, WOF_RELATIVE);
+		invoker.lower += 7;
+		A_WeaponOffset(0, 32 + (invoker.lower / 3), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	NW3_ CDEAAAAAAA 1
+	{
+		if (invoker.lower > 0.01) invoker.lower *= 0.65; else invoker.lower = 0;
+		A_WeaponOffset(0, 32 + (invoker.lower / 3), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	Stop;
+  Feel:
+	TNT1 A 1 A_ZoomFactor(0.9525);
+	TNT1 A 1 A_ZoomFactor(0.9725);
+	TNT1 A 1 A_ZoomFactor(0.985);
+	TNT1 A 1 A_ZoomFactor(0.9975);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		invoker.offsx = -150;
+		invoker.offsy = 150;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivot(5, 0.175, 0, WOF_RELATIVE);
+		A_OverlayRotate(5, -(invoker.offsy / 5.5), WOF_INTERPOLATE);
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Raise(0.4);
+		A_OverlayPivot(5, 0.175, 0, WOF_RELATIVE);
+		A_OverlayRotate(5, -(invoker.offsy / 5.5), WOF_INTERPOLATE);
+		return (invoker.offsx >= -0.1 || invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		invoker.offsx = invoker.saveoffsx - 2;
+		invoker.offsy = invoker.saveoffsy + 2;
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Lower(1.75, 0.9);
+		
+		return (invoker.offsx <= -150 || invoker.offsy >= 150) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Overlay(5, "OverlayIdle");
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 5
+	{
+		A_Overlay(10, "Feel");
+		A_Overlay(5, "OverlayFire");
+		A_NeonLaser();
+	}
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Refire();
+	}
+	Goto Ready;
+  }
+}
+
+Class DCY_CaduceusRing : BulletPuff
+{
+  Default
+  {
+  Scale 0.45;
+  RenderStyle "Add";
+  Alpha 1.0;
+  Mass 5;
+  Radius 0;
+  VSpeed 0;
+  Height 0;
+  -SOLID;
+  +NOINTERACTION;
+  +NOCLIP;
+  +BRIGHT;
+  +FLATSPRITE;
+  +ROLLSPRITE;
+  +ALWAYSPUFF;
+  -RANDOMIZE
+  DamageType "Neonic";
+  Translation "0:255=%[0.00,0.00,0.00]:[0.34,0.57,1.68]";
+  }
+  
+  override void PostBeginPlay()
+  {
+	super.PostBeginPlay();
+	A_SpawnParticleEx(0x1430ba, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 10, random(20, 25) * 3.5, 0, sizestep: -5);
+	angle = frandom(0, 360);
+	roll = frandom(0, 360);
+	pitch = frandom(0, 360);
+  }
+  
+  States
+  {
+  Spawn:
+	C28Y A 1 NoDelay;
+	C28Y B 1 A_Explode((50), 25, 0, 0);
+	C28Y DFGIJLMNPQ 1;
+	Stop;
+  }
+}
+
+Class DCY_CaduceusTrail : Actor
+{
+  override void PostBeginPlay()
+  {
+	A_SpawnParticleEx(0x1430ba, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 10, random(20, 25), 0, sizestep: 0.75);
+	A_SpawnParticleEx(0x061354, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 30, random(5, 15), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), sizestep: 1.25, startroll: frandom(0, 360), rollvel: frandom(-7, 7));
+	Destroy();
+  }
+}

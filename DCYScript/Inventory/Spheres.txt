@@ -1,0 +1,405 @@
+Class DCY_Luminescence : DCY_Powerup
+{
+  Default
+  {
+  Tag "Orb of Luminescence";
+  Inventory.PickupSound "SoulSphere/PickedUp";
+  DCY_Powerup.EffectColor1 "2f6699";
+  DCY_Powerup.AmbientNoise "SoulSphere/IdleNoise";
+  Inventory.PickupMessage "\c[l7]Cyan luminescence entangles you with comfort.\c- [200+]";
+  }
+  
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	super.Tick();
+	
+	if (DCY_EffectDistance(900))
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 70, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.5, 1.5), accelz: 0.025, startalphaf: 0.15, fadestepf: 0.0025, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		
+		if ((level.time % random(2, 5)) == 0)
+			A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT, 60, random(3, 6), frandom(0, 360), frandom(-10.0, 10.0), frandom(-10.0, 10.0), frandom(-20, 20), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.05, 0.2), startalphaf: 0.4, fadestepf: 0, sizestep: -0.15);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	S8_L ABCD 4 Bright;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.GiveBody(100, 200);
+	Owner.A_SetBlend("bdfffd", 0.5, 20, "Cyan");
+	A_SphereEffect();
+	return true;
+  }  
+}
+
+Class DCY_Hope : DCY_Powerup
+{
+  Default
+  {
+  Tag "Hope?";
+  Inventory.PickupSound "Doom4/Megasphere";
+  Inventory.PickupMessage "\c[Yellow]Stepping through, you strangely start to feel much more better now.\c- [200+ Health and Armor]";
+  DCY_Powerup.AmbientNoise "MegaSphere/IdleNoise";
+  DCY_Powerup.EffectColor1 "857759";
+  DCY_Powerup.Pulse true;
+  DCY_Powerup.LightRadius 70;
+  }
+  
+  void A_HopeEffect()
+  {
+	if (DCY_EffectDistance(900))
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 70, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.5, 1.5), accelz: 0.025, startalphaf: 0.25, fadestepf: 0.005, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		
+		if ((level.time % random(2, 5)) == 0)
+			A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT, 60, random(3, 6), frandom(0, 360), frandom(-10.0, 10.0), frandom(-10.0, 10.0), frandom(-20, 20), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.05, 0.2), startalphaf: 0.4, fadestepf: 0, sizestep: -0.15);
+			
+		if ((level.time % 24) == 0)
+			A_SpawnItemEx("DCY_HopeLight", flags: SXF_NOCHECKPOSITION);
+	}
+  }
+  
+  override void Tick()
+  {
+	super.tick();
+	if (!level.isFrozen()) A_HopeEffect();
+  }
+  
+  States
+  {
+  Spawn:
+	M3_G ABCD 5;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.GiveBody(200, 200);
+	Owner.GiveInventory("BlueArmorforMegasphere", 1);
+	Owner.A_SetBlend("ffe8b8", 1, 25, "ffac00");
+	A_SphereEffect();
+	return true;
+  }
+}
+
+Class DCY_HopeLight : Actor
+{
+  Default
+  {
+  RenderStyle "Add";
+  Scale 1.35;
+  Alpha 0.0;
+  +NOGRAVITY
+  +FLOORHUGGER
+  +BRIGHT
+  +DONTSPLASH
+  }
+  
+  States
+  {
+  Spawn:
+	H0P3 AAAAA 1
+	{
+		Scale.X += 0.015;
+		Scale.Y -= 0.015;
+		alpha += 0.2;
+	}
+	H0P3 A 1
+	{
+		Scale.X += 0.015;
+		Scale.Y -= 0.015;
+		alpha -= 0.01;
+	}
+	Wait;
+  }
+}
+
+Class DCY_Rehabiliation : DCY_Powerup
+{
+  Default
+  {
+  Inventory.PickupMessage "\c[n2]You undergo through a feeling of rehabiliation by embracing what's near you.\c- [150+]";
+  Inventory.PickupSound "D4REGEN1";
+  DCY_Powerup.AmbientNoise "Rehabiliation/IdleNoise";
+  DCY_Powerup.EffectColor1 "333300";
+  RenderStyle "Normal";
+  +ROLLSPRITE
+  +ROLLCENTER
+  -BRIGHT
+  Tag "Rehabiliation Core";
+  }
+  
+  float rollspeed;
+  
+  override void PostBeginPlay()
+  {
+	super.PostBeginPlay();
+	rollspeed = frandom(-4, 4);
+  }
+  
+  override void Tick()
+  {
+	super.Tick();
+	A_SetRoll(Roll + rollspeed, SPF_INTERPOLATE);
+	if (DCY_EffectDistance(900) && !level.isFrozen())
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 70, 0, frandom(8, 8), frandom(8, 8), frandom(8, 8) + 15, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.5, 1.5), random(1, -1) * 0.025, random(1, -1) * 0.025, random(1, -1) * 0.025, startalphaf: 0.15, fadestepf: 0.0035, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		
+		if ((level.time % 2) == 0)
+			A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT, 60, random(3, 6), frandom(0, 360), frandom(-8.0, 8.0), frandom(-8.0, 8.0), frandom(-8, 8) + 15, frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.4, fadestepf: 0, sizestep: -0.15);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+    R8HA AABBCCDDCCBB 1;
+    Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.GiveBody(150, 300);
+	Owner.A_SetBlend("Yellow", 0.5, 20);
+	A_SphereEffect();
+	return true;
+  }
+}
+
+Class DCY_Supremacy : DCY_Powerup
+{
+  Default
+  {
+  -FLOATBOB
+  Scale 1.1;
+  Tag "Elite's Blessing";
+  DCY_Powerup.EffectColor1 "99a865";
+  DCY_Powerup.AmbientNoise "Supremacy/IdleNoise";
+  Inventory.PickupSound "StronkSphere/PickedUp";
+  Inventory.PickupMessage "\c[i0]All of a sudden you feel like you can do it!\c- [160+]";
+  }
+  
+  bool rising;
+  
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	super.Tick();
+	
+	alpha = frandom(0.6, 1.0);
+	
+	if (DCY_EffectDistance(900))
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 120, 0, frandom(-10, 10), frandom(-10, 10), frandom(-10, 10) + 20, frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.05 * alpha, fadestepf: 0.0015, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcyline.png"), STYLE_ADD, SPF_FULLBRIGHT, random(10, 30), random(3, 14), frandom(0, 360), frandom(-20, 20), frandom(-20, 20), frandom(-10, 30), velz: frandom(1, 4), startalphaf: 0.8);
+		if ((level.time % random(2, 5)) == 0)
+			A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT, 60, random(6, 9), frandom(0, 360), frandom(-10, 10), frandom(-10, 10), frandom(-10, 10) + 20, frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.4 * alpha, fadestepf: 0, sizestep: -0.15);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	SJRM ABCDEF 4 Bright;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.GiveBody(150, 500);
+	Owner.A_SetBlend("White", 1, 40, effectcolor);
+	Owner.A_SpawnItemEx("DCY_SupremacyPickupFlash", flags: SXF_SETMASTER);
+	A_SpawnItemEx("DCY_SupremacyRise", flags: SXF_NOCHECKPOSITION);
+	return true;
+  }
+}
+
+Class DCY_SupremacyRise : Actor
+{
+  Mixin DCY_FX;
+  
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	super.Tick();
+	
+	if (DCY_EffectDistance(900))
+	{
+		A_SpawnParticleEx(0x99a865, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 120, 0, frandom(-10, 10), frandom(-10, 10), frandom(-10, 10) + 20, frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.05 - (alpha / 0.05), fadestepf: 0.0015, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		A_SpawnParticleEx(0x99a865, TexMan.CheckForTexture("graphics/particles/dcyline.png"), STYLE_ADD, SPF_FULLBRIGHT, random(10, 30), random(3, 9), frandom(0, 360), frandom(-20, 20), frandom(-20, 20), frandom(-10, 10) + 20, velz: frandom(1, 4), startalphaf: 0.4 - (alpha / 0.4));
+		if ((level.time % random(2, 5)) == 0)
+			A_SpawnParticleEx(0x99a865, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT, 60, random(6, 9), frandom(0, 360), frandom(-10, 10), frandom(-10, 10), frandom(-10, 10) + 20, frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.35, 0.35), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.4 - (alpha / 0.4), fadestepf: 0, sizestep: -0.15);
+	}
+	
+	A_FadeOut(0.01);
+	vel.z += 0.05;
+	
+	if (alpha <= 0.1) Destroy();
+  }
+  
+  Default
+  {
+	+NOGRAVITY
+	+THRUACTORS
+	-SOLID
+	RenderStyle "Add";
+	Alpha 1;
+  }
+  
+  States
+  {
+  Spawn:
+	SJRM ABCDEF 3;
+	Loop;
+  }
+}
+
+Class DCY_SupremacyPickupFlash : Actor
+{
+  override void Tick()
+  {
+	super.Tick();
+	
+	if (master)
+		Warp(master, 0, 0, 0, master.angle, WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE);
+  }
+  
+  int timer;
+  
+  Default
+  {
+  Radius 0;
+  Height 0;
+  -SOLID;
+  +THRUACTORS
+  }
+  
+  States
+  {
+  Spawn:
+	TNT1 A 1
+	{
+		if (timer > 90)
+			Destroy();
+		else
+			timer++;
+		
+		A_SpawnParticleEx(0x99a865, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 120, 0, frandom(-10, 10), frandom(-10, 10), frandom(-10, 10) + 20, frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.05, fadestepf: 0.0015, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		A_SpawnParticleEx(0x99a865, TexMan.CheckForTexture("graphics/particles/dcyline.png"), STYLE_ADD, SPF_FULLBRIGHT, random(10, 30), random(3, 9), frandom(0, 360), frandom(-20, 20), frandom(-20, 20), frandom(-10, 10) + 20, velz: frandom(1, 4), startalphaf: 0.4);
+	}
+	Loop;
+  }
+}
+
+Class DCY_Unco : DCY_Powerup
+{
+  Default
+  {
+  RenderStyle "Add";
+  DCY_Powerup.AmbientNoise "UncoSphere/IdleNoise";
+  DCY_Powerup.EffectColor1 "15102b";
+  DCY_Powerup.LightRadius 80;
+  Translation "0:255=%[0.00,0.00,0.00]:[0.95,0.00,2.00]";
+  Inventory.PickupMessage "\c[Purple]The lavender essence seeps through your soul.\c- [250+]";
+  Inventory.PickupSound "Souffle";
+  Tag "Unco Essence";
+  }
+  
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	super.Tick();
+	if (DCY_EffectDistance(2000))
+	{
+	if ((level.time % 3) == random(0, 3)) A_SpawnItemEx("DCY_UncoRipple", random(-1, 1), random(-1, 1), random(26, 29), flags: SXF_NOCHECKPOSITION|SXF_TRANSFERTRANSLATION);
+	A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 180, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.25, fadestepf: 0.005, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+    M771 ABCDEFGH 2 Bright;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.GiveBody(250, 400);
+	Owner.GiveInventory("DCY_UncoShield", 1);
+	Owner.A_SetBlend("e194ff", 1, 25, "6a00ff");
+	A_SphereEffect();
+	
+	return true;
+  }
+}
+
+Class DCY_UncoRipple : Actor
+{
+  Default
+  {
+  Scale 0.5;
+  RenderStyle "Add";
+  +ROLLSPRITE
+  +NOGRAVITY
+  +BRIGHT
+  Alpha 0.000000000000000000001;
+  }
+  
+  bool fading;
+  float num;
+  
+  override void PostBeginPlay()
+  {
+	super.PostBeginPlay();
+	num = frandom(-10, 10);
+	roll = frandom(0, 360);
+  }
+
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	super.Tick();
+	A_SetScale(Scale.X + 0.065);
+	A_SetRoll(roll + num, SPF_INTERPOLATE);
+  }
+  
+  States
+  {
+  Spawn:
+	M771 ZZZZZZZZZZZZZ 1 A_FadeIn(0.0125);
+	Goto Fading;
+  Fading:
+	M771 Z 1 A_FadeOut(0.0025);
+	Wait;
+  }
+}
+
+Class DCY_UncoShield : BasicArmorBonus
+{
+  Default
+  {
+  Inventory.PickupMessage "";
+  +INVENTORY.QUIET;
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  DamageFactor "Normal", 0.75;
+  Armor.SavePercent 94;
+  Armor.SaveAmount 128;
+  Armor.MaxSaveAmount 400;
+  }
+  
+  States
+  {
+  Spawn:
+    PDFS ABCD 2 Bright;
+    Loop;
+  }
+}

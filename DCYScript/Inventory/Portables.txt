@@ -1,0 +1,469 @@
+Class DCY_Palisade : DCY_InvItem
+{
+  Default
+  {
+  Inventory.PickupMessage "Some sort of strange ornament with blue light encapsulating it.";
+  Inventory.PickupSound "Palisade/Get";
+  Inventory.UseSound "Palisade/Use";
+  Inventory.Amount 1;
+  Inventory.MaxAmount 2;
+  Inventory.InterHubAmount 2;
+  Scale 1.25;
+  Tag "Palisade";
+  Inventory.Icon "0RSRI0";
+  FloatBobStrength 0.2;
+  +FLOATBOB
+  +INVENTORY.INVBAR
+  +INVENTORY.HUBPOWER
+  }
+  
+  States
+  {
+  Spawn:
+	0RSR AABBCCDDEEFFGGHH 1;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	owner.A_SetBlend("Cyan", 0.5, 25, "Blue");
+	owner.A_GiveInventory("DCY_PalisadePowerGiver", 1);
+	Console.Printf("\c[l7]You must be safe.");
+	A_RuneEffect("1f54a3");
+	return true;
+  }
+}
+
+Class DCY_PalisadePowerGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_PalisadePower";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_PalisadePower : PowerProtection
+{
+  Mixin CYPowerup;
+  
+  Default
+  {
+  DamageFactor "Normal", 0.625;
+  Powerup.Duration -40;
+  Tag "\c[l7]Pallisade";
+  }
+  
+  override void DoEffect()
+  {
+	Super.DoEffect();
+	time = EffectTics;
+	
+	if (owner && owner.health > 0)
+	{
+		if (!(level.time % 4)) owner.A_SpawnParticleEx("1f54a3", TexMan.CheckForTexture("graphics/Particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 60, frandom(1, 2), 0, frandom(30, -30), frandom(-30, 30), 0, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, 0.3), startalphaf: 1, sizestep: -0.025);
+		PowerTimer("PALIWARN", "PALIEND", "00c8ff", "00c8ff", "Palisade", "l7");
+	}
+  }
+}
+
+Class DCY_Crosscut : DCY_InvItem
+{
+  Default
+  {
+  Inventory.Amount 1;
+  Inventory.MaxAmount 3;
+  Inventory.InterHubAmount 3;
+  +FLOATBOB
+  +INVENTORY.INVBAR
+  +INVENTORY.HUBPOWER
+  Inventory.PickupMessage "\c[z4]A strange fragment that encapsulates somewhat 'sinister' powers.\c-";
+  Inventory.PickupSound "dcy/crosscut/up";
+  Inventory.UseSound "dcy/crosscut/use";
+  RenderStyle "Add";
+  Scale 1.25;
+  Tag "Crosscut";
+  Inventory.Icon "CRCTZ0";
+  StencilColor "401a0d";
+  }
+  
+  override void Tick()
+  {
+	super.Tick();
+	
+	if (DCY_EffectDistance(1000) && !level.isFrozen() && sprite == GetSpriteIndex("CRCT"))
+	{
+		A_SpawnParticleEx(0x401a0d, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 120, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.15, fadestepf: 0.005, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		A_SpawnItemEx("DCY_BaseTrail", flags: SXF_TRANSFERSTENCILCOL|SXF_NOCHECKPOSITION|SXF_TRANSFERSPRITEFRAME|SXF_TRANSFERSCALE);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	CRCT AAAAABBBBBCCCCDDDEEEFFGGGHHHIIIIJJJJKKKKKLLLLLLLLLKKKKJJJIIIIHHHGGGFFEEEDDDCCCCBBBBBAAAA 1 Bright;
+	Loop;
+  }
+
+  override bool Use(bool pickup)
+  {
+	owner.A_SetBlend("ffa200", 0.5, 25);
+	owner.A_GiveInventory("DCY_CrosscutPowerGiver", 1);
+	A_RuneEffect("ffa200");
+	return true;
+  }
+}
+
+Class DCY_CrosscutPowerGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_CrosscutPower";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_CrosscutPower : PowerDrain
+{ 
+  Mixin CYPowerup;
+  
+  Default
+  {
+  Powerup.Strength 0.5;
+  Powerup.Duration -40;
+  Tag "\c[z4]Crosscut\c-";
+  }
+  
+  override void DoEffect()
+  {
+	Super.DoEffect();
+	time = EffectTics;
+	if (owner && owner.Health > 0)
+	{
+		if (!(level.time % random(3, 8))) owner.A_SpawnParticleEx(0x401a0d, TexMan.CheckForTexture("graphics/Particles/dcylinep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, random(30, 60), frandom(1, 2), 0, frandom(30, -30), frandom(-30, 30), 0, velz: frandom(1, 4), accelz: frandom(0.1, 0.5), startalphaf: 1);
+		PowerTimer("CROSWARN", "", "ffa200", "ffa200", "Crosscut", "z4");
+	}
+  }
+}
+
+Class DCY_Deterrence : DCY_InvItem
+{
+  Default
+  {
+  Inventory.PickupMessage "A dripping, glowing floating stone that makes you feel better.";
+  Inventory.PickupSound "LIGTPKP2";
+  Inventory.UseSound "LIGTPKP";
+  Inventory.Amount 1;
+  Inventory.MaxAmount 3;
+  Inventory.InterHubAmount 3;
+  Scale 1.25;
+  Tag "Deterrence";
+  Inventory.Icon "SPDSF0";
+  +FLOATBOB
+  +INVENTORY.INVBAR
+  +INVENTORY.HUBPOWER
+  }
+  
+  States
+  {
+  Spawn:
+	SPDS AAABBBCCCDDDEEE 1;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	owner.A_SetBlend("c2e9ff", 0.5, 25, "Cyan");
+	owner.A_GiveInventory("DCY_DeterrencePowerGiver", 1);
+	Console.Printf("\c[q5]You feel like a leaf traversing through fresh air.");
+	A_RuneEffect("c2e9ff");
+	return true;
+  }
+}
+
+Class DCY_DeterrencePowerGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_DeterrencePower";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_DeterrencePower : PowerRegeneration
+{
+  Mixin CYPowerup;
+  
+  Default
+  {
+  DamageFactor "Normal", 0.925;
+  Powerup.Strength 5;
+  Powerup.Duration -40;
+  Tag "\c[q5]Deterrence";
+  }
+  
+  override void DoEffect()
+  {
+	Super.DoEffect();
+	time = EffectTics;
+	
+	if (owner && owner.Health > 0)
+	{
+		if (!(level.time % random(2, 6))) owner.A_SpawnParticleEx(0xc2e9ff, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 80, 0, frandom(20, -20), frandom(-20, 20), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), startalphaf: 0.05, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		PowerTimer("DETEWARN", "", "c2e9ff", "Cyan", "Deterrence", "q5");
+	}
+  }
+}
+
+Class DCY_Barricade : DCY_InvItem
+{
+  Default
+  {
+  Inventory.PickupMessage "Strange stone boots. Rumored to reduce ammo consumption.";
+  Inventory.PickupSound "Barricade/Get";
+  Inventory.UseSound "Barricade/Use";
+  Inventory.Amount 1;
+  Inventory.MaxAmount 1;
+  Inventory.InterHubAmount 1;
+  Scale 1.25;
+  Tag "Deterrence";
+  Inventory.Icon "ERKOF0";
+  FloatBobStrength 0.2;
+  +FLOATBOB
+  +INVENTORY.INVBAR
+  +INVENTORY.HUBPOWER
+  }
+  
+  States
+  {
+  Spawn:
+	ERKO AABBCCDDEE 1;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	owner.A_SetBlend("eb4034", 0.5, 25, "Red");
+	owner.A_GiveInventory("DCY_BarricadePowerGiver", 1);
+	Console.Printf("\c[n7]Your weapons seem to be acting strange.");
+	A_RuneEffect("eb4034");
+	return true;
+  }
+}
+
+Class DCY_BarricadePowerGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_BarricadePower";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_BarricadePower : PowerInfiniteAmmo
+{
+  Mixin CYPowerup;
+  
+  Default
+  {
+  Powerup.Color "ffffff", 0;
+  Powerup.Duration -12;
+  Tag "\c[n7]Barricade";
+  }
+  
+  override void DoEffect()
+  {
+	Super.DoEffect();
+	time = EffectTics;
+	
+	if (owner && owner.health > 0)
+	{
+		if (!(level.time % 4)) owner.A_SpawnParticleEx("1f54a3", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 60, frandom(1, 2), frandom(0, 360), 0, 0, frandom(1, 3), frandom(-0.1, 0.1) + frandom(3, 6), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, 0.3), startalphaf: 0.5, sizestep: 1);
+		PowerTimer("Barricade/Warn", "", "eb4034", "eb4034", "Barricade", "n7");
+	}
+  }
+}
+
+Class DCY_RazeHexahedron : DCY_InvItem
+{ 
+  Default
+  {
+  Inventory.PickupMessage "\c[z7]Something about this is not supposed to be picked up.";
+  Inventory.PickupSound "Raze/Chime";
+  Inventory.UseSound "Raze/Pickup";
+  +BRIGHT
+  -FLOATBOB
+  Scale 1.5;
+  Alpha 1.0;
+  RenderStyle "Add";
+  Tag "Raze Hexahedron";
+  Inventory.Icon "RZA_Z0";
+  Alpha 0;
+  Inventory.Amount 1;
+  Inventory.MaxAmount 1;
+  Inventory.InterHubAmount 1;
+  +INVENTORY.INVBAR
+  +INVENTORY.HUBPOWER
+  }
+  
+  void A_RazeEffects()
+  {
+	if (sprite != GetSpriteIndex("RZA_")) return;
+	
+	//Special floating method
+	let x1 = sin(MsTimeF() * 0.15);
+	let y1 = sin(MSTimeF() * 0.08);
+	let z1 = sin(MSTimeF() * 0.12);
+	
+	if (DCY_EffectSight())
+	{
+		let sprit = Spawn("DCY_RazeHexahedronTrail", pos + (x1 * 10, y1 * 10, z1 * 10));
+		if (sprit) { sprit.scale = scale; sprit.frame = frame; sprit.sprite = sprite; }
+	}
+	
+	if (level.isFrozen()) return;
+		
+	if (DCY_EffectDistance(1500))
+	{
+		let trail = Spawn("DCY_RazeHexahedronTrail2", pos + (x1 * 10, y1 * 10, z1 * 10));
+		if (trail) { trail.frame = frame; trail.sprite = sprite; trail.scale = scale; }
+		
+		A_SpawnParticleEx(0x6b2be3, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 80, 100, 0, frandom(20, -20) + (10 * x1), frandom(-20, 20) + (10 * y1), frandom(-20, 20) + (10 * z1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.5), startalphaf: 0.15, fadestepf: 0.005, sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		if (!(level.time % 5)) A_SpawnParticleEx(0x6b2be3, TexMan.CheckForTexture("graphics/Particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 60, frandom(1, 3), 0, frandom(50, -20) + (10 * x1), frandom(-50, 50) + (10 * y1), 0, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, -0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, 0.5), startalphaf: 1, sizestep: -0.025);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	RZA_ A 0 NoDelay
+	{
+		A_StartSound("Raze/IdleNoise", 300, CHANF_LOOP, 0.75, 0.9);
+		A_AttachLight("DCYRazeLight", DynamicLight.FlickerLight, "2f0087", 60, 70, DynamicLight.LF_DONTLIGHTSELF, ofs: (0, 0, 30));
+	}
+	RZA_ AAAABBBBCCCCDDDDEEEEFFFFGGGGIIIIJJJJ 1  A_RazeEffects();
+    Goto Spawn+1;
+  }
+  
+  override void DoPickupSpecial(actor toucher)
+  {
+	A_StopSound(300);
+	A_RemoveLight("DCYRazeLight");
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.A_SetBlend("6b2be3", 0.85, 30, "Purple");
+	Owner.A_QuakeEx(2, 2, 2, 40, 0, 300, "none", QF_SCALEDOWN, 0, 0, 0, 600);
+	Owner.A_GiveInventory("DCY_RazePowerGiver", 1);
+	Owner.A_StartSound("Raze/Chime", 305, CHANF_UI, attenuation: ATTN_NONE);
+	Console.Printf("\c[z7]Feels like adrenaline; you feel psyched!\c- (2x Damage)");
+	A_RuneEffect("6b2be3");
+	return true;
+  }
+}
+
+Class DCY_RazeHexahedronTrail : Actor
+{
+  Default
+  {
+  Alpha 1;
+  RenderStyle "Add";
+  +NOINTERACTION
+  +NOTIMEFREEZE
+  }
+  
+  override void Tick()
+  {
+	if (getAge() > 0.5) destroy();
+  }
+  
+  States
+  {
+  Spawn:
+	#### # 1;
+	Loop;
+  }
+}
+
+Class DCY_RazeHexahedronTrail2 : DCY_BaseTrail2 { Default { RenderStyle "AddStencil"; StencilColor "2f0087"; } }
+
+Class DCY_RazePowerGiver : PowerupGiver
+{
+  Default
+  {
+  Powerup.Type "DCY_RazePower";
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  }
+}
+
+Class DCY_RazePower : PowerDamage
+{
+  Mixin CYPowerup;
+  
+  Default
+  {
+  DamageFactor "Normal", 2;
+  Powerup.Duration -20;
+  Tag "\c[z7]Raze";
+  }
+  
+  override void DoEffect()
+  {
+	Super.DoEffect();
+	time = EffectTics;
+	
+	if (owner && owner.health > 0)
+	{
+		if (!(level.time % 4)) owner.A_SpawnItemEx("DCY_RazeSquare", frandom(-20, 20), frandom(-20, 20), frandom(-1, 7), flags: SXF_NOCHECKPOSITION);
+		PowerTimer("Raze/Warning", "", "6b2be3", "6b2be3", "Raze Hexahedron", "z7");
+	}
+  }
+}
+
+Class DCY_RazeSquare : DCY_BaseTrail
+{
+	double r, rx, ry, rr;
+	
+	Default { +ROLLSPRITE +ROLLCENTER }
+	
+	override void PostBeginPlay()
+	{
+		scale *= frandom(0.8, 1.2);
+		roll = frandom(0, 360);
+		r = frandom(-10, 10);
+		rx = frandom(1, 3);
+		ry = frandom(1, 3);
+		rr = randompick(-1, 1);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if (level.isFrozen()) return;
+		let trail = Spawn("DCY_BaseTrail", pos);
+		if (trail) { trail.scale = scale; trail.alpha = alpha / 2.5; trail.sprite = sprite; trail.frame = frame; trail.roll = roll; }
+		
+		vel.x = (rx * sin(alpha * 30 * rx)) * rr;
+		vel.y = (ry * sin(alpha * 30 * ry)) * rr;
+		vel.z += frandom(0.2, 0.5);
+		
+		roll += r;
+		
+		if (alpha <= 0.1) Destroy();
+		alpha *= 0.92;
+	}
+	
+	States
+	{
+	Spawn:
+		RZ_E Z 1;
+		Loop;
+	}
+}

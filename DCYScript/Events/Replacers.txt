@@ -1,0 +1,79 @@
+extend class CyberaugumentedEventHandler
+{
+  override void CheckReplacement(ReplaceEvent e)
+  {
+	let x = CA_Variables.Get();
+	let m = e.Replacee.GetClassName();
+	
+	if (dcy_props)
+	{
+		switch (m)
+		{
+			//General Props
+			case 'RedTorch' : e.Replacement = 'DCY_RedTorch'; break;
+			case 'GreenTorch' : e.Replacement = 'DCY_GreenTorch'; break;
+			case 'BlueTorch' : e.Replacement = 'DCY_BlueTorch'; break;
+			case 'ShortRedTorch' : e.Replacement = 'DCY_ShortRedTorch'; break;
+			case 'ShortGreenTorch' : e.Replacement = 'DCY_ShortGreenTorch'; break;
+			case 'ShortBlueTorch' : e.Replacement = 'DCY_ShortBlueTorch'; break;
+			case 'BurningBarrel' : e.Replacement = 'DCY_BurningBarrel'; break;
+			case 'ExplosiveBarrel' : e.Replacement = 'DCY_ABarrelofExplosives'; break;
+			case 'EvilEye' : e.Replacement = 'DCY_EvilEye'; break;
+			
+			//And gore
+			case 'Meat3' : e.Replacement = 'DCY_Meat3'; break;
+			case 'LiveStick' : e.Replacement = 'DCY_Impaled'; break;
+			case 'DeadStick' : e.Replacement = 'DCY_Impaled2'; break;
+			case 'DeadMarine' : case 'GibbedMarine' : e.Replacement = 'DCY_Deadass'; break;
+		}
+	}
+	
+	switch (m)
+	{
+		//weps
+		case 'Fist' : e.Replacement = 'DCY_IonizedArc'; break;
+		case 'Chainsaw' : e.Replacement = 'DCY_ArcUpgrade'; break;
+		case 'Pistol' : e.Replacement = 'DCY_ArcUpgrade'; break;
+		case 'Shotgun' : e.Replacement = 'DCY_ShotgunSpawner'; break;
+		case 'SuperShotgun' : e.Replacement = 'DCY_DoubleBarrel'; break;
+		case 'Chaingun' : e.Replacement = 'DCY_ChaingunSpawner'; break;	
+		case 'RocketLauncher' : e.Replacement = 'DCY_RocketSpawner'; break;
+		case 'PlasmaRifle' :e.Replacement = 'DCY_PlasmaSpawner'; break;
+		case 'BFG9000' : e.Replacement = 'DCY_BFGSpawner'; break;
+		
+		case 'Backpack' : e.Replacement = 'DCY_Backpack'; break;
+		case 'Clip' : e.Replacement = 'DCY_Clip'; break;
+		case 'Clipbox' : e.Replacement = 'DCY_ClipBox'; break;
+		case 'Shell' : e.Replacement = 'DCY_Shell'; break;
+		case 'Shellbox' : e.Replacement = 'DCY_ShellBox'; break;
+		case 'RocketAmmo' : e.Replacement = 'DCY_RocketAmmo'; break;
+		case 'Rocketbox' : e.Replacement = 'DCY_RocketBox'; break;
+		case 'Cell' : e.Replacement = 'DCY_Battery'; break;
+		case 'Cellpack' : e.Replacement = 'DCY_BatteryBox'; break;
+		
+		//items
+		case 'HealthBonus' : e.Replacement = 'DCY_Helth'; break;
+		case 'Stimpack' : e.Replacement = 'DCY_Steempack'; break;
+		case 'Medikit' : e.Replacement = 'DCY_ThatOneMediKit'; break;
+		case 'ArmorBonus' : e.Replacement = 'DCY_Canister'; break;
+		case 'GreenArmor' : e.Replacement = 'DCY_Safeguard'; break;
+		case 'BlueArmor' : e.Replacement = 'DCY_MarineArmorThing'; break;
+		
+		case 'Soulsphere' : e.Replacement = 'DCY_Supercharged'; break;
+		case 'Megasphere' : e.Replacement = 'DCY_Megaspheres'; break;
+		case 'InvulnerabilitySphere' : e.Replacement = 'DCY_Adamantine'; break;
+		case 'RadSuit' : e.Replacement = 'DCY_Boots'; break;
+		case 'Infrared' : e.Replacement = 'DCY_Infrared'; break;
+		case 'Berserk' : e.Replacement = 'DCY_Overload'; break;
+		case 'AllMap' : e.Replacement = 'DCY_AllMap'; break;
+		case 'BlurSphere' : e.Replacement = 'DCY_BlurReplacer'; break;
+		
+		case 'RedCard' : e.Replacement = 'DCY_RKey'; break;
+		case 'RedSkull' : e.Replacement = 'DCY_RCranium'; break;
+		case 'BlueCard' : e.Replacement = 'DCY_BKey'; break;
+		case 'BlueSkull' : e.Replacement = 'DCY_BCranium'; break;
+		case 'YellowCard' : e.Replacement = 'DCY_YKey'; break;
+		case 'YellowSkull' : e.Replacement = 'DCY_YCranium'; break;
+	}
+  }
+}

@@ -1,0 +1,117 @@
+Class DCY_ETeleportation : TeleportFog Replaces TeleportFog
+{
+  string hc;
+  sound hs;
+  property TColor : hc;
+  property TSound : hs;
+
+  mixin DCY_FX;
+  
+  Default
+  {
+  Translation "0:255=%[0.00,0.00,0.00]:[1.33,2.00,0.65]";
+  RenderStyle "Add";
+  Scale 0.75;
+  Alpha 0;
+  +BRIGHT;
+  DCY_ETeleportation.TColor "257a28";
+  DCY_ETeleportation.TSound "DCY/Teleportation";
+  }
+  
+  override void PostBeginPlay ()
+  {
+	Actor.PostBeginPlay();
+	A_StartSound(hs, CHAN_BODY);
+	
+	//Main Effects
+	for (int i = 0; i < 360; i += random(10, 30))
+	if (DCY_EffectDistance(1500))
+	{
+		A_SpawnParticleEx(hc, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 100, random(1, 4), 0, frandom(-50, 50), frandom(-50, 50), frandom(-50, 50), frandom(-3, 3), frandom(-3, 3), frandom(-3, 3), frandom(-0.4, 0.4), frandom(-0.4, 0.4), frandom(-0.4, 0.4), fadestepf: 0, sizestep: -0.015);	
+		A_SpawnParticleEx(hc, TexMan.CheckForTexture("graphics/Particles/dcyflamep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, random(90, 95), 120, i, zoff: 5, velx: frandom(1, 5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), accelz: 0.05, startalphaf: 0.35, fadestepf: 0.01, sizestep: 2);
+		A_SpawnParticleEx(hc, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, random(90, 95), 120, i, zoff: 5, velx: frandom(1, 5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), accelz: 0.05, startalphaf: 0.35, fadestepf: 0.01, sizestep: 2);
+	}
+	
+	A_SpawnParticleEx(0xffffff, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, 110, angle, zoff: 30, startalphaf: 1, fadestepf: 0, sizestep: random(-20, -30));
+	A_SpawnParticleEx(hc, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, 240, angle, zoff: 30, startalphaf: 2, fadestepf: 0, sizestep: random(-20, -40));
+	if (!random(0, 2)) A_SpawnParticleEx(hc, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 400, 120, angle, zoff: 30, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), startalphaf: 0.6, fadestepf: 0.0015, sizestep: 4, startroll: frandom(0, 360));
+	A_SpawnItemEx("DCY_TeleOrbX", zofs: 30, flags: SXF_NOCHECKPOSITION|SXF_TRANSFERTRANSLATION);
+	
+	Destroy();
+  }
+}
+
+Class DCY_ESourceTeleport : DCY_ETeleportation
+{
+  Default { DCY_ETeleportation.TSound "DCY/TeleportationIn"; }
+  override void PostBeginPlay ()
+  {
+	Actor.PostBeginPlay();
+	A_StartSound(hs, CHAN_BODY);
+	
+	//Main Effects
+	A_SpawnParticleEx(0xffffff, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, 100, angle, zoff: 30, fadestepf: 0, sizestep: random(-20, -30));
+	A_SpawnParticleEx(hc, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, 150, angle, zoff: 30, fadestepf: 0, sizestep: random(-20, -40));
+	A_SpawnItemEx("DCY_TeleOrbX2", zofs: 30, flags: SXF_NOCHECKPOSITION|SXF_TRANSFERTRANSLATION);
+	
+	Destroy();
+  }
+}
+
+Class DCY_TeleOrbX : Actor
+{
+  Default
+  {
+  Scale 0.75;
+  Alpha 1.0;
+  Radius 0;
+  Height 0;
+  +BRIGHT;
+  +NOINTERACTION;
+  +NOCLIP;
+  +DONTSPLASH;
+  +FORCEXYBILLBOARD
+  RenderStyle "Add";
+  }
+  
+  States
+  {
+  Spawn:
+	KAB2 ACEGIKL 1;
+	KAB2 LMNOPQRSTUVWXYZ 1;
+	K3B2 ACEGIKM 1;
+	Stop;
+  }
+}
+
+Class DCY_TeleorbX2 : DCY_TeleOrbX
+{
+  States
+  {
+  Spawn:
+	KAB2 ZWTQNLIGECA 1 A_SetScale(Scale.X - 0.05);
+	Stop;
+  }
+}
+
+Class DCY_PlayerTeleport : DCY_ETeleportation { Default { Translation "0:255=%[0.00,0.00,0.00]:[0.00,0.76,2.00]";  DCY_ETeleportation.TColor "162c75"; } }
+Class DCY_PlayerSourceTeleport : DCY_ESourceTeleport { Default { Translation "0:255=%[0.00,0.00,0.00]:[0.00,0.76,2.00]";  DCY_ETeleportation.TColor "162c75"; } }
+
+Class DCY_ItemFog : ItemFog Replaces ItemFog
+{
+  Mixin DCY_FX;
+  
+  Default { Translation "0:255=%[0.00,0.00,0.00]:[0.57,0.87,1.89]"; Scale 0.575; Alpha 0; }
+  
+  override void PostBeginPlay ()
+  {
+	Actor.PostBeginPlay();
+	
+	//Main Effects
+	A_SpawnParticleEx(0x6ea8ff, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, 60, angle, zoff: 10, fadestepf: 0, sizestep: random(-20, -30));
+	A_SpawnParticleEx(0x0f1761, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, 100, angle, zoff: 10, fadestepf: 0, sizestep: random(-20, -40));
+	A_SpawnItemEx("DCY_TeleOrbX2", zofs: 10, flags: SXF_NOCHECKPOSITION|SXF_TRANSFERTRANSLATION|SXF_TRANSFERSCALE);
+	for (int i = random(6, 10); i > 0; i--) A_SpawnParticleEx(0x0f1761, TexMan.CheckForTexture("graphics/particles/dcysquare.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 100, random(1, 2), 0, frandom(-20, 20), frandom(-20, 20), frandom(-20, 20), frandom(-3, 3), frandom(-3, 3), frandom(-3, 3), frandom(-0.4, 0.4), frandom(-0.4, 0.4), frandom(-0.4, 0.4), fadestepf: 0, sizestep: -0.015);	
+	Destroy();
+  }
+}

@@ -1,0 +1,20 @@
+extend class CyberaugumentedEventHandler
+{
+	override void WorldThingDied(WorldEvent e)
+	{
+		let t = e.Thing;
+		let x = CA_Variables.Get();
+		
+		if (t.bISMONSTER && x.hasAntimateriaWeapons)
+		{
+			if (!random(0, 5))
+			{
+				for (int i = ((t.Health > 500) ? random(2, 3) : 1); i > 0; i--)
+				{
+					actor a = e.Thing.Spawn("DCY_Antimateria", e.Thing.pos + (0, 0, e.Thing.Height / 2));
+					if (a) { a.Thrust(frandom(1, 3), frandom(0, 360)); a.vel.z += 4; }
+				}
+			}
+		}
+	}
+}

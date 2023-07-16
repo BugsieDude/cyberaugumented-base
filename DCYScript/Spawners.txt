@@ -1,0 +1,75 @@
+Class DCY_Supercharged : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_Luminescence", 255, 100;
+	DropItem "DCY_Rehabiliation", 255, 30;
+	DropItem "DCY_Supremacy", 255, 10;
+  }
+}
+
+Class DCY_Megaspheres : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_Hope", 255, 100;
+	Dropitem "DCY_Unco", 255, 20;
+  }
+}
+
+Class DCY_BlurReplacer : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_Deterrence", 255, 100;
+	DropItem "DCY_Palisade", 255, 50;
+	DropItem "DCY_Crosscut", 255, 30;
+	DropItem "DCY_RazeHexahedron", 255, 15;
+	DropItem "DCY_Barricade", 5, 15;
+  }
+}
+
+Class DCY_ShotgunSpawner : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_PumpActionShotgun", 255, 100;
+	DropItem "DCY_SilverBlaster", 255, 20;
+  }
+}
+
+Class DCY_ChaingunSpawner : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_Dispatchbringer", 255, 100;
+	DropItem "DCY_Nightfall", 255, 20;
+  }
+}
+
+Class DCY_RocketSpawner : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_Legionnaire", 255, 100;
+	DropItem "DCY_Intervention", 255, 35;
+  }
+}
+
+Class DCY_PlasmaSpawner : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_EnergyExtravasation", 255, 100;
+	DropItem "DCY_MesonDischarge", 255, 20;
+	DropItem "DCY_Caduceus", 255, 5;
+  }
+}
+
+Class DCY_BFGSpawner : RandomSpawner
+{
+  Default
+  {
+	DropItem "DCY_PhotonCrux", 255, 100;
+  }
+}

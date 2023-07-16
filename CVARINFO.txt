@@ -1,0 +1,44 @@
+server bool dcy_intro = true;
+
+server bool sv_allowdash = true;
+server bool sv_allowdoublejump = true;
+
+server float sv_dashpower = 32;
+server int sv_dashpowerup = 8;
+
+server int sv_dashcooldown = 35;
+
+server bool sv_effectchoker2 = false;
+
+user bool cl_allowdashsound = true;
+user bool cl_allowdjumpsound = true;
+
+user bool cl_hudshake = true;
+
+user int cl_dashsoundtype = 0;
+user int cl_djumpsoundtype = 0;
+
+server int cl_effectdistance2 = 1000;
+server bool cl_effectchoker2 = false;
+
+user bool cl_dcy_mapname = true;
+user bool cl_dcy_mapinfo = true;
+user bool cl_dcy_hudinfo = true;
+user bool cl_dcy_hudtime = true;
+user bool cl_dcy_hudtotaltime = true;
+user bool cl_dcy_position = true;
+
+user bool dcy_readsound = true;
+
+user bool dcy_sway = true;
+user int dcy_sway_intensity = 1250;
+
+server bool dcy_tracker = true;
+server bool dcy_completionist = true;
+
+server int dcy_liquids = 1;
+noarchive nosave server int dcy_intermissioncut = 0;
+
+server bool dcy_wolfensteincutscene = true;
+
+server bool dcy_props = true;

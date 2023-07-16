@@ -1,0 +1,216 @@
+Class DCY_MesonDischarge : DCY_Weapon
+{
+  Default
+  {
+	Tag "JM10X 'Mason Discharge' Antiparticle Crossbow";
+	Weapon.AmmoType "DCY_Battery";
+	Weapon.AmmoGive 50;
+	Weapon.AmmoUse 15;
+	Height 25;
+	Inventory.PickupMessage "The JM10X 'Mason Discharge' Antiparticle Crossbow! A portable crossbow built with technology that has unimaginable strength inside of it; feels like guts and glory.";
+	Weapon.SlotNumber 6;
+	+WEAPON.EXPLOSIVE;
+	Inventory.Icon "PWBXZ0";
+	Inventory.PickupSound "dcy/plasmariflepickup";
+	Scale 0.7;
+	Weapon.SelectionOrder 60;
+  }
+  
+  double reloadoffs, rel;
+  
+  action void A_Ballista()
+  {
+    A_QuakeEx(2, 2, 2, 20, 0, 150, "none", QF_SCALEDOWN|QF_3D);
+	A_StartSound("DCYBallista/Fire", CHAN_WEAPON, CHANF_OVERLAP);
+	invoker.DepleteAmmo(invoker.bAltFire, true);
+	A_GunFlash();
+	
+	FLineTraceData d;
+	
+	A_FireBullets(0, 0, 1, 0, "DCY_Null2", 0);
+	LineTrace(angle, 8192, pitch, TRF_NOSKY, height / 2, 0, 0, d);
+	let h = d.HitActor;
+		
+	if (d.HitType == TRACE_HitWall || d.HitType == TRACE_HitActor || d.HitType == TRACE_HitCeiling || d.HitType == TRACE_HitFloor)
+	{
+		actor puff = Actor(Spawn("DCY_PlayerBallistaPuff"));
+		
+		if (!puff) return;
+		puff.SetOrigin(d.HitLocation, false);
+		puff.A_Face(invoker.owner);
+		puff.A_StartSound("DCYBallista/Explode", 100);
+	
+		if (h && h.bSHOOTABLE && h.Health > 0)
+			h.DamageMobj(self, invoker.owner, 250, "Plasma", DMG_PLAYERATTACK);
+	}
+		
+	for (int i = 0; i < d.distance - 5; i += 5)
+	{
+		actor y = Actor(Spawn("DCY_PlayerBallistaTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
+		y.A_Face(invoker.owner);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	PWBX Z -1;
+	Stop;
+  OverlayIdle:
+	PWBX ABCD 6;
+	Loop;
+  OverlayFire:
+	PWBX D 1
+	{
+		invoker.lower += 10;
+		A_WeaponOffset(0, 32 + (invoker.lower / 2.5), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	PWBX EFGHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 1
+	{
+		if (invoker.lower > 0.01) invoker.lower *= 0.45; else invoker.lower = 0;
+		A_WeaponOffset(0, 32 + (invoker.lower / 2.5), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	Stop;
+  OverlayReload:
+	PWBX I 0
+	{
+		invoker.rel = 0;
+		invoker.reloadoffs = 0;
+	}
+	PWBX IIIIIIIIIIIIIDDD 1
+	{
+		invoker.rel++;
+		invoker.reloadoffs = 2.785 * sin(invoker.rel * 10);
+		A_WeaponOffset(-(invoker.reloadoffs) + frandom(-0.1, 0.1), 32 + (invoker.reloadoffs) + frandom(-0.1, 0.1), WOF_INTERPOLATE);
+	}
+	PWBX DABCD 6 A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+	Stop;
+  Feel:
+	TNT1 A 1 A_ZoomFactor(0.8);
+	TNT1 A 1 A_ZoomFactor(0.85);
+	TNT1 A 1 A_ZoomFactor(0.925);
+	TNT1 A 1 A_ZoomFactor(0.95);
+	TNT1 A 1 A_ZoomFactor(0.975);
+	TNT1 A 1 A_ZoomFactor(0.9875);
+	TNT1 A 1 A_ZoomFactor(0.99275);
+	TNT1 A 1 A_ZoomFactor(0.995);
+	TNT1 A 1 A_ZoomFactor(0.9975);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		invoker.offsy = 150;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Raise(0.4);
+		return (invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		invoker.offsy = invoker.saveoffsy + 2;
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Lower(1.75);
+		return (invoker.offsy >= 150) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 1 A_Overlay(5, "OverlayIdle");
+	TNT1 A 35
+	{
+		A_Overlay(10, "Feel");
+		A_Overlay(5, "OverlayFire");
+		A_Ballista();
+	}
+	TNT1 A 30
+	{
+		A_StartSound("DCYBallista/Reload", CHAN_WEAPON, CHANF_OVERLAP, 0.75);
+		A_Overlay(5, "OverlayReload");
+	}
+	TNT1 A 1
+	{
+		A_Refire();
+		A_Overlay(5, "OverlayIdle");
+		invoker.lower = 0;
+	}
+	Goto Ready;
+  }
+}
+
+Class DCY_PlayerBallistaPuff : Actor
+{
+  const DCY_BALLISTA_RANGE = 256;
+  
+  override void PostBeginPlay()
+  {
+	A_SpawnParticleEx(0xffa12e, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 5, random(150, 200), 0, fadestepf: 0.2, sizestep: -10);
+	
+	for (int i = 2; i > 0; i--) A_SpawnParticleEx(0xff8000, TexMan.CheckForTexture("Sprites/FX/C28YK0.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 100, 90, angle, 5, fadestepf: 0.075, sizestep: (10 * (i * 3)) / 1.5);
+	
+	for (int i = random(8, 13); i > 0; i--)
+	{
+		A_SpawnParticleEx(0x471b0f, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 80, random(1, 9), 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.2, 0.2), frandom(-0.2, 0.2), frandom(-0.2, 0.2), fadestepf: 0, sizestep: -0.075);	
+		A_SpawnParticleEx(0x471b0f, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 150, random(50, 70), frandom(0, 360), velx: frandom(-1.5, 1.5), vely: frandom(-1.5, 1.5), velz: frandom(-1.5, 1.5), fadestepf: 0.0275, sizestep: frandom(2.00, 5.25), startroll: frandom(0, 360));
+	}
+	
+	BlockThingsIterator ti = BlockThingsIterator.Create(self, DCY_BALLISTA_RANGE);
+	actor a;
+		
+	while(ti.Next())
+	{
+		a = ti.thing;
+		double rad = abs((DCY_BALLISTA_RANGE - Distance3D(a)) / 2);
+		if (a && a.Health > 0 && a.bSHOOTABLE && !a.bINVULNERABLE && !a.bDORMANT && !a.bNODAMAGE && CheckSight(a) && distance3D(a) < DCY_BALLISTA_RANGE && !a.bDONTTHRUST)
+		{
+			if (!(a is "PlayerPawn"))
+			{
+				a.DamageMobj(self, self, 125, "Plasma", DMG_FORCED|DMG_PLAYERATTACK|DMG_THRUSTLESS);
+				a.Vel3DFromAngle((rad / 2) / (a.Mass / (a.Mass / 4)), self.AngleTo(a), self.PitchTo(a));
+				if (a.GetMaxHealth() < 2500) a.vel.z += (rad / 6) / ((a.Mass > 600) ? 2.5 : 1);
+				a.vel.z = clamp(a.vel.z, -25, 25);
+			}
+			else
+			{
+				if (distance3D(a) < (DCY_BALLISTA_RANGE / 2))
+				{
+					if (a.pitch != 90) a.Thrust(-(rad / 5), a.angle);
+					a.vel.z += (rad / 5);
+				}
+			}
+		}
+	}
+		
+	Destroy();
+  }
+}
+
+Class DCY_PlayerBallistaTrail : Actor
+{
+  override void PostBeginPlay()
+  {
+	A_SpawnParticleEx(0xffa12e, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 5, random(40, 45), 0, fadestepf: 0.2, sizestep: -4);
+	A_SpawnParticleEx(0x471b0f, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 150, random(30, 50), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), fadestepf: 0.025, sizestep: 0.25, startroll: frandom(0, 360));
+	Destroy();
+  }
+}

@@ -1,0 +1,142 @@
+Class DCY_EnergyExtravasation : DCY_Weapon
+{
+  Default
+  {
+	Tag "Tylos 7VS 'Energy Extravasation Firearm'";
+	Weapon.AmmoGive 40;
+	Weapon.AmmoUse 1;
+	Weapon.SelectionOrder 100;
+	Weapon.SlotNumber 6;
+	Weapon.AmmoType "DCY_Battery";
+	Obituary "%o got fried into plasmatic dust by $k's Tylos.";
+	Inventory.PickupSound "dcy/plasmariflepickup";
+	Inventory.PickupMessage "Grabbed the Tylos 7VS 'Energy Extravasation Firearm'! It cautions you with the written 'PLASMA RAY HAZARD' sign.";
+  }
+  
+  int overheat;
+  
+  action void A_Plasmatic()
+  {
+	if (player == null) return;
+	
+	Weapon weap = player.ReadyWeapon;
+	if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
+	{
+		if (!weap.DepleteAmmo (weap.bAltFire, true, 1)) return;
+		A_Overlay(-1, "OverlayMuzzle");
+		A_OverlayOffset(-1, 160, 100);
+		A_OverlayFlags(-1, PSPF_RENDERSTYLE, true);
+		A_OverlayPivotAlign(-1, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayScale(-1, randompick(-1, 1), randompick(-1, 1));
+		A_OverlayRenderStyle(-1, STYLE_ADD);
+	}
+	
+	A_GunFlash();
+	A_StartSound("DCYPlasmaGun/Fire", 24, CHANF_LOOPING, 0.75);
+	A_WeaponOffset(frandom(-1.5, 1.5), frandom(-1.5, 1.5), WOF_ADD|WOF_INTERPOLATE);
+	SpawnPlayerMissile("DCY_PlayerPlasma");
+  }
+  
+  States
+  {
+  Spawn:
+	PLA_ Z -1;
+	Stop;
+  OverlayIdle:
+	PLA_ A 1;
+	Stop;
+  OverlayFire:
+	PLA_ B 1
+	{
+		invoker.lower += 7;
+		A_WeaponOffset(0 + (invoker.lower / 10), 32, WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	PLA_ BAAAAAA 1
+	{
+		if (invoker.lower > 0.01) invoker.lower *= 0.65; else invoker.lower = 0;
+		A_WeaponOffset(0 + (invoker.lower / 10), 32, WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	Stop;
+   OverlayFire2:
+	PLA_ E 1 DCY_HandleScale(6);
+	PLA_ GDF 1 DCY_HandleScale(6);
+	Stop;
+  OverlayMuzzle:
+	PMU_ AB 1 Bright DCY_HandleScale(OverlayID());
+	Stop;
+  Feel:
+	TNT1 A 1 A_ZoomFactor(0.95);
+	TNT1 A 1 A_ZoomFactor(0.9775);
+	TNT1 A 1 A_ZoomFactor(0.9825);
+	TNT1 A 1 A_ZoomFactor(0.9926);
+	TNT1 A 1 A_ZoomFactor(0.995);
+	TNT1 A 1 A_ZoomFactor(0.997);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		A_StopSound(24);
+		invoker.offsx = 100;
+		invoker.offsy = 150;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Raise(0.4);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+		return (invoker.offsx <= 0.1 || invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		A_StopSound(24);
+		invoker.offsx = invoker.saveoffsx + 2;
+		invoker.offsy = invoker.saveoffsy + 2;
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Lower(1.75, 1.2);
+		
+		return (invoker.offsx >= 150 || invoker.offsy >= 150) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Overlay(5, "OverlayIdle");
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 3
+	{
+		A_Overlay(10, "Feel");
+		A_Overlay(5, "OverlayFire");
+		A_Overlay(6, "OverlayFire2");
+		A_Plasmatic();
+	}
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Refire();
+	}
+	TNT1 A 0
+	{
+		A_StartSound("DCYPlasmaGun/End", 25, volume: 0.75);
+		A_StopSound(24);
+	}
+	Goto Ready;
+  }
+}

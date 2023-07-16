@@ -1,0 +1,43 @@
+class DCY_Interceptor : StaticEventHandler
+{
+  bool death;
+  bool playonce, iy;
+  
+  static const string bigguns[] =
+  {
+	"DCY_PhotonCrux",
+	"DCY_Liquidator",
+	"DCY_SiriusCrisis"
+  };
+  
+  override void WorldUnloaded(WorldEvent evt)
+  {
+	let inter = CVar.GetCVar("dcy_intermissioncut", players[consoleplayer]);
+	
+	for (int i = 0; i < MAXPLAYERS; i++)
+	{
+		if (playeringame[i] && players[i].playerstate == PST_DEAD)
+		{
+			players[i].resurrect();
+			let p = players[i].mo;
+			if (p)
+			{
+				death = true;
+				iy = false;
+				p.GiveDefaultInventory();
+				
+				for (int i = 0; i < bigguns.Size() - 1; i++)
+					p.TakeInventory(bigguns[i], 1);
+			}
+		}
+		
+		if (death && !iy) inter.setInt(1);
+	}
+  }
+  
+  override void WorldLoaded(WorldEvent evt)
+  {
+	CVar.GetCVar("dcy_intermissioncut", players[consoleplayer]).setInt(0);
+	if (death && !playonce) { S_StartSound("dcy/wakeup", 231, CHANF_UI); playonce = true; iy = true; }
+  }
+}

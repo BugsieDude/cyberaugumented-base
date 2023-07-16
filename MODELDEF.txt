@@ -1,0 +1,23 @@
+Model DCY_TracerPlayer
+{
+  Path "DCYModels"
+  SKIN 0 "tracer1.png"
+  MODEL 0 "tracer.md3"
+  Scale 10.0 10.0 5.0
+  PITCHFROMMOMENTUM
+  ROTATING
+  Rotation-Vector 1.0 0.0 0.0
+  Rotation-Speed 15.0
+  FrameIndex TRAC A 0 0
+}
+
+Model DCY_Spark
+{
+  Path "DCYModels"
+  SKIN 0 "sparktracer.png"
+  MODEL 0 "tracer.md3"
+  Scale 0.25 2.0 2.0
+  PITCHFROMMOMENTUM
+  USEACTORROLL
+  FrameIndex NULL A 0 0
+}
