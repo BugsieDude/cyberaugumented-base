@@ -26,7 +26,7 @@ Class DCY_Liquidation : DCY_Weapon
 	FLineTraceData d;
 	
 	A_FireBullets(0, 0, 1, 0, "DCY_Null2", 0);
-	LineTrace(angle, 8192, pitch, TRF_NOSKY, height / 2.3, 0, 0, d);
+	LineTrace(angle, 8192, pitch, TRF_NOSKY|TRF_THRUACTORS, height / 2.3, 0, 0, d);
 	
 	for (int i = 0; i < d.distance - 10; i += 10)
 	{
