@@ -9,7 +9,7 @@ Class DCY_Legionnaire : DCY_Weapon
 	+WEAPON.EXPLOSIVE;
 	Weapon.AmmoGive 2;
 	Weapon.AmmoUse 1;
-	Weapon.AmmoType "RocketAmmo";
+	Weapon.AmmoType "DCY_RocketAmmo";
 	Inventory.PickupSound "dcy/rocketpickup";
 	Inventory.PickupMessage "You got the X40-DR Legionnaire! I'm pretty sure you know how to make a confetti party, right?";
   }
