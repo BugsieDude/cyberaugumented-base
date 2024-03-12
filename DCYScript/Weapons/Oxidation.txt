@@ -68,7 +68,7 @@ Class DCY_Oxidation : DCY_Weapon
 		case 120: invoker.interfacecol = "DCY_OxiFire7"; invoker.interfacecol2 = "b1d3de"; break;
 		case 140: invoker.interfacecol = "DCY_OxiFire8"; invoker.interfacecol2 = "6dd1fc"; break;
 		case 160: invoker.interfacecol = "DCY_OxiFire9"; invoker.interfacecol2 = "388eff"; break;
-		case 180: invoker.interfacecol = "DCY_OxiFire10"; invoker.interfacecol2 = "1962ff"; break;
+		case 180: invoker.interfacecol = "DCY_OxiFire10"; invoker.interfacecol2 = "1938ff"; break;
 	}
 	
 	A_OverlayTranslation(l, invoker.interfacecol);
