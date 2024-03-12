@@ -44,6 +44,7 @@ Class DCY_ChaingunSpawner : RandomSpawner
   {
 	DropItem "DCY_Dispatchbringer", 255, 100;
 	DropItem "DCY_Nightfall", 255, 20;
+	DropItem "DCY_Oxidation", 255, 2;
   }
 }
 
@@ -63,6 +64,7 @@ Class DCY_PlasmaSpawner : RandomSpawner
 	DropItem "DCY_EnergyExtravasation", 255, 100;
 	DropItem "DCY_MesonDischarge", 255, 20;
 	DropItem "DCY_Caduceus", 255, 5;
+	DropItem "DCY_Oxidation", 255, 8;
   }
 }
 

@@ -47,7 +47,7 @@ Class DCY_BigBoom : DCY_Boom
   Scale 1.15;
   }
   
-  double tic;
+  int tic;
   
   override void PostBeginPlay()
   {

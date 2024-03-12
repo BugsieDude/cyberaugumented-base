@@ -184,9 +184,9 @@ Class DCY_IonizedArc : DCY_Weapon
 			double hswing = -25 + (invoker.swing * 5);
 			
 			if (vswing == 0 && hswing == 0)
-				A_CustomPunch(dmg / 1.75, true, CPF_NOTURN, "DCY_Null2", (CountInv("DCY_ArcUpgrade") ? 128 : 100));
+				A_CustomPunch(dmg, true, CPF_NOTURN, "DCY_Null2", (CountInv("DCY_ArcUpgrade") ? 128 : 100));
 			else
-				A_FireBullets(-50 + (invoker.swing * 25), -10 + (invoker.swing * 5), 1, dmg / 2.5, "DCY_Null2", FBF_EXPLICITANGLE|FBF_NORANDOM, (CountInv("DCY_ArcUpgrade") ? 128 : 100));
+				A_FireBullets(-50 + (invoker.swing * 25), -10 + (invoker.swing * 5), 1, dmg / 2, "DCY_Null2", FBF_EXPLICITANGLE|FBF_NORANDOM, (CountInv("DCY_ArcUpgrade") ? 128 : 100));
 		}
 	}
 	TNT1 A 0 A_Refire();

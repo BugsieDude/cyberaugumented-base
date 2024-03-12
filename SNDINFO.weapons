@@ -98,3 +98,9 @@ $pitchshift Liquidation/Loop 0
 $pitchshift Liquidation/Spin 0
 $pitchshift Liquidation/SpinStop 0
 $pitchshift Liquidation/Cool 0
+
+Oxidation/Fire "DCYSounds/Weapons/Slot 8/Oxidation/dcy_oxidation_fire.ogg"
+Oxidation/FireLoop "DCYSounds/Weapons/Slot 8/Oxidation/dcy_oxidation_fireloop.ogg"
+Oxidation/Stop "DCYSounds/Weapons/Slot 8/Oxidation/dcy_oxidation_stop.ogg"
+Oxidation/Loop "DCYSounds/Weapons/Slot 8/Oxidation/dcy_oxidation_loop.ogg"
+Oxidation/Powerup "DCYSounds/Weapons/Slot 8/Oxidation/dcy_oxidation_poweron.ogg"

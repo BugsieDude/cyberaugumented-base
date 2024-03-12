@@ -106,6 +106,7 @@ Class DCY_Liquidation : DCY_Weapon
 	{
 		invoker.offsx = invoker.saveoffsx + 2;
 		invoker.offsy = invoker.saveoffsy + 2;
+		A_StopSounds(14, 15);
 	}
 	TNT1 A 1
 	{

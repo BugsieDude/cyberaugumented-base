@@ -403,7 +403,7 @@ Class DCY_Intermission : StatusScreen
 	if (!moveback) { if (bordery < 1.5) bordery = 1.5; borderint = 0; }
 	moveback = true;
 	BrokenLines lines = mainfont.BreakLines(lnametexts[1], 300);
-	DCY_DrawText(mainfont, Font.CR_UNTRANSLATED, 260 - (alphamap * 100), 92, lines.StringAt(0), 1, alphamap, alphamap);
+	DCY_DrawText(mainfont, Font.CR_UNTRANSLATED, int(ceil(260 - (alphamap * 100))), 92, lines.StringAt(0), 1, alphamap, alphamap);
   }
   
   override void drawStats (void)
@@ -411,10 +411,10 @@ Class DCY_Intermission : StatusScreen
 	if (bcnt < 65) return;
 		
 	// line height
-	int lh = IntermissionFont.GetHeight() * 3 / 2.5;
+	int lh = IntermissionFont.GetHeight() * 3 / 2;
 	
 	BrokenLines lines = mainfont.BreakLines(lnametexts[0], 300);
-	DCY_DrawText(mainfont, font.CR_UNTRANSLATED, 260 - (alphastats * 100), 40, lines.StringAt(0), 1, alpha: alphastats, warper: alphastats);
+	DCY_DrawText(mainfont, font.CR_UNTRANSLATED, int(ceil(260 - (alphastats * 100))), 40, lines.StringAt(0), 1, alpha: alphastats, warper: alphastats);
 	DCY_DrawText(smallmainfont, font.CR_UNTRANSLATED, 160, 60, (dcy_intermissioncut) ? "How did this happen?" : "Completed.", 1, alpha: alphastats);
 	
 	let tcolor = Font.CR_UNTRANSLATED;
@@ -438,18 +438,18 @@ Class DCY_Intermission : StatusScreen
 		statsx = max(0, (320 - allwidth) / 2);
 		
 	printFont = generic_ui? IntermissionFont : content.mFont;
-	DCY_DrawText(smallmainfont, tcolor, statsx + xmove, dcystaty, "\c[q7]"..StringTable.Localize("$TXT_IMKILLS"), alpha: alphastats);
-	DCY_DrawText(smallmainfont, tcolor, statsx + xmove, dcystaty + lh, "\c[m4]"..StringTable.Localize("$TXT_IMITEMS"), alpha: alphastats);
-	DCY_DrawText(smallmainfont, tcolor, statsx + xmove, dcystaty + 2 * lh, "\c[z2]"..StringTable.Localize("$TXT_IMSECRETS"), alpha: alphastats);
-	DCY_DrawText(smallmainfont, tcolor, SP_TIMEX + xmove, dcytime - 7, "\c[v7]"..StringTable.Localize("$TXT_IMTIME"), alpha: alphastats);
-	if (wbs.partime) DCY_DrawText(smallmainfont, tcolor, 160 + SP_TIMEX + x2move, dcytime - 7, "\c[v7]"..StringTable.Localize("$TXT_IMPAR"), alpha: alphastats);
+	DCY_DrawText(smallmainfont, tcolor, int(ceil(statsx + xmove)), dcystaty, "\c[q7]"..StringTable.Localize("$TXT_IMKILLS"), alpha: alphastats);
+	DCY_DrawText(smallmainfont, tcolor, int(ceil(statsx + xmove)), dcystaty + lh, "\c[m4]"..StringTable.Localize("$TXT_IMITEMS"), alpha: alphastats);
+	DCY_DrawText(smallmainfont, tcolor, int(ceil(statsx + xmove)), dcystaty + 2 * lh, "\c[z2]"..StringTable.Localize("$TXT_IMSECRETS"), alpha: alphastats);
+	DCY_DrawText(smallmainfont, tcolor, int(ceil(SP_TIMEX + xmove)), dcytime - 7, "\c[v7]"..StringTable.Localize("$TXT_IMTIME"), alpha: alphastats);
+	if (wbs.partime) DCY_DrawText(smallmainfont, tcolor, int(ceil(160 + SP_TIMEX + x2move)), dcytime - 7, "\c[v7]"..StringTable.Localize("$TXT_IMPAR"), alpha: alphastats);
 			 
-	DCY_DrawPercent(smallmainfont, 320 - statsx + x2move, dcystaty, cnt_kills[0], wbs.maxkills, tcolor, a: alphastats);
-	DCY_DrawPercent(smallmainfont, 320 - statsx + x2move, dcystaty+lh, cnt_items[0], wbs.maxitems, tcolor, a: alphastats);
-	DCY_DrawPercent(smallmainfont, 320 - statsx + x2move, dcystaty+2*lh, cnt_secret[0], wbs.maxsecret, tcolor, a: alphastats);
-	DCY_DrawText(smallmainfont, tcolor, 80 - SP_TIMEX + xmove, dcytime - 7, DCY_Time(cnt_time), alpha: timealpha + alphastats);
+	DCY_DrawPercent(smallmainfont, int(ceil(320 - statsx + x2move)), dcystaty, cnt_kills[0], wbs.maxkills, tcolor, a: alphastats);
+	DCY_DrawPercent(smallmainfont, int(ceil(320 - statsx + x2move)), dcystaty+lh, cnt_items[0], wbs.maxitems, tcolor, a: alphastats);
+	DCY_DrawPercent(smallmainfont, int(ceil(320 - statsx + x2move)), dcystaty+2*lh, cnt_secret[0], wbs.maxsecret, tcolor, a: alphastats);
+	DCY_DrawText(smallmainfont, tcolor, int(ceil(80 - SP_TIMEX + xmove)), dcytime - 7, DCY_Time(cnt_time), alpha: timealpha + alphastats);
 	
-	if (wi_showtotaltime) DCY_DrawText(smallmainfont, tcolor, 80 - SP_TIMEX + xmove, dcytime + lh - 7, DCY_Time(cnt_total_time), alpha: timealpha + alphastats);
-	if (wbs.partime) DCY_DrawText(smallmainfont, tcolor, 240 - SP_TIMEX + x2move, dcytime - 7, DCY_Time(cnt_par), alpha: timealpha + alphastats);
+	if (wi_showtotaltime) DCY_DrawText(smallmainfont, tcolor, int(ceil(80 - SP_TIMEX + xmove)), dcytime + lh - 7, DCY_Time(cnt_total_time), alpha: timealpha + alphastats);
+	if (wbs.partime) DCY_DrawText(smallmainfont, tcolor, int(ceil(240 - SP_TIMEX + x2move)), dcytime - 7, DCY_Time(cnt_par), alpha: timealpha + alphastats);
   }
 }

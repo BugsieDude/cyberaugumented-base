@@ -19,7 +19,7 @@ Class DCY_ScrapBase : Actor
   +MOVEWITHSECTOR
   }
   
-  int xroll;
+  double xroll;
   
   override void PostBeginPlay()
   {

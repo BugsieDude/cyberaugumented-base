@@ -26,7 +26,7 @@ Class DCY_Powerup : Inventory abstract
   property EffectColor1 : effectcolor;
   bool lighty;
   property SpawnLight : lighty;
-  float lightr;
+  int lightr;
   property LightRadius : lightr;
   bool wobbly;
   property Pulse : wobbly;
@@ -51,7 +51,7 @@ Class DCY_Powerup : Inventory abstract
   
   override void PostBeginPlay()
   {
-	if (lighty) A_AttachLight("poweruplight", (wobbly) ? DynamicLight.PulseLight : DynamicLight.PointLight, effectcolor, lightr, (wobbly) ? (lightr / 1.35) : lightr);
+	if (lighty) A_AttachLight("poweruplight", (wobbly) ? DynamicLight.PulseLight : DynamicLight.PointLight, effectcolor, lightr, (wobbly) ? int(ceil((lightr / 1.35))) : lightr);
 	if (noise != "") A_StartSound(noise, 15, CHANF_LOOPING, volume: 0.6);
   }
   
