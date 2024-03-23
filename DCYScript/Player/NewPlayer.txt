@@ -62,7 +62,10 @@ Class CyberaugumentedProtagonist : PlayerPawn
 		"located",
 		"spotted",
 		"pinpointed",
-		"retrieved"
+		"retrieved",
+		"handled",
+		"unearthed",
+		"excavated"
 	};
 	
 	static const string messages[] =
@@ -78,7 +81,21 @@ Class CyberaugumentedProtagonist : PlayerPawn
 		"I suppose you're lucky.",
 		"Are you going in the right direction?",
 		"Anything new?",
-		"Gathering info"
+		"Gathering info",
+		"Gimme, gimme, bitch!",
+		"Anything special you found?",
+		"Hey, something.",
+		"You ever wonder why there are places like these?",
+		"These often have the kind of feel like it's... I don't know.",
+		"The fuck is that.",
+		"Holy shit.",
+		"You're officially an explorer now.",
+		"PARTYYYYYY",
+		"If there's a closet I'm sad",
+		"Welcome to the mystery zone",
+		"Did somebody help you or me?",
+		"HELL YEAH SECRET HAS COME, FUCKIN SECRET IS HERE",
+		"I'm glad."
 	};
 	
 	S_StartSound("misc/secret", 10, CHANF_UI, attenuation: ATTN_IDLE);

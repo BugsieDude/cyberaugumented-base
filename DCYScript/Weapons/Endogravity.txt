@@ -59,8 +59,8 @@ Class DCY_Endogravity : DCY_Weapon
 	3ND_ Z -1;
 	Stop;
   OverlayIdle:
-	3ND_ A -1;
-	Stop;
+	3ND_ A 1;
+	Loop;
   OverlayMuzzle:
 	MUZ_ DD 1 Bright
 	{
@@ -141,6 +141,10 @@ Class DCY_Endogravity : DCY_Weapon
 	}
 	Loop;
   Fire:
+  Denied:
+	TNT1 A 1 A_StartSound("Endogravity/Error", CHAN_WEAPON);
+	TNT1 AAAAAAAAAAAAAAAA 1 A_WeaponOffset(frandom(-1, 1), frandom(-1, 1) + 32, WOF_INTERPOLATE);
+	TNT1 A 5;
 	Goto Ready;
   AltFire:
 	TNT1 A 1 A_Overlay(5, "OverlayIdle");
@@ -158,8 +162,8 @@ Class DCY_EndogravityTrail : Actor
 {
   override void PostBeginPlay()
   {
-	A_SpawnParticleEx(0x60f542, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 7, random(35, 40), 0, sizestep: 0.75);
-	A_SpawnParticleEx(0x37ad1f, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 40, random(15, 25), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), sizestep: 1.25, startroll: frandom(0, 360), rollvel: frandom(-7, 7));
+	A_SpawnParticleEx(0x60f542, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 7, random(15, 20), 0, sizestep: 0.75);
+	A_SpawnParticleEx(0x37ad1f, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 40, random(10, 20), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), sizestep: 1.05, startroll: frandom(0, 360), rollvel: frandom(-7, 7));
 	if (!random(0, 7)) A_SpawnParticleEx(0x37ad1f, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, random(30, 70), random(1, 9), 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.2, 0.2), frandom(-0.2, 0.2), frandom(-0.2, 0.2), fadestepf: 0, sizestep: -0.075);	
 	Destroy();
 	return;
