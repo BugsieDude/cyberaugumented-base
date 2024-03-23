@@ -274,8 +274,8 @@ Class DCY_Ordnance : DCY_Weapon
   NormalFire:
 	TNT1 A 28
 	{
-		A_StartSound("Ordnance/Super", 11, 0.65, pitch: 1.35);
-		A_StartSound("Ordnance/Charge", 12, 0.35, pitch: 1);
+		A_StartSound("Ordnance/Super", 11, volume: 0.65, pitch: 1.35);
+		A_StartSound("Ordnance/Charge", 12, volume: 0.4, pitch: 1);
 		A_Overlay(5, "OverlayCharge");
 		A_Overlay(60, "OverlayStartup2");
 		A_OverlayFlags(60, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
