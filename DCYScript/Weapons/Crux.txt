@@ -331,7 +331,7 @@ Class DCY_CruxCore : DCY_PProjectile
 						if (!(a is "PlayerPawn"))
 						{
 							a.DamageMobj(self, self, int(ceil((((a.bBOSS && distance3D(a) < 1000) ? 2 : 1) * (2000 - distance3D(a))))), "Plasma", DMG_FORCED|DMG_PLAYERATTACK|DMG_THRUSTLESS);
-							a.Vel3DFromAngle((rad / 2) / (a.Mass / (a.Mass / 4)), self.AngleTo(a), self.PitchTo(a));
+							a.Vel3DFromAngle((rad / 2) / min(1, (a.Mass / (a.Mass / 4))), self.AngleTo(a), self.PitchTo(a));
 							if (a.GetMaxHealth() < 2500) a.vel.z += (rad / 6) / ((a.Mass > 600) ? 2.5 : 1);
 							a.vel.z = clamp(a.vel.z, -35, 35);
 						}

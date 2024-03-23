@@ -301,7 +301,7 @@ Class CyberaugumentedProtagonist : PlayerPawn
   Player.WeaponSlot 5, "DCY_Legionnaire", "DCY_Intervention";
   Player.WeaponSlot 6, "DCY_EnergyExtravasation", "DCY_MesonDischarge";
   Player.WeaponSlot 7, "DCY_PhotonCrux", "DCY_Liquidation";
-  Player.WeaponSlot 8, "DCY_Oxidation";
+  Player.WeaponSlot 8, "DCY_Endogravity", "DCY_Oxidation", "DCY_Ordnance";
   PainSound "dcyprotag/pain";
   TeleFogSourceType "DCY_PlayerSourceTeleport";
   TeleFogDestType "DCY_PlayerTeleport";

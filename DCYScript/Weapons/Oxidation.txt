@@ -10,7 +10,7 @@ Class DCY_Oxidation : DCY_Weapon
 	Weapon.AmmoType "DCY_Battery";
 	Obituary "%o is now oxidified by %k.";
 	Inventory.PickupSound "dcy/plasmariflepickup";
-	Inventory.PickupMessage "Caught the 'Oxidation' - Oxidified Plasma Generator! ...It's just a plasmatic flare gun, but what else can be added? It's the fourth state of matter--plasma.";
+	Inventory.PickupMessage "Caught the 'Oxidation' - Oxidified Plasma Generator! ...It's just a plasmatic flare gun, but what else can be added? It's the fourth state of matter--plasma.";
   }
   
   int overheat;
@@ -139,7 +139,11 @@ Class DCY_Oxidation : DCY_Weapon
 	}
 	Stop;
   OverlayMuzzle:
-	F9L_ CEG 1 Bright DCY_HandleScale(OverlayID());
+	F9L_ CEG 1 Bright
+	{
+		A_OverlayRotate(OverlayID(), frandom(0, 360));
+		DCY_HandleScale(OverlayID());
+	}
 	Stop;
   OverlayIntPower:
 	TNT1 A 10 Bright

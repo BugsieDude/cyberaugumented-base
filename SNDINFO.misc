@@ -27,7 +27,10 @@ Announce/Complete "DCYSounds/Announcements/dcy_complete.ogg"
 Announce/CompletionistReward "DCYSounds/Announcements/dcy_achievement2.ogg"
 dcy/mapdone "DCYSounds/Announcements/dcy_winwin.ogg"
 dcy/fail "DCYSounds/Announcements/dcy_youfuckedup.ogg"
-dcy/allover "DCYSounds/Announcements/dcy_over.ogg"
+$random dcy/allover { dcy/over1 dcy/over2 dcy/over3 }
+dcy/over1 "DCYSounds/Announcements/dcy_over.ogg"
+dcy/over2 "DCYSounds/Announcements/dcy_over2.ogg"
+dcy/over3 "DCYSounds/Announcements/dcy_over3.ogg"
 
 //Switches
 SW1TCHA "DCYSounds/Enviroment/Switches/dcy_switch_a.ogg"

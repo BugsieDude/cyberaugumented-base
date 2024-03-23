@@ -146,3 +146,5 @@ dcy/plasmariflepickup "DCYSounds/Weapons/Pickups/dcy_pickup_plasma.wav"
 dcy/bigfuckinggunpickup "DCYSounds/Weapons/Pickups/dcy_pickup_bfg.ogg"
 
 dcy/visor "DCYSounds/Inventory/dcy_visor.ogg"
+
+dcy/suddenflash "DCYSounds/Inventory/dcy_sudden_flash.ogg"
