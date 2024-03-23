@@ -1,4 +1,3 @@
-//Option menu with tooltips by Marisa (SWWM GZ)
 Class DCY_Tooltip : OptionMenu
 {
 	private String ttip, olttip;

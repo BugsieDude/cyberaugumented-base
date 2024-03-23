@@ -39,6 +39,9 @@ server bool dcy_completionist = true;
 server int dcy_liquids = 1;
 noarchive nosave server int dcy_intermissioncut = 0;
 
+server bool dcy_cutscenes = true;
 server bool dcy_wolfensteincutscene = true;
 
 server bool dcy_props = true;
+
+server bool dcy_audiblemonsternotif = true;

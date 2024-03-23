@@ -1,0 +1,42 @@
+Class DCY_CutsceneManager : EventHandler
+{
+	bool tboss;
+	int mc, tm, timer_boss, t2;
+	
+	override void WorldUnloaded(WorldEvent e)
+	{
+		tboss = false;
+		timer_boss = 0;
+	}
+	
+	void BossTrack()
+	{
+		let d = CA_Variables.Get();
+		
+		if (++timer_boss >= 15)
+		{
+			mc = level.killed_monsters;
+			tm = level.total_monsters;
+			
+			if (mc < 300) return;
+			if (!tm && !tboss) return;
+			if (dcy_audiblemonsternotif && t2 <= 101)
+			{
+				if (mc >= tm && !tboss)
+				{
+					if (t2 > 100)
+					{
+						S_StartSound("dcy/relief", 60, CHANF_UI, 1, 0);
+						tboss = true;
+					}
+				}
+			}
+			t2++;
+		}
+	}
+	
+	override void WorldTick()
+	{
+		BossTrack();
+	}
+}

@@ -20,15 +20,15 @@ Class CyberaugumentedProtagonist : PlayerPawn
     int dmg = super.DamageMobj(inflictor, source, damage, mod, flags, angle);
 	
 	//Sound is based off the amount of damage the player takes
-    if (dmg > 150)
+    if (dmg > 60)
         painsound = "dcyprotag/painmassive";
-	else if (dmg > 90)
+	else if (dmg > 40)
         painsound = "dcyprotag/painhuge";
-	else if (dmg > 25)
+	else if (dmg > 18)
         painsound = "dcyprotag/painbig";
-	else if (dmg > 15)
+	else if (dmg > 12)
         painsound = "dcyprotag/pain";
-    else if (dmg > 10)
+    else if (dmg > 9)
         painsound = "dcyprotag/painsmall";
     else if (dmg > 5)
         painsound = "dcyprotag/paintiny";

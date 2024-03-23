@@ -34,9 +34,11 @@ version "4.10.0"
 #include "DCYScript/Events/PlayerMovement.txt"
 #include "DCYScript/Events/DeathExit.txt"
 #include "DCYScript/Events/Enemies.txt"
+#include "DCYScript/Events/Cutscenes.txt"
 
 //Menus
 #include "DCYScript/Menus/intermission.txt"
+#include "DCYScript/Menus/mainmenu.txt"
 #include "DCYScript/Menus/messagemenu.txt"
 #include "DCYScript/Menus/tooltips.txt"
 

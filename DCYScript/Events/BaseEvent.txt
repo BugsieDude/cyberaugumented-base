@@ -27,8 +27,10 @@ CLASS CyberaugumentedEventHandler : EventHandler
   override void WorldTick()
   {
 	Tracker();
+	
 	if(liquidtex != dcy_liquids) DCY_ReplaceLiquidTextures();
 	liquidtex = dcy_liquids;
+	
 	if ((level.time > 20) && restartmus) { S_ChangeMusic("*"); restartmus = false; }
   }
   

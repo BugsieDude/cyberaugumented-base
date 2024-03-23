@@ -21,7 +21,11 @@ dcy/deadlydejavu "DCYSounds/Announcements/dcy_flashback_chillax.ogg"
 dcy/decimalerror "DCYSounds/Announcements/dcy_havoc_map.ogg"
 dcy/wakeup "DCYSounds/Announcements/dcy_wakeup.ogg"
 dcy/peace "DCYSounds/Announcements/dcy_peaceful.ogg"
-dcy/relief "DCYSounds/Announcements/dcy_relief.ogg"
+$random dcy/relief { dcy/relief1 dcy/allbossesdefeated1 dcy/allbossesdefeated2 }
+dcy/relief1 "DCYSounds/Announcements/dcy_relief_short.ogg"
+dcy/allbossesdefeated1 "DCYSounds/Announcements/dcy_allbossesdefeated.ogg"
+dcy/allbossesdefeated2 "DCYSounds/Announcements/dcy_allbossesdefeated2.ogg"
+$pitchshift dcy/relief 0
 
 //yay you did something
 Announce/Complete "DCYSounds/Announcements/dcy_complete.ogg"

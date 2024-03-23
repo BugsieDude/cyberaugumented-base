@@ -46,6 +46,7 @@ extend class CyberaugumentedEventHandler
 			case 'monster': s = "All entities are eliminated."; sd = "dcy/mapdone"; break;
 			case 'items': s = "Collected everything that was left."; sd = "Announce/Complete"; break;
 			case 'secrets': s = "Everything's discovered."; sd = "Announce/Complete"; break;
+			case 'nevermind': s = "OH SHIT, NEVERMIND THEN"; sd = "dcy/fail"; break;
 		}
 		
 		S_StartSound(sd, 58, CHANF_UI, 1, 0);

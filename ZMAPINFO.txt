@@ -13,7 +13,7 @@ gameinfo
 	cursorpic = "DCYC0RSU"
 	statscreen_single = "DCY_Intermission"
 	messageboxclass = "DCY_MessageBox"
-	addeventhandlers = "CyberaugumentedEventHandler", "DCY_Interceptor", "CyberaugumentedStartupHandler", "PlayerControlsDCY", "DCY_HudMessageHandler"
+	addeventhandlers = "CyberaugumentedEventHandler", "DCY_Interceptor", "CyberaugumentedStartupHandler", "PlayerControlsDCY", "DCY_HudMessageHandler", "DCY_CutsceneManager"
 	StatusBarClass = "DCyb_HUD"
 	BackpackType = "DCY_Backpack"
 	playerclasses = "CyberaugumentedProtagonist"

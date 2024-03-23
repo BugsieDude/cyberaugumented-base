@@ -103,3 +103,6 @@ TIP_CL_DCY_HUDINFO = "Shows extra things such as kills, items, and secrets.";
 TIP_CL_DCY_HUDTIME = "The clock starts to tick. Shows time during levels.";
 TIP_CL_DCY_HUDTOTALTIME = "Oh hey, you can see how farther you have progressed.";
 TIP_CL_DCY_POSITION = "Shows your exact location for no reason.";
+
+TIP_DCY_AUDIBLEMONSTERNOTIF = "Plays a relieving tune when every monster is killed, specifically on maps with a bunch of demons. Gives you a feeling that you fought well.";
+TIP_DCY_CUTSCENES = "Enables/disables cutscenes. Cutscenes like the Wolfenstein entrance or the flashback is pretty self-explanatory.";

@@ -43,14 +43,8 @@ LISTMENU "MainMenu"
 
 OptionValue "DisableEnableAnnounce"
 {
-  0, "Announce"
+  0, "Show Stuff"
   1, "Stay Silent"
-}
-
-OptionValue "BossPiano"
-{
-  0, "Silence"
-  1, "Play"
 }
 
 OptionValue "EnableDisable2"
@@ -59,16 +53,10 @@ OptionValue "EnableDisable2"
   1, "On"
 }
 
-OptionValue "YesNoIOS"
+OptionValue "ReliefYN"
 {
-  0, "Vanilla"
-  1, "Cyberaugumented"
-}
-
-OptionValue "EnemySpawnYN"
-{
-  0, "Normal"
-  1, "Vanilla Tier"
+  0, "Mute"
+  1, "Sounds my beloved"
 }
 
 OptionValue "AestheticYN"
@@ -86,19 +74,7 @@ OptionValue "Scienceyn"
   4, "Scientific Name only (Except for humans)"
 }
 
-OptionValue "DisableEnableAnnounce2"
-{
-  0, "Distance-based"
-  1, "Instant"
-}
-
 AddOptionMenu "OptionsMenu"
-{
-	StaticText " "
-	Submenu "DCY", "DCYModOptionsMenu"
-}
-
-AddOptionMenu "OptionsMenuSimple"
 {
 	StaticText " "
 	Submenu "DCY", "DCYModOptionsMenu"
@@ -127,10 +103,14 @@ OptionMenu "DCYModOptionsMenu"
 	StaticText ""
 	Option "Liquid Prospect", "dcy_liquids", "LiquidChanger"
 	StaticText ""
-	Option "Let there be bloodshed", "dcy_gibbing", "EnableDisable2"
-	Slider "Gib Fading Time", "dcy_gibtime", 20, 2000, 1
+	StaticText "Options that MAY conflict with Cyberaugmented Squad", "v2"
+	StaticText "If both options are used together in both of the mods, unexpected(?) results may occur.", "m3"
+	StaticText "You can disable the same options in either of the Cyberaugmented mods.", "m3"
 	StaticText ""
+	Option "Slightly Cinematic", "dcy_cutscenes", "DisableEnableAnnounce"
 	Option "Get Psyched!", "dcy_wolfensteincutscene", "DCY_GPOption"
+	StaticText ""
+	Option "Relieving Tune", "dcy_audiblemonsternotif", "ReliefYN"
 }
 
 
