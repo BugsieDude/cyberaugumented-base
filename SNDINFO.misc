@@ -21,6 +21,7 @@ dcy/deadlydejavu "DCYSounds/Announcements/dcy_flashback_chillax.ogg"
 dcy/decimalerror "DCYSounds/Announcements/dcy_havoc_map.ogg"
 dcy/wakeup "DCYSounds/Announcements/dcy_wakeup.ogg"
 dcy/peace "DCYSounds/Announcements/dcy_peaceful.ogg"
+dcy/relief "DCYSounds/Announcements/dcy_relief.ogg"
 
 //yay you did something
 Announce/Complete "DCYSounds/Announcements/dcy_complete.ogg"

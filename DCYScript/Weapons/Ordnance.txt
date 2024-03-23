@@ -1,15 +1,49 @@
+Class DCY_OrdnanceSpawnInit : Actor
+{
+	static const string VanillaWeps[] =
+	{
+		"DCY_EnergyExtravasation",
+		"DCY_MesonDischarge",
+		"DCY_Caduceus",
+		"DCY_Oxidation"
+	};
+	
+	override void PostBeginPlay()
+	{
+		let wep = spawn(vanillaweps[random(0, vanillaweps.Size() - 1)], vec3offset(0, 0, 0));
+		let ord = spawn("DCY_OrdnanceSpawn", vec3offset(0, 0, 0));
+		destroy();
+		return;
+	}
+}
+
+Class DCY_OrdnanceSpawnInitBFG : DCY_OrdnanceSpawnInit
+{
+	static const string BFGWeps[] =
+	{
+		"DCY_PhotonCrux",
+		"DCY_Liquidation"
+	};
+	
+	override void PostBeginPlay()
+	{
+		let wep = spawn(BFGWeps[random(0, BFGWeps.Size() - 1)], vec3offset(0, 0, 0));
+		let ord = spawn("DCY_OrdnanceSpawn", vec3offset(0, 0, 0));
+		destroy();
+		return;
+	}
+}
+
 Class DCY_OrdnanceSpawn : Actor
 {
 	Default
 	{
-		Radius 0;
-		Height 0;
+		Radius 10;
+		Height 10;
 		Monster;
 		+THRUACTORS
 		-COUNTKILL
-		-SOLID
 		-SHOOTABLE
-		Speed 10;
 	}
 	
 	void Wandering()
@@ -22,6 +56,8 @@ Class DCY_OrdnanceSpawn : Actor
 	States
 	{
 	Spawn:
+		TNT1 A 10;
+	Idle:
 		TNT1 A 1
 		{
 			Wandering();
@@ -46,23 +82,33 @@ Class DCY_OrdnanceSpawn : Actor
 			if (!random(0, 8)) A_SpawnItemEx("DCY_CinerealBinary", frandom(-100, 100), frandom(-100, 100), frandom(10, 40), flags: SXF_NOCHECKPOSITION);
 			A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(80, 155), frandom(100, 180), 0, frandom(-70, 70), frandom(-70, 70), frandom(-70, 70), velx: frandom(-2, 2), vely: frandom(-2, 2), velz: frandom(0.5, 2), startalphaf: frandom(.1, .3), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-3, 3));
 		}
-		TNT1 A 50
+		TNT1 A 1
 		{
 			A_QuakeEx(1, 1, 1, 45, 0, 500, "none", QF_SCALEDOWN|QF_3D);
 			for (int i = random(15, 20); i > 0; i--) A_SpawnItemEx("DCY_CinerealHeavyBinary", frandom(-20, 20), frandom(-20, 20), frandom(0, 30), frandom(-4, 4), frandom(-4, 4), frandom(2, -2), flags: SXF_NOCHECKPOSITION);
-			for (int i = 0; i < 360; i += random(20, 40)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(90, 135), frandom(100, 180), i, zoff: 20, velx: frandom(-0.5, 0.5) + frandom(2, 3.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-2, 2));
+			A_SpawnItemEx("DCY_CinerealOrbit", flags: SXF_NOCHECKPOSITION);
+			A_SpawnItemEx("DCY_CinerealCircle", flags: SXF_NOCHECKPOSITION);
+			A_SpawnItemEx("DCY_CinerealCircle2", flags: SXF_NOCHECKPOSITION);
+			A_SpawnParticleEx("cccccc", TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 50, 650, startalphaf: 1, sizestep: -50, startroll: frandom(0, 360), rollvel: frandom(-5, 5));
+			for (int i = 0; i < 360; i += random(20, 40)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(90, 135), frandom(150, 200), i, zoff: 20, velx: frandom(-0.5, 0.5) + frandom(2.5, 3.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-2, 2));
 			for (int i = 0; i < 360; i += random(30, 60)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(280, 435), frandom(100, 180), i, frandom(-70, 70), frandom(-70, 70), frandom(-70, 70), velx: frandom(-0.5, 0.5) + frandom(0, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), startalphaf: frandom(.3, .6), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-1, 1));
-			A_StartSound("LIGTPKP2", 10, CHANF_OVERLAP, volume: 0.925, attenuation: .4, pitch: 0.4);
-			A_StartSound("LIGTPKP2", 10, CHANF_OVERLAP, volume: 0.725, attenuation: .4, pitch: 0.2);
-			A_StartSound("dcy/suddenflash", 10, CHANF_OVERLAP, volume: 0.85, attenuation: .4, pitch: 0.775);
-			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .4, pitch: 0.45);
+			A_StartSound("LIGTPKP2", 10, CHANF_OVERLAP, volume: 0.825, attenuation: .4, pitch: 0.4);
+			A_StartSound("LIGTPKP2", 10, CHANF_OVERLAP, volume: 0.625, attenuation: .4, pitch: 0.3);
+			A_StartSound("dcy/suddenflash", 10, CHANF_OVERLAP, volume: 0.8, attenuation: .3, pitch: 0.9);
+			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.75);
+			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.75);
 			A_StartSound("Ordnance/Super", 10, CHANF_OVERLAP, volume: 0.5, attenuation: .4, pitch: 0.7);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .4, pitch: 0.75);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .4, pitch: 0.4);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .4, pitch: 0.2);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.7);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.4);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.2);
 			A_SpawnItemEx("DCY_Ordnance", flags: SXF_SETMASTER);
 		}
-		Stop;
+		TNT1 A random(2, 1)
+		{
+			A_FadeOut(0.005);
+			if (!random(0, 7)) A_SpawnItemEx("DCY_CinerealLongBinary", frandom(-150, 150), frandom(-150, 150), frandom(-50, 50), zvel: 5.5 * randompick(1, 1, -1), flags: SXF_NOCHECKPOSITION);
+		}
+		Wait;
 	}
 }
 
@@ -295,12 +341,13 @@ Class DCY_CinerealBall : DCY_PProjectile
 {
 	Default
 	{
-		Damage 40;
+		Damage 55;
 		DamageType "Holy";
 		+SEEKERMISSILE
 		+NOEXTREMEDEATH
 		+ROLLSPRITE
 		+ROLLCENTER
+		+BRIGHT
 		Radius 7;
 		Height 7;
 		Speed 15;
@@ -370,22 +417,137 @@ Class DCY_CinerealBinary : Actor
 
 Class DCY_CinerealHeavyBinary : DCY_CinerealBinary
 {
-	Default
-	{
-		+NOINTERACTION
-		-SOLID
-		+BRIGHT
-		RenderStyle "Add";
-		Scale 1.6;
-	}
+	Default { Scale 1.6; }
 	
 	States
 	{
-	LoadSprites:
-		0RD4 AB 0;
 	Spawn:
 		0RD4 # 0 NoDelay { frame = random(0, 1); alpha = frandom(0.5, 1); }
 		0RD4 # 1 { if (!random(0, 4)) frame = random(0, 1); vel.z += 0.1; A_FadeOut(0.025); A_SpawnItemEx("DCY_BaseTrail2", flags: SXF_TRANSFERSCALE|SXF_TRANSFERSPRITEFRAME|SXF_TRANSFERTRANSLATION|SXF_TRANSFERRENDERSTYLE); }
 		Wait;
+	}
+}
+
+Class DCY_CinerealLongBinary : DCY_CinerealBinary
+{
+	Default { Alpha 1; }
+	
+	int timer;
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		timer = random(3, 12);
+	}
+	
+	States
+	{
+	Spawn:
+		TNT1 A 2
+		{
+			let fx = Spawn("DCY_CinerealLongBinaryFX", Vec3Offset(0,0,0));
+			if (--timer <= 0)
+			{
+				Destroy();
+				return;
+			}
+		}
+		Loop;
+	}
+}
+
+Class DCY_CinerealLongBinaryFX : DCY_CinerealBinary
+{
+	Default { Scale 1.6; }
+	
+	States
+	{
+	Spawn:
+		0RD4 # 0 NoDelay { frame = random(0, 1); }
+		0RD4 ######### 1 { if (!random(0, 4)) frame = random(0, 1); }
+		0RD4 # 1 { if (!random(0, 4)) frame = random(0, 1); A_FadeOut(0.1); }
+		Wait;
+	}
+}
+
+Class DCY_CinerealOrbit : DCY_CinerealBinary
+{
+	Default
+	{
+		YScale 300;
+		XScale 3;
+		Alpha 0.2;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if (!level.isFrozen()) scale.x += 0.1;
+	}
+	
+	States
+	{
+	Spawn:
+		L2ZO AAAA 1 A_FadeIn(0.2);
+		L2ZO A 3;
+		L2ZO A 1 A_FadeOut(0.075);
+		Wait;
+	}
+}
+
+Class DCY_CinerealCircle : DCY_CinerealBinary
+{
+	Default
+	{
+		Scale 0.1;
+		Alpha 0.1;
+		+FLATSPRITE
+	}
+	
+	float rollf;
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		rollf = frandom(-3, 3);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if (!level.isFrozen())
+		{
+			scale.x += 0.045;
+			scale.y = scale.x;
+			angle += rollf;
+		}
+	}
+	
+	States
+	{
+	Spawn:
+		SPE2 FFFFF 1 A_FadeIn(0.2);
+		SPE2 F 1 A_FadeOut(0.025);
+		Wait;
+	}
+}
+
+Class DCY_CinerealCircle2 : DCY_CinerealBinary
+{
+	Default
+	{
+		Scale 1.65;
+		Alpha 0.9;
+		+FLATSPRITE
+	}
+	
+	States
+	{
+	Spawn:
+		C28Y A 0 NoDelay { angle = random(0, 360); }
+		C28Y ABCDEFGHIJKLMNOPQ 1;
+		Stop;
 	}
 }

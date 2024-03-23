@@ -18,6 +18,34 @@ Class DCY_KeyBase : Key abstract
 	}
   }
   
+  static const string diskmessages[] =
+  {
+		"Nice floppy disk.",
+		"Is there any data inside of this thing?",
+		"Oh my fuck.",
+		"Holy shit.",
+		"There it is! Finally!",
+		"Do you love disks?",
+		"Do you miss disks?",
+		"Now I can access areas I've never seen before. ...I'm Captain Obvious.",
+		"Fascinating already.",
+		"How much space does it have?"
+  };
+  
+  static const string soulmessages[] =
+  {
+		"Nice container.",
+		"The hell does it contain? No one knows.",
+		"Impressed by its technology.",
+		"Oh shit.",
+		"Holy shit.",
+		"There it is! Finally!",
+		"The hell is that.",
+		"Look at this.",
+		"Now I can access areas I've never seen before. ...I'm Captain Obvious.",
+		"Magnificent."
+  };
+	
   override bool TryPickup(in out Actor toucher)
   {
 	s = species;
@@ -32,7 +60,8 @@ Class DCY_KeyBase : Key abstract
 		toucher.S_StartSound(snd, 1280, CHANF_UI);
 		DCY_HudMessageFade.Show(toucher.PlayerNumber(), type.." Data: ".."\c["..clr.."]"..nme, 2222, (320, 135), 30, 6, 6, 1, DCY_HudMessage.AlignCenter, fnt: "SMALLFONT", screensize:(640, 360));
 		DCY_HudMessageFade.Show(toucher.PlayerNumber(), "A", 2223, (320, 8.175), 30, 6, 6, 0, DCY_HudMessage.AlignCenter, fnt: "DCY_BAR9", screensize:(640, 22));
-	
+		DCY_HudMessageFade.Show(toucher.PlayerNumber(), (!random(0, 1)) ? ((species == "RedSkull" || species == "BlueSkull" || species == "YellowSkull") ? soulmessages[random(0, soulmessages.Size() - 1)] : diskmessages[random(0, diskmessages.Size() - 1)]) : "", 2224, (320, 150), 30, 6, 6, 1, DCY_HudMessage.AlignCenter, fnt: "TINYDCYFONT", screensize:(640, 360));
+		
 		//DCY_notHudMessageHandler.PlainMsg("SMALLFONT", type.." Transfer: ".."\c["..clr.."]"..nme, (240, 135), (480, 360), color: Font.CR_UNTRANSLATED, time: (0.1, 3, 0.1), id: 2222);
 		//DCY_notHudMessageHandler.PlainMsg("DCY_NON3", "AAAAAAAAAAAA", (80, 1500), (160, 4000), time: (0.1, 3, 0.1), id: 2223);
 	}
