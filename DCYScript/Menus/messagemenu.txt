@@ -15,7 +15,7 @@ Class DCY_MessageBox : MessageBoxMenu
 		if (message == "lmfao")
 		{
 			isQuitScreen = true;
-			n = random(1, 21);
+			n = random(1, 22);
 			slightly_art = Texman.CheckForTexture("graphics/quit/msg_dcy_quitmsg"..n..".png");
 			msg = textFont.BreakLines(StringTable.Localize(string.Format("$DCY_QUITMSG"..n)), int(300/NotifyFontScale));
 			my = Stringtable.Localize("$DCY_QUIT");
