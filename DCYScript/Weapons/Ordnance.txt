@@ -94,15 +94,13 @@ Class DCY_OrdnanceSpawn : Actor
 			A_SpawnParticleEx("cccccc", TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 50, 650, startalphaf: 1, sizestep: -50, startroll: frandom(0, 360), rollvel: frandom(-5, 5));
 			for (int i = 0; i < 360; i += random(20, 40)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(90, 135), frandom(150, 200), i, zoff: 20, velx: frandom(-0.5, 0.5) + frandom(2.5, 3.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-2, 2));
 			for (int i = 0; i < 360; i += random(30, 60)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(280, 435), frandom(100, 180), i, frandom(-70, 70), frandom(-70, 70), frandom(-70, 70), velx: frandom(-0.5, 0.5) + frandom(0, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), startalphaf: frandom(.3, .6), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-1, 1));
-			A_StartSound("LIGTPKP2", 10, CHANF_OVERLAP, volume: 0.825, attenuation: .4, pitch: 0.4);
-			A_StartSound("LIGTPKP2", 10, CHANF_OVERLAP, volume: 0.625, attenuation: .4, pitch: 0.3);
-			A_StartSound("dcy/suddenflash", 10, CHANF_OVERLAP, volume: 0.8, attenuation: .3, pitch: 0.9);
-			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.75);
-			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.75);
-			A_StartSound("Ordnance/Super", 10, CHANF_OVERLAP, volume: 0.5, attenuation: .4, pitch: 0.7);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.7);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.4);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.2);
+			A_StartSound("dcy/suddenflash", 10, CHANF_OVERLAP, volume: 0.5, attenuation: .3, pitch: 0.95);
+			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.85);
+			A_StartSound("Ordnance/BeamAdd", 10, CHANF_OVERLAP, volume: 0.85, attenuation: .4, pitch: 0.7);
+			A_StartSound("Ordnance/BeamAdd", 10, CHANF_OVERLAP, volume: 0.85, attenuation: .4, pitch: 0.5);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.75);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.45);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 1.2);
 			A_SpawnItemEx("DCY_Ordnance", flags: SXF_SETMASTER);
 		}
 		TNT1 A random(2, 1)
