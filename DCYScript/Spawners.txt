@@ -26,7 +26,7 @@ Class DCY_BlurReplacer : RandomSpawner
 	DropItem "DCY_Crosscut", 255, 30;
 	DropItem "DCY_RazeHexahedron", 255, 15;
 	DropItem "DCY_Barricade", 255, 15;
-	DropItem "DCY_Lifeline", 255, 12;
+	DropItem "DCY_Lifeline", 255, 15;
   }
 }
 
