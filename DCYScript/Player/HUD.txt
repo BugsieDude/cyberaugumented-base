@@ -258,7 +258,7 @@ Class DCyb_HUD : BaseStatusBar
 		if (item != null) 
 		{
 			DrawString(dcyb_font3, item.GetTag(), apos, DI_TEXT_ALIGN_LEFT, alpha: 0.5);
-			DrawString(dcyb_font3, string.format("%i", 1 + thinker.Tics2Seconds(item.EffectTics)), apos + (powfnt.StringWidth(item.GetTag()) + 6, 0), DI_TEXT_ALIGN_LEFT, alpha: 0.5);
+			DrawString(dcyb_font3, (item.EffectTics >= 99999999) ? "Infinite" : string.format("%i", 1 + thinker.Tics2Seconds(item.EffectTics)), apos + (powfnt.StringWidth(item.GetTag()) + 6, 0), DI_TEXT_ALIGN_LEFT, alpha: 0.5);
 			
 			apos.y += 9;
 		}

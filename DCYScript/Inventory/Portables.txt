@@ -467,3 +467,114 @@ Class DCY_RazeSquare : DCY_BaseTrail
 		Loop;
 	}
 }
+
+Class DCY_Lifeline : DCY_InvItem
+{
+  Default
+  {
+  Inventory.PickupMessage "An orb filled with a serene aura. Makes you want to feel alive again amidst this abysmal life.";
+  Inventory.PickupSound "CSALVA1";
+  Inventory.Amount 1;
+  Inventory.MaxAmount 1;
+  Scale 1.15;
+  Tag "Lifeline";
+  Inventory.Icon "_407E0";
+  FloatBobStrength 0.2;
+  +FLOATBOB
+  +BRIGHT
+  +INVENTORY.AUTOACTIVATE
+  }
+  
+  override void Tick()
+  {
+	super.Tick();
+	
+	if (DCY_EffectDistance(1000) && !level.isFrozen() && !(GetAge() % 2) &&  sprite == GetSpriteIndex("_407"))
+	{
+		A_SpawnParticleEx(0x2a2d3b, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(70, 120), 120, 0, frandom(40, -40), frandom(-40, 40), frandom(-20, 20), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(0.1, 1), startalphaf: frandom(.3, .6), sizestep: 0.5, startroll: frandom(0, 360), rollvel: random(-1, 1) ? 0.5 : -0.5);
+		A_SpawnItemEx("DCY_BaseTrail", flags: SXF_TRANSFERSTENCILCOL|SXF_NOCHECKPOSITION|SXF_TRANSFERSPRITEFRAME|SXF_TRANSFERSCALE);
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	_407 AAAABBBBCCCCDDDD 1;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.A_SetBlend("White", 0.85, 30, "2a2d3b");
+	Owner.A_GiveInventory("DCY_LifelinePersistent", 1);
+	A_RuneEffect("2a2d3b");
+	return true;
+  }
+  
+  override bool TryPickup(in out actor toucher)
+  {
+	if(toucher.CountInv("DCY_LifelinePersistent")) return false;
+	else return Super.TryPickup(toucher);
+  }
+}
+
+Class DCY_LifelineTele : ArtiTeleport
+{
+	Default
+	{
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+	}
+}
+
+Class DCY_LifelinePersistent : PowerBuddha
+{
+	Default
+	{
+		Powerup.Duration 0x7fffffd;
+		Tag "\c[w3]Lifeline";
+		+INVENTORY.PERSISTENTPOWER;
+	}
+	
+	override void DoEffect()
+	{
+		if (!owner) return;
+		super.DoEffect();
+		
+		if (owner.health == 1)
+		{
+			owner.GiveInventory("DCY_LifelineTele", 1);
+			owner.GiveInventory("DCY_LifelineInvul", 1);
+			
+			ThinkerIterator t = ThinkerIterator.Create("Actor");
+			actor m;
+			
+			while (m = Actor(t.Next()))
+			{
+				if (m != self && m.Distance3D(self) <= 300) m.A_StopSounds(0, 555);
+				if (m is 'DCY_ETeleportation') m.Destroy();
+			}
+			
+			owner.A_StopSounds(0, 400);
+			owner.SetStateLabel("Spawn");
+			owner.A_SetBlend("ffffff", 1.0, 180, "2a2d3b");
+			owner.A_StartSound("CSALVA2", 500, CHANF_UI);
+			owner.GiveBody(100, 0);
+			destroy();
+			return;
+		}
+	}
+}
+
+Class DCY_LifelineInvul : PowerupGiver
+{
+	Default
+	{
+		Powerup.Duration -8;
+		Powerup.Type "DCY_LifelineInvul2";
+		+INVENTORY.AUTOACTIVATE;
+		+INVENTORY.ALWAYSPICKUP;
+	}
+}
+
+Class DCY_LifelineInvul2 : PowerInvulnerable { Default { Tag "\c[w3]I'm alive?"; } }
