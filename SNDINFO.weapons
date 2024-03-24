@@ -115,6 +115,11 @@ Ordnance/Super "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_superchar
 Ordnance/Up "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_up.ogg"
 Ordnance/Whiz "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_whiz.ogg"
 Ordnance/Zap "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_zap.ogg"
+Ordnance/Distort "Sounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_distort.ogg"
+Ordnance/DistortAdd "Sounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_distort_add.ogg"
+Ordnance/DistortAdd2 "Sounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_distort_add2.ogg"
+Ordnance/DistortLoop "Sounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_distort_loop.ogg"
+Ordnance/Time "Sounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_timedistort.ogg"
 
 Endogravity/Add "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_add.ogg"
 Endogravity/Error "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_denied.ogg"

@@ -536,6 +536,8 @@ Class DCY_LifelinePersistent : PowerBuddha
 		+INVENTORY.PERSISTENTPOWER;
 	}
 	
+	vector3 oldpos;
+	
 	override void DoEffect()
 	{
 		if (!owner) return;
@@ -543,6 +545,7 @@ Class DCY_LifelinePersistent : PowerBuddha
 		
 		if (owner.health == 1)
 		{
+			owner.spawn("DCY_LifelineRemover", Vec3Offset(oldpos.x, oldpos.y, oldpos.z));
 			owner.GiveInventory("DCY_LifelineTele", 1);
 			owner.GiveInventory("DCY_LifelineInvul", 1);
 			
@@ -563,6 +566,7 @@ Class DCY_LifelinePersistent : PowerBuddha
 			destroy();
 			return;
 		}
+		else oldpos = owner.pos;
 	}
 }
 
@@ -578,3 +582,26 @@ Class DCY_LifelineInvul : PowerupGiver
 }
 
 Class DCY_LifelineInvul2 : PowerInvulnerable { Default { Tag "\c[w3]I'm alive?"; } }
+
+Class DCY_LifelineRemover : Actor
+{
+	override void PostBeginPlay()
+	{
+		BlockThingsIterator ti = BlockThingsIterator.Create(self, 2000);
+		actor a;
+		
+		while(ti.Next())
+		{
+			a = ti.thing;
+			double rad = abs((2000 - Distance3D(a)) / 2);
+			if (a && a.Health > 0 && a.bSHOOTABLE && a.bISMONSTER && !a.bINVULNERABLE && !a.bDORMANT && !a.bNODAMAGE && CheckSight(a) && distance3D(a) < 500)
+			{
+				if (!(a is "PlayerPawn"))
+					a.DamageMobj(self, self, 500, "Normal", DMG_PLAYERATTACK|DMG_THRUSTLESS);
+			}
+		}
+	
+		Destroy();
+		return;
+	}
+}
