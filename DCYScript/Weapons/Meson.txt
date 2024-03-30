@@ -46,7 +46,6 @@ Class DCY_MesonDischarge : DCY_Weapon
 	
 	DCY_Beam("ff680a", 1, 8, 0, true, 0.2);
 	DCY_Beam("a84311", frandom(.5, 1), 11, 0, true, 0.1);
-	DCY_Beam("a84311", .2, 11, 0, true, 0.025);
 	
 	for (int i = 0; i < d.distance - 11; i += 11)
 	{
