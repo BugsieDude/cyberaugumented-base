@@ -47,12 +47,9 @@ Class DCY_Caduceus : DCY_Weapon
 		if (h && h.bSHOOTABLE && h.Health > 0)
 			h.DamageMobj(self, invoker.owner, random(40, 80), "Plasma", DMG_FORCED|DMG_PLAYERATTACK);
 	}
-		
-	for (int i = 0; i < d.distance - 7; i += 7)
-	{
-		actor y = Actor(Spawn("DCY_CaduceusTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
-		y.A_Face(invoker.owner);
-	}
+	
+	DCY_Beam("2442ff", 1, 3, 0, true, 0.2);
+	DCY_Beam("1233b5", frandom(.5, 1), 6, 0, true, 0.085);
   }
   
   States
@@ -161,6 +158,7 @@ Class DCY_CaduceusRing : BulletPuff
   +FLATSPRITE;
   +ROLLSPRITE;
   +ALWAYSPUFF;
+  +NOTIMEFREEZE;
   -RANDOMIZE
   DamageType "Neonic";
   Translation "0:255=%[0.00,0.00,0.00]:[0.34,0.57,1.68]";
@@ -189,7 +187,6 @@ Class DCY_CaduceusTrail : Actor
 {
   override void PostBeginPlay()
   {
-	A_SpawnParticleEx(0x1430ba, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 10, random(20, 25), 0, sizestep: 0.75);
 	A_SpawnParticleEx(0x061354, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 30, random(5, 15), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), sizestep: 1.25, startroll: frandom(0, 360), rollvel: frandom(-7, 7));
 	Destroy();
   }

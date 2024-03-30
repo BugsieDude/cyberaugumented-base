@@ -1,3 +1,42 @@
+Class DCY_Bolt : Actor
+{
+	Default
+	{
+		RenderStyle "Addstencil";
+		+NOINTERACTION
+		+NOBLOCKMAP
+		-SOLID
+		+BRIGHT
+		+INTERPOLATEANGLES
+		+NOTIMEFREEZE
+		Alpha 0.5;
+	}
+	
+	States
+	{
+	Spawn:
+		NULL A 0;
+		NULL A 1;
+		Stop;
+	}
+}
+
+Class DCY_BoltFade : DCY_Bolt
+{	
+	double val;
+	
+	States
+	{
+	Spawn:
+		NULL A 1
+		{
+			scale += (0.01, 0.01);
+			A_FadeOut(val);
+		}
+		Wait;
+	}
+}
+
 Class DCY_Weapon : Weapon abstract
 {
 	double offsx, offsy, saveoffsx, saveoffsy, lower;
@@ -53,6 +92,46 @@ Class DCY_Weapon : Weapon abstract
 		A_OverlayRotate(layer, frandom(0, 360));
 		A_OverlayFlags(layer, PSPF_RENDERSTYLE, true);
 		A_OverlayRenderStyle(layer, STYLE_ADD);
+	}
+	
+	action void DCY_Beam(string col = "ffffff", float alph = 0.5, double scale = 1, int flags = 0, bool fading = false, double fadeval = 0.05, vector3 offset = (0, 0, 0))
+	{	
+		FLineTraceData d;
+		LineTrace(angle, 8192, pitch, flags|TRF_NOSKY|TRF_ABSOFFSET, offset.z + (height / 2.3), offset.y, offset.x, d);
+		
+		Vector3 offset = (offset.X + 40, offset.Y, offset.Z);
+		Quat base = Quat.FromAngles(angle, bulletSlope(), roll);
+
+		Vector3 r = base * offset;
+		Vector3 newPos = level.Vec3Offset(pos + (0, 0, (height / 2.3)), r);
+
+		if (fading)
+		{
+			DCY_BoltFade l = DCY_BoltFade(Spawn("DCY_BoltFade", newPos, ALLOW_REPLACE));
+			if (l)
+			{
+				l.scale.y = d.Distance;
+				l.scale.x = scale;
+				l.pitch = pitch - 90;
+				l.angle = angle;
+				l.alpha = alph;
+				l.SetShade(col);
+				l.val = fadeval;
+			}
+		}
+		else
+		{
+			DCY_Bolt l = DCY_Bolt(Spawn("DCY_Bolt", newPos, ALLOW_REPLACE));
+			if (l)
+			{
+				l.scale.y = d.Distance;
+				l.scale.x = scale;
+				l.pitch = pitch - 90;
+				l.angle = angle;
+				l.alpha = alph;
+				l.SetShade(col);
+			}
+		}
 	}
 	
 	States

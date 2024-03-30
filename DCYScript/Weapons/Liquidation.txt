@@ -23,18 +23,8 @@ Class DCY_Liquidation : DCY_Weapon
   
   action void A_Liquidation()
   {
-	FLineTraceData d;
-	
 	A_FireBullets(0, 0, 1, 0, "DCY_Null2", 0);
-	LineTrace(angle, 8192, pitch, TRF_NOSKY|TRF_THRUACTORS, height / 2.3, 0, 0, d);
-	
-	for (int i = 0; i < d.distance - 10; i += 10)
-	{
-		actor y = Actor(Spawn("DCY_LiquidationTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
-		if (y && y.distance3D(invoker.owner) < 55) { y.destroy(); }
-		y.A_Face(invoker.owner);
-	}
-	
+	DCY_Beam("ffc219", frandom(.5, 1), frandom(7, 9.5), TRF_THRUACTORS);
 	A_RailAttack(45, 0, 0, "", "", RGF_SILENT|RGF_FULLBRIGHT, pufftype: "DCY_LiquidationPuff", sparsity: 8192, spawnclass: "DCY_Null");
 	invoker.DepleteAmmo(invoker.bAltFire, true);
 	A_GunFlash();

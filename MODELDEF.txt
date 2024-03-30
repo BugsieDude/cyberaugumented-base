@@ -21,3 +21,31 @@ Model DCY_Spark
   USEACTORROLL
   FrameIndex NULL A 0 0
 }
+
+Model DCY_Bolt
+{
+	Path "DCYModels"
+	Model 0 "beam.obj"
+	Skin 0 "dcybolt.png"
+	Scale 1 1 1.2
+	USEACTORPITCH 
+	DONTCULLBACKFACES 
+	NOPERPIXELLIGHTING
+	MODELSAREATTACHMENTS
+	USEACTORROLL
+	FrameIndex NULL A 0 0
+}
+
+Model DCY_BoltFade
+{
+	Path "DCYModels"
+	Model 0 "beam.obj"
+	Skin 0 "dcybolt.png"
+	Scale 1 1 1.2
+	USEACTORPITCH 
+	DONTCULLBACKFACES 
+	NOPERPIXELLIGHTING
+	MODELSAREATTACHMENTS
+	USEACTORROLL
+	FrameIndex NULL A 0 0
+}

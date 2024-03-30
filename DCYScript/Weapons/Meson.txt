@@ -43,8 +43,12 @@ Class DCY_MesonDischarge : DCY_Weapon
 		if (h && h.bSHOOTABLE && h.Health > 0)
 			h.DamageMobj(self, invoker.owner, 250, "Plasma", DMG_PLAYERATTACK);
 	}
-		
-	for (int i = 0; i < d.distance - 5; i += 5)
+	
+	DCY_Beam("ff680a", 1, 8, 0, true, 0.2);
+	DCY_Beam("a84311", frandom(.5, 1), 11, 0, true, 0.1);
+	DCY_Beam("a84311", .2, 11, 0, true, 0.025);
+	
+	for (int i = 0; i < d.distance - 11; i += 11)
 	{
 		actor y = Actor(Spawn("DCY_PlayerBallistaTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
 		y.A_Face(invoker.owner);
@@ -209,7 +213,6 @@ Class DCY_PlayerBallistaTrail : Actor
 {
   override void PostBeginPlay()
   {
-	A_SpawnParticleEx(0xffa12e, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 5, random(40, 45), 0, fadestepf: 0.2, sizestep: -4);
 	A_SpawnParticleEx(0x471b0f, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 150, random(30, 50), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), fadestepf: 0.025, sizestep: 0.25, startroll: frandom(0, 360));
 	Destroy();
   }

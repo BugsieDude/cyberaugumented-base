@@ -52,8 +52,11 @@ Class DCY_Endogravity : DCY_Weapon
 			h.DamageMobj(self, invoker.owner, 300, "Plasma", DMG_PLAYERATTACK|DMG_NO_PROTECT|DMG_NO_PAIN);
 		}
 	}
-		
-	for (int i = 0; i < d.distance - 6; i += 6)
+	
+	DCY_Beam("24ff24", 1, 2.55, 0, true, 0.2);
+	DCY_Beam("189e13", frandom(.5, 1), 4, 0, true, 0.1);
+	
+	for (int i = 0; i < d.distance - 10; i += 10)
 	{
 		actor y = Actor(Spawn("DCY_EndogravityTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
 		y.A_Face(invoker.owner);
@@ -169,9 +172,7 @@ Class DCY_EndogravityTrail : Actor
 {
   override void PostBeginPlay()
   {
-	A_SpawnParticleEx(0x60f542, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 4, random(15, 20), 0, sizestep: 0.75);
-	A_SpawnParticleEx(0x37ad1f, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 10, random(10, 20), 0, velx: frandom(-0.5, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-0.5, 0.5), sizestep: 1.05, startroll: frandom(0, 360), rollvel: frandom(-7, 7));
-	if (!random(0, 7)) A_SpawnParticleEx(0x37ad1f, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, random(5, 35), random(1, 9), 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.2, 0.2), frandom(-0.2, 0.2), frandom(-0.2, 0.2), fadestepf: 0, sizestep: -0.5);	
+	if (!random(0, 3)) A_SpawnParticleEx(0x37ad1f, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, random(5, 35), random(1, 9), 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.2, 0.2), frandom(-0.2, 0.2), frandom(-0.2, 0.2), fadestepf: 0, sizestep: -0.5);	
 	Destroy();
 	return;
   }
