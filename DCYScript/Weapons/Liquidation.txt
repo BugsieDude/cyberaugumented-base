@@ -24,7 +24,7 @@ Class DCY_Liquidation : DCY_Weapon
   action void A_Liquidation()
   {
 	A_FireBullets(0, 0, 1, 0, "DCY_Null2", 0);
-	DCY_Beam("ffc219", frandom(.5, 1), frandom(7, 9.5), TRF_THRUACTORS);
+	DCY_Beam("e38d0b", .4, frandom(7, 9.5), TRF_THRUACTORS);
 	A_RailAttack(45, 0, 0, "", "", RGF_SILENT|RGF_FULLBRIGHT, pufftype: "DCY_LiquidationPuff", sparsity: 8192, spawnclass: "DCY_Null");
 	invoker.DepleteAmmo(invoker.bAltFire, true);
 	A_GunFlash();
@@ -123,7 +123,7 @@ Class DCY_Liquidation : DCY_Weapon
 		A_StartSound("Liquidation/Start", 12);
 		invoker.lower = 1;
 		for (int i = random(10, 20); i > 0; i--)
-			A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE, 50, random(1, 6), 0, frandom(-1, 1) + 30, frandom(-1, 1), frandom(-1, 1) + 25, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.4, 0.4), frandom(-0.4, 0.4), frandom(-0.4, 0.4), fadestepf: 0, sizestep: -0.175);	
+			A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_NOTIMEFREEZE, 50, random(1, 6), 0, frandom(-1, 1) + 30, frandom(-1, 1), frandom(-1, 1) + 25, frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.1, 0.1), frandom(-0.4, 0.4), frandom(-0.4, 0.4), frandom(-0.4, 0.4), fadestepf: 0, sizestep: -0.175);	
 	}
 	TNT1 AAAAAAAAAAAAAAAAAAAAA 1
 	{
@@ -166,17 +166,6 @@ Class DCY_Liquidation : DCY_Weapon
   }
 }
 
-Class DCY_LiquidationTrail : Actor
-{
-  override void PostBeginPlay()
-  {
-	if (!random(0, 20)) A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/Particles/dcylightning.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 1, random(80, 120), 0, -frandom(20, 40), frandom(-30, 30), frandom(-30, 30), sizestep: 0.75, startroll: frandom(0, 360));
-	A_SpawnParticleEx(0xffe261, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 1, random(50, 65), 0, frandom(-3, 3), frandom(-3, 3), frandom(-3, 3), sizestep: 0.75);
-	A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 4, random(45, 50), 0, frandom(-3, 3), frandom(-3, 3), frandom(-3, 3), frandom(-0.5, 0.5), frandom(-0.5, 0.5), frandom(-0.5, 0.5), sizestep: 2.25, startroll: frandom(0, 360), rollvel: frandom(-7, 7));
-	Destroy();
-  }
-}
-
 Class DCY_LiquidationPuff : BulletPuff
 {
   const DCY_BALLISTA_RANGE = 256;
@@ -187,10 +176,10 @@ Class DCY_LiquidationPuff : BulletPuff
   {
 	A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 5, random(150, 200), 0, fadestepf: 0.2, sizestep: -10);
 	
-	for (int i = random(8, 13); i > 0; i--)
+	for (int i = random(4, 8); i > 0; i--)
 	{
 		A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE, 80, random(1, 9), 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-1.5, 1.5), frandom(-0.2, 0.2), frandom(-0.2, 0.2), frandom(-0.2, 0.2), fadestepf: 0, sizestep: -0.075);	
-		A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 150, random(50, 70), frandom(0, 360), velx: frandom(-1.5, 1.5), vely: frandom(-1.5, 1.5), velz: frandom(-1.5, 1.5), fadestepf: 0.0275, sizestep: frandom(2.00, 5.25), startroll: frandom(0, 360));
+		A_SpawnParticleEx(0xfc8403, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_NOTIMEFREEZE|SPF_RELATIVE|SPF_ROLL, 150, random(50, 70), frandom(0, 360), velx: frandom(-1.5, 1.5), vely: frandom(-1.5, 1.5), velz: frandom(-1.5, 1.5), startalphaf: frandom(.5, 1), fadestepf: 0.0275, sizestep: frandom(2.00, 5.25), startroll: frandom(0, 360));
 	}
 		
 	Destroy();

@@ -49,11 +49,14 @@ Class DCY_SilverBlaster : DCY_Weapon
 				h.DamageMobj(self, invoker.owner, 7, "Plasma", DMG_PLAYERATTACK);
 		}
 		
-		for (int i = 0; i < d.distance - 10; i += 10)
+		DCY_Beam("21b9ff", 1, 3.6, 0, true, 0.15, xy_spread: la - angle, z_spread: lp - pitch);
+		DCY_Beam("124d78", .75, 4.6, 0, true, 0.2, xy_spread: la - angle, z_spread: lp - pitch);
+		
+		/*for (int i = 0; i < d.distance - 10; i += 10)
 		{
 			actor y = Actor(Spawn("DCY_BlasterTrail", Level.Vec3Offset(d.HitLocation, d.HitDir * -i)));
 			y.A_Face(invoker.owner);
-		}
+		}*/
 	}
 	
     A_WeaponOffset(frandom(-2.0, 2.0), frandom(-2.0, 2.0), WOF_ADD|WOF_INTERPOLATE);

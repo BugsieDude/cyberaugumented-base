@@ -42,7 +42,18 @@ Class DCY_UnknownEye : Actor
 	"What are you doing here?",
 	"Cataclysm is rising.",
 	"Hell.",
-	"Consumed by the chasm."
+	"Consumed by the chasm.",
+	"Are we all connected?",
+	"How are you feeling?"
+	"Doom approaches.",
+	"Malice is in Hell's hands.",
+	"Make us whole.",
+	"Things start to get chaotic. Or not. Or may.",
+	"Why bother?",
+	"Does reality even exist?",
+	"Does the plane of reality really exist?",
+	"We all live, for sure.",
+	"Are you okay?"
   };
   
   string mesasge;
