@@ -1,0 +1,122 @@
+Class DCY_CrisisSniper : DCY_Weapon
+{
+  Default
+  {
+	Tag "HX2110 Crisis Sniper";
+	Weapon.SlotNumber 7;
+	Weapon.AmmoType "DCY_Battery";
+	Weapon.AmmoGive 50;
+	Weapon.AmmoUse 25;
+	Inventory.PickupSound "dcy/plasmariflepickup";
+	Obituary "%o got sniped by %k's power of the cosmos.";
+	Inventory.PickupMessage "The HX2110 Crisis Sniper! Huge amounts of energy packed into a electric sniping machine. Also cosmic dust.";
+	Weapon.SelectionOrder 700;
+	//+WEAPON.NOAUTOFIRE;
+  }
+  
+  action void A_RifleF()
+  {
+	A_StartSound("Rifle/Fire", CHAN_WEAPON, volume: 0.75);
+	A_GunFlash();
+	invoker.DepleteAmmo(invoker.bAltFire, true);
+	DCY_Muzzle(0.45);
+	A_FireBullets(0.35, 0.35, 1, 12, "DCY_Null", FBF_NORANDOM, 8192, "DCY_TracerPlayer", 0);
+	A_WeaponOffset(frandom(-1.5, 1.5), frandom(-1.5, 1.5), WOF_ADD|WOF_INTERPOLATE);
+  }
+  
+  States
+  {
+  Spawn:
+	RIF_ Z -1;
+	Stop;
+  OverlayIdle:
+	R1F_ A 1;
+	Stop;
+  OverlayFire:
+	R1F_ D 1
+	{
+		invoker.lower += 7;
+		A_WeaponOffset(0 - (invoker.lower / 11), 32 + (invoker.lower / 2), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	R1F_ EFAAA 1
+	{
+		if (invoker.lower > 0.01) invoker.lower *= 0.65; else invoker.lower = 0;
+		A_WeaponOffset(0 - (invoker.lower / 11), 32 + (invoker.lower / 2), WOF_INTERPOLATE);
+		DCY_HandleScale(5);
+	}
+	Stop;
+  OverlayMuzzle:
+	MUZ_ AA 1 Bright
+	{
+		invoker.t -= 0.1;
+		A_OverlayRotate(-1, frandom(0, 360));
+		A_OverlayScale(-1, invoker.t, invoker.t);
+	}
+	Stop;
+  Feel:
+	TNT1 A 1 A_ZoomFactor(0.96);
+	TNT1 A 1 A_ZoomFactor(0.9775);
+	TNT1 A 1 A_ZoomFactor(0.9825);
+	TNT1 A 1 A_ZoomFactor(0.9926);
+	TNT1 A 1 A_ZoomFactor(0.995);
+	TNT1 A 1 A_ZoomFactor(0.997);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Select:
+	TNT1 A 0
+	{
+		invoker.offsx = 100;
+		invoker.offsy = 150;
+		A_WeaponOffset(0, 32, WOF_INTERPOLATE);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Raise(0.4);
+		A_OverlayPivotAlign(5, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(5, -(invoker.offsy / 3.5), WOF_INTERPOLATE);
+		return (invoker.offsx <= 0.1 || invoker.offsy <= 0.1) ? ResolveState("Ready") : ResolveState(null);
+	}
+	Goto Select+1;
+  Deselect:
+	TNT1 A 0
+	{
+		invoker.offsx = invoker.saveoffsx + 2;
+		invoker.offsy = invoker.saveoffsy + 2;
+	}
+	TNT1 A 1
+	{
+		A_Overlay(5, "OverlayIdle");
+		DCY_Lower(1.75, 1.2);
+		
+		return (invoker.offsx >= 150 || invoker.offsy >= 150) ? ResolveState("DeselectLoop") : ResolveState(null);
+	}
+	Goto Deselect+1;
+  Ready:
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Overlay(5, "OverlayIdle");
+		A_WeaponReady();
+		A_OverlayOffset(5, 0, 0, WOF_INTERPOLATE);
+	}
+	Loop;
+  Fire:
+  NormalFire:
+	TNT1 A 5
+	{
+		A_Overlay(10, "Feel");
+		A_Overlay(5, "OverlayFire");
+		A_RifleF();
+	}
+	TNT1 A 1
+	{
+		invoker.lower = 0;
+		A_Refire();
+	}
+	Goto Ready;
+  }
+}

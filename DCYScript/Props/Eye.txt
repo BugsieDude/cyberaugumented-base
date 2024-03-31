@@ -44,7 +44,7 @@ Class DCY_UnknownEye : Actor
 	"Hell.",
 	"Consumed by the chasm.",
 	"Are we all connected?",
-	"How are you feeling?"
+	"How are you feeling?",
 	"Doom approaches.",
 	"Malice is in Hell's hands.",
 	"Make us whole.",
