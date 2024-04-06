@@ -104,7 +104,7 @@ Class DCY_Endogravity : DCY_Weapon
   
   action bool DCY_CheckForPull(actor victim)
   {
-	return (victim && victim.Mass < 2000 && victim.radius <= 40 && victim.height <= 95);
+	return (victim && victim.Mass < 2000 && victim.radius <= 40 && victim.height <= 95 && CheckSight(victim));
   }
   
   float str;
@@ -248,8 +248,7 @@ Class DCY_Endogravity : DCY_Weapon
 		let b = d.HitActor;
 		
 		A_WeaponReady(WRF_NOPRIMARY|WRF_NOSWITCH);
-		if (d.HitType != TRACE_HitActor) { Return ResolveState("Disassociate"); }
-		else if (DCY_CheckForPull(b)) DCY_EndoPull(b);
+		if (DCY_CheckForPull(invoker.lastvictim)) DCY_EndoPull(invoker.lastvictim);
 		Return ResolveState(null);
 	}
 	TNT1 A 0 A_Refire("Pull");
