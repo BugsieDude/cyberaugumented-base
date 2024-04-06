@@ -135,4 +135,11 @@ Endogravity/Push2 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_push2.og
 Endogravity/Push3 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_push3.ogg"
 Endogravity/Push4 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_push4.ogg"
 Endogravity/Start "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_start.ogg"
+$random Endogravity/Launch { Endogravity/Launch1 Endogravity/Launch2 Endogravity/Launch3 Endogravity/Launch4 }
+Endogravity/Launch1 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_launch1.ogg"
+Endogravity/Launch2 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_launch2.ogg"
+Endogravity/Launch3 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_launch3.ogg"
+Endogravity/Launch4 "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_launch4.ogg"
+Endogravity/Start "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_start.ogg"
+Endogravity/Cancel "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_cancel.ogg"
 Endogravity/Up "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_up.ogg"

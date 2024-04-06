@@ -14,6 +14,7 @@ SPELL16 "DCYSounds/Inventory/dcy_prospect_activate.ogg"
 
 //Some sfx come from Sins of ERA(?)
 Souffle "DCYSounds/Inventory/dcy_unco_sphere.ogg"
+$volume Souffle 0.85
 Unco/Chime "DCYSounds/Inventory/dcy_unco_extra.ogg"
 dcy/crosscut/use "DCYSounds/Inventory/dcy_crosscut.ogg"
 dcy/crosscut/up "DCYSounds/Inventory/dcy_crosscut_up.ogg"

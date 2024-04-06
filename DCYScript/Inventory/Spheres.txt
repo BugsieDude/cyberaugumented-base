@@ -307,7 +307,7 @@ Class DCY_Unco : DCY_Powerup
   DCY_Powerup.EffectColor1 "15102b";
   DCY_Powerup.LightRadius 80;
   Translation "0:255=%[0.00,0.00,0.00]:[0.95,0.00,2.00]";
-  Inventory.PickupMessage "\c[Purple]The lavender essence seeps through your soul.\c- [250+]";
+  Inventory.PickupMessage "\c[Purple]The lavender-colored essence remedies your soul.\c- [250+]";
   Inventory.PickupSound "Souffle";
   Tag "Unco Essence";
   }
@@ -334,6 +334,7 @@ Class DCY_Unco : DCY_Powerup
   {
 	Owner.GiveBody(250, 400);
 	Owner.GiveInventory("DCY_UncoShield", 1);
+	Owner.A_StartSound("Unco/Chime", 20, CHANF_UI, volume: 0.3725);
 	Owner.A_SetBlend("e194ff", 1, 25, "6a00ff");
 	A_SphereEffect();
 	
