@@ -23,7 +23,7 @@ Class DCY_Endogravity : DCY_Weapon
 	return Super.CreateCopy(other);
   }
   
-  action void DCY_EndoPull(actor victim, int destdist = -1)
+  action void DCY_EndoPull(actor victim, int destdist = -1) //Code by Jaih1r0
   {
 	if(!victim) return;
 			
