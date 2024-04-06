@@ -121,6 +121,9 @@ Ordnance/DistortAdd2 "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_dis
 Ordnance/DistortLoop "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_distort_loop.ogg"
 Ordnance/Time "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_timedistort.ogg"
 Ordnance/Impact "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_impact.ogg"
+Ordnance/Hello "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_hello.ogg"
+Ordnance/Cooldown "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_cooldown.ogg"
+Ordnance/Shockwave "DCYSounds/Weapons/Slot 8/CinerealOrdnance/dcy_ordnance_shockwave.ogg"
 
 Endogravity/Add "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_add.ogg"
 Endogravity/Error "DCYSounds/Weapons/Slot 8/Endogravity/dcy_endogravity_denied.ogg"

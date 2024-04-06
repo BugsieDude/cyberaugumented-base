@@ -37,7 +37,6 @@ PowerSphere/PickedUp "DCYSounds/Inventory/dcy_powersphere.ogg"
 StronkSphere/PickedUp "DCYSounds/Inventory/dcy_supremacy.ogg"
 $pitchset StronkSphere/PickedUp 0.995 1.005
 $volume StronkSphere/PickedUp 0.5
-MysteriousSphere/PickedUp "DCYSounds/Inventory/dcy_invis.ogg"
 InvulnerabilitySphere/PickedUp "DCYSounds/Inventory/dcy_invulnerable.ogg"
 $pitchset InvulnerabilitySphere/PickedUp 0.98 1.02
 $volume InvulnerabilitySphere/PickedUp 0.55
@@ -63,6 +62,7 @@ Supremacy/IdleNoise "DCYSounds/Inventory/dcy_supremacy_idle.ogg"
 Raze/IdleNoise "DCYSounds/Inventory/dcy_raze_loop.ogg"
 DCYBerserk/IdleNoise "DCYSounds/Inventory/dcy_berserk_idle.ogg"
 DCYBerserk/IdleNoise2 "DCYSounds/Inventory/dcy_berserk_idle2.ogg"
+Lifeline/IdleNoise "DCYSounds/Inventory/dcy_lifeline_loop.ogg"
 $pitchset Megasphere/IdleNoise 0.200 1.00
 $pitchset SoulSphere/IdleNoise 0.200 2.00
 $pitchset Rehabiliation/IdleNoise 0.200 1.00
@@ -73,7 +73,7 @@ $pitchshift DCYBerserk/IdleNoise 0
 $pitchshift DCYBerserk/IdleNoise2 0
 
 //me luv item noises :)
-POWERGET "DCYSounds/Inventory/dcy_exo.ogg"
+DCY/Exo "DCYSounds/Inventory/dcy_exo.ogg"
 
 Barricade/Get "DCYSounds/Inventory/dcy_barricade.ogg"
 Barricade/Warn "DCYSounds/Inventory/dcy_barricade_warning.ogg"
@@ -151,3 +151,11 @@ dcy/suddenflash "DCYSounds/Inventory/dcy_sudden_flash.ogg"
 dcy/essence "DCYSounds/Inventory/dcy_essence.ogg"
 dcy/essenceloop "DCYSounds/Inventory/dcy_essence_loop.ogg"
 dcy/soulget "DCYSounds/Inventory/dcy_soul_get.ogg"
+
+dcy/healingsphere "DCYSounds/Inventory/dcy_healingsphere.ogg"
+dcy/holyitem "DCYSounds/Inventory/dcy_holyitem.ogg"
+
+dcy/upgrade "DCYSounds/Inventory/dcy_upgrade.ogg"
+dcy/upgradeuse "DCYSounds/Inventory/dcy_upgrade_use.ogg"
+
+Verytex/Powerup "DCYSounds/Inventory/dcy_verytex_power.ogg"

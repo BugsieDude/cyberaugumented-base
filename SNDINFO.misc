@@ -20,16 +20,20 @@ dcy/flashback "DCYSounds/Announcements/dcy_flashback.ogg"
 dcy/deadlydejavu "DCYSounds/Announcements/dcy_flashback_chillax.ogg"
 dcy/decimalerror "DCYSounds/Announcements/dcy_havoc_map.ogg"
 dcy/wakeup "DCYSounds/Announcements/dcy_wakeup.ogg"
-dcy/peace "DCYSounds/Announcements/dcy_peaceful.ogg"
-$random dcy/relief { dcy/relief1 dcy/allbossesdefeated1 dcy/allbossesdefeated2 }
+$random dcy/peace { dcy/peaceful dcy/peaceful2 }
+dcy/peaceful "DCYSounds/Announcements/dcy_peaceful.ogg"
+dcy/peaceful2 "DCYSounds/Announcements/dcy_peaceful2.ogg"
+$random dcy/relief { dcy/relief1 dcy/allbossesdefeated1 dcy/allbossesdefeated2 dcy/allbossesdefeated3 }
 dcy/relief1 "DCYSounds/Announcements/dcy_relief_short.ogg"
 dcy/allbossesdefeated1 "DCYSounds/Announcements/dcy_allbossesdefeated.ogg"
 dcy/allbossesdefeated2 "DCYSounds/Announcements/dcy_allbossesdefeated2.ogg"
+dcy/allbossesdefeated3 "DCYSounds/Announcements/dcy_allbossesdefeated3.ogg"
 $pitchshift dcy/relief 0
 
 //yay you did something
 Announce/Complete "DCYSounds/Announcements/dcy_complete.ogg"
-Announce/CompletionistReward "DCYSounds/Announcements/dcy_achievement2.ogg"
+Announce/CompletionistReward "DCYSounds/Announcements/dcy_achievement.ogg"
+$volume Announce/CompletionistReward 0.75
 dcy/mapdone "DCYSounds/Announcements/dcy_winwin.ogg"
 dcy/fail "DCYSounds/Announcements/dcy_youfuckedup.ogg"
 $random dcy/allover { dcy/over1 dcy/over2 dcy/over3 }

@@ -56,8 +56,5 @@ extend class CyberaugumentedEventHandler
 			DCY_HudMessageFade.Show(playeringame[i], s, 1111, (320, 240), 60, 6, 6, 0, DCY_HudMessage.AlignCenter, fnt: "SMALLFONT", screensize:(640, 360));
 			DCY_HudMessageFade.Show(playeringame[i], "A", 1112, (320, 13.9), 60, 6, 6, 0, DCY_HudMessage.AlignCenter, fnt: "DCY_BAR9", screensize:(640, 21));
 		}
-		
-		//DCY_notHudMessageHandler.PlainMsg("SMALLFONT", s, (240, 240), (480, 360), color: Font.CR_UNTRANSLATED, time: (0.3, 3, 0.41), id: 1111);
-		//DCY_notHudMessageHandler.PlainMsg("DCY_NON3", "AAAAAAAAAAAA", (80, 2000), (160, 3000), time: (0.3, 3, 0.41), id: 1112);
 	}
 }

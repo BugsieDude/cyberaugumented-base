@@ -94,13 +94,12 @@ Class DCY_OrdnanceSpawn : Actor
 			A_SpawnParticleEx("cccccc", TexMan.CheckForTexture("graphics/Particles/dcyglowp.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 50, 650, startalphaf: 1, sizestep: -50, startroll: frandom(0, 360), rollvel: frandom(-5, 5));
 			for (int i = 0; i < 360; i += random(20, 40)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(90, 135), frandom(150, 200), i, zoff: 20, velx: frandom(-0.5, 0.5) + frandom(2.5, 3.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-2, 2));
 			for (int i = 0; i < 360; i += random(30, 60)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(280, 435), frandom(100, 180), i, frandom(-70, 70), frandom(-70, 70), frandom(-70, 70), velx: frandom(-0.5, 0.5) + frandom(0, 0.5), vely: frandom(-0.5, 0.5), velz: frandom(-1.5, 1.5), startalphaf: frandom(.3, .6), sizestep: 0.725, startroll: frandom(0, 360), rollvel: frandom(-1, 1));
-			A_StartSound("dcy/suddenflash", 10, CHANF_OVERLAP, volume: 0.5, attenuation: .3, pitch: 0.95);
-			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.85);
-			A_StartSound("Ordnance/BeamAdd", 10, CHANF_OVERLAP, volume: 0.85, attenuation: .4, pitch: 0.7);
-			A_StartSound("Ordnance/BeamAdd", 10, CHANF_OVERLAP, volume: 0.85, attenuation: .4, pitch: 0.5);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.75);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.45);
-			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 1.2);
+			A_StartSound("dcy/suddenflash", 10, CHANF_OVERLAP, volume: 0.35, attenuation: .3, pitch: 0.95);
+			A_StartSound("dcy/anamnesis", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.65);
+			A_StartSound("Ordnance/BeamAdd", 10, CHANF_OVERLAP, volume: 0.5, attenuation: .4, pitch: 0.65);
+			A_StartSound("Ordnance/Appear", 10, CHANF_OVERLAP, attenuation: .2, pitch: 0.3);
+			A_StartSound("Ordnance/Shockwave", 10, CHANF_OVERLAP, attenuation: .125);
+			A_StartSound("Ordnance/Hello", 10, CHANF_OVERLAP, attenuation: .2);
 			A_SpawnItemEx("DCY_Ordnance", flags: SXF_SETMASTER);
 		}
 		TNT1 A random(2, 1)
@@ -118,8 +117,11 @@ Class DCY_Ordnance : DCY_Weapon
   {
 	Weapon.Selectionorder 2500;
 	Weapon.AmmoUse1 1;
-	Weapon.AmmoGive 40;
+	Weapon.AmmoUse2 1;
+	Weapon.AmmoGive1 40;
+	Weapon.AmmoGive2 40;
 	Weapon.AmmoType1 "DCY_Antimateria";
+	Weapon.AmmoType2 "DCY_Antimateria";
 	Weapon.Kickback 100;
 	Weapon.SlotNumber 8;
 	Height 20;
@@ -136,6 +138,7 @@ Class DCY_Ordnance : DCY_Weapon
   
   int divinedeath;
   int divinecooldown;
+  vector2 sc;
   
   action void A_StopEverySound(int vol = 0, bool v = true)
   {
@@ -195,7 +198,7 @@ Class DCY_Ordnance : DCY_Weapon
 	Weapon weap = player.ReadyWeapon;
 	if (weap != null && invoker == weap && stateinfo != null && stateinfo.mStateType == STATE_Psprite)
 	{
-		if (!weap.DepleteAmmo (weap.bAltFire, true, 1)) return;
+		if (!weap.DepleteAmmo(weap.bAltFire, true, 1)) return;
 		A_QuakeEx(2, 2, 2, 8, 0, 200, "none", QF_SCALEDOWN|QF_3D);
 		A_GunFlash();
 		
@@ -205,6 +208,62 @@ Class DCY_Ordnance : DCY_Weapon
 		A_StartSound("Ordnance/BeamAdd", 16, volume: 0.5);
 		A_WeaponOffset(frandom(-1.5, 1.5), frandom(-1.5, 1.5), WOF_ADD|WOF_INTERPOLATE);
 		SpawnPlayerMissile("DCY_CinerealBall", 1e37 + frandom(-20, 20));
+	}
+  }
+  
+  action void A_CinerealBlast()
+  {
+	for (int i = 30; i > 0; i--) invoker.DepleteAmmo(invoker.bAltFire, true);
+	
+	A_Overlay(10, "Feel");
+	A_Overlay(5, "OverlayShockwaveFire");
+		
+	A_Overlay(60, "OverlayShockwaveBlast");
+	A_OverlayFlags(60, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
+	A_OverlayRenderStyle(60, STYLE_ADD);
+	A_OverlayPivotAlign(60, PSPA_CENTER, PSPA_CENTER);
+	
+	A_Overlay(61, "OverlayShockwaveBlast2");
+	A_OverlayFlags(61, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
+	A_OverlayRenderStyle(61, STYLE_ADD);
+	A_OverlayPivotAlign(61, PSPA_CENTER, PSPA_CENTER);
+	
+	for (int i = random(15, 20); i > 0; i--) A_SpawnItemEx("DCY_CinerealLongBinary", frandom(-200, 200), frandom(-200, 200), frandom(-50, 50), zvel: 5.5 * randompick(1, 1, -1), flags: SXF_NOCHECKPOSITION);
+	for (int i = 0; i < 360; i += random(10, 30)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysquarep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(60, 105), frandom(5, 15), i, frandom(-20, 20), frandom(-20, 20), frandom(10, 40), velx: frandom(-0.25, 0.25) + frandom(3.5, 4.5), vely: frandom(-0.25, 0.25), velz: frandom(-0.25, 0.25), accelx: -0.025, sizestep: -0.25);
+	for (int i = 0; i < 360; i += random(10, 20)) A_SpawnParticleEx("aaaaaa", TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, random(40, 85), frandom(350, 405), i, frandom(-20, 20), frandom(-20, 20), frandom(0, 60), velx: frandom(-0.25, 0.25) + frandom(15.5, 20.5), vely: frandom(-0.25, 0.25), velz: frandom(-0.25, 0.25), accelx: -1, startalphaf: frandom(.5, .85), sizestep: 0.15);
+		
+	actor ring = Spawn("DCY_CinerealCircle2", vec3offset(0, 0, 0));
+	if (ring) ring.scale *= 2.5;
+	
+	A_SpawnItemEx("DCY_CinerealTimeCircle", flags: SXF_NOCHECKPOSITION);
+
+	A_QuakeEx(4, 4, 4, 60, 0, 1200, "", QF_SCALEDOWN|QF_3D, rollintensity: 0.15);
+	A_StartSound("Ordnance/Time", 25);
+  }
+  
+  action void A_CinerealBlastDamage()
+  {
+	int range = 390;
+	BlockThingsIterator ti = BlockThingsIterator.Create(self, range);
+	actor a;
+		
+	while(ti.Next())
+	{
+		a = ti.thing;
+		double rad = abs((range - Distance3D(a)) / 2);
+		if (a && a.Health > 0 && a.bSHOOTABLE && !a.bINVULNERABLE && !a.bDORMANT && !a.bNODAMAGE && CheckSight(a) && distance3D(a) < range)
+		{
+			if (!(a is "PlayerPawn"))
+			{
+				a.GiveInventory("DCY_CinerealTimeDebuff", 1);
+				if (!a.bDONTTHRUST)
+				{
+					a.Vel3DFromAngle((rad / 6) / min(1, (a.Mass / (a.Mass / 4))), self.AngleTo(a), self.PitchTo(a));
+					if (a.GetMaxHealth() < 2500) a.vel.z += (rad / 12) / ((a.Mass > 600) ? 2.5 : 1);
+					a.vel.z = clamp(a.vel.z, -25, 25);
+				}
+			}
+		}
 	}
   }
   
@@ -256,6 +315,52 @@ Class DCY_Ordnance : DCY_Weapon
 		DCY_CinerealScales();
 	}
 	Goto OverlayFire;
+  OverlayShockwaveCharge:
+	0RDG AAAAAPPPPQQQQRRRRSSSSTTTTTTT 1 DCY_CinerealScales();
+	Goto OverlayShockwaveFire;
+  OverlayShockwaveFire:
+	0RDG X 1
+	{
+		invoker.lower = 25;
+		A_WeaponOffset(0, 32 + (invoker.lower / 9), WOF_INTERPOLATE);
+		DCY_CinerealScales();
+	}
+	0RDG XXXXXXXXXXXXXXXXXXXXXXYYYYYYYYYAAAAAA 1
+	{
+		invoker.lower *= 0.8;
+		A_WeaponOffset(0, 32 + (invoker.lower / 9), WOF_INTERPOLATE);
+		DCY_CinerealScales();
+	}
+	Goto OverlayIdle;
+  OverlayShockwaveBlast:
+	0RD2 F 1 Bright { invoker.sc = (1, 1); }
+	0RD2 F 1 Bright
+	{	
+		let s = player.FindPSprite(OverlayID());
+		if (s)
+		{
+			if (s.alpha <= 0) return ResolveState("OverlayNull");
+			else A_OverlayAlpha(OverlayID(), s.alpha - 0.075);
+			A_OverlayScale(OverlayID(), invoker.sc.x / 0.75, invoker.sc.y / 0.75, WOF_INTERPOLATE);
+		}
+		
+		return ResolveState(null);
+	}
+	Wait;
+  OverlayShockwaveBlast2:
+	0RD2 E 1 Bright
+	{
+		let s = player.FindPSprite(OverlayID());
+		if (s)
+		{
+			if (s.alpha <= 0) return ResolveState("OverlayNull");
+			else A_OverlayAlpha(OverlayID(), s.alpha - 0.03);
+			DCY_HandleScale(OverlayID());
+		}
+		
+		return ResolveState(null);
+	}
+	Wait;
   OverlaySuperchargeInfinitum:
 	0RDG HIJKLLLL 4;
 	0RD2 ABABABABA 1;
@@ -332,6 +437,18 @@ Class DCY_Ordnance : DCY_Weapon
 	TNT1 A 1 A_ZoomFactor(0.9926);
 	TNT1 A 1 A_ZoomFactor(0.995);
 	TNT1 A 1 A_ZoomFactor(0.997);
+	TNT1 A 1 A_ZoomFactor(1);
+	Stop;
+  Feel2:
+	TNT1 A 1 A_ZoomFactor(0.8);
+	TNT1 A 1 A_ZoomFactor(0.85);
+	TNT1 A 1 A_ZoomFactor(0.925);
+	TNT1 A 1 A_ZoomFactor(0.95);
+	TNT1 A 1 A_ZoomFactor(0.975);
+	TNT1 A 1 A_ZoomFactor(0.9875);
+	TNT1 A 1 A_ZoomFactor(0.99275);
+	TNT1 A 1 A_ZoomFactor(0.995);
+	TNT1 A 1 A_ZoomFactor(0.9975);
 	TNT1 A 1 A_ZoomFactor(1);
 	Stop;
   Select:
@@ -416,6 +533,16 @@ Class DCY_Ordnance : DCY_Weapon
 	TNT1 A 0 A_Refire("NormalLoop");
 	Goto Ready;
   AltFire:
+  Shockwave:
+	TNT1 A 1 A_Overlay(5, "OverlayShockwaveCharge");
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 1 A_WeaponOffset(frandom(-0.5, 0.5), frandom(-0.5, 0.5) + 31, WOF_INTERPOLATE);
+	TNT1 A 40
+	{
+		A_CinerealBlast();
+		A_CinerealBlastDamage();
+		A_WeaponReady(WRF_NOFIRE);
+	}
+	Goto Ready;
   Infinitum:
 	TNT1 A 0
 	{
@@ -551,6 +678,7 @@ Class DCY_CinerealBall : DCY_PProjectile
 			scale.x = frandom(0.3, 0.4);
 			scale.y = scale.x;
 			A_StartSound("Ordnance/Whiz", pitch: 1.3);
+			A_StartSound("Ordnance/Impact", 10, volume: 0.5, pitch: 1.5);
 		}
 		C28Y ABCDEFGHIJKLMNOPQ 1;
 		Stop;
@@ -715,6 +843,81 @@ Class DCY_CinerealCircle2 : DCY_CinerealBinary
 		Stop;
 	}
 }
+
+Class DCY_CinerealTimeCircle : DCY_CinerealCircle
+{
+	Default
+	{
+		Scale 1.65;
+		Alpha 0.9;
+		+FLATSPRITE
+	}
+	
+	States
+	{
+	Spawn:
+		T1Z_ A 0 NoDelay { angle = random(0, 360); }
+		T1Z_ B 1
+		{
+			scale.x *= 1.035;
+			scale.y = scale.x;
+			A_FadeOut(0.02);
+		}
+		Wait;
+	}
+}
+
+Class DCY_CinerealTimeDebuff : Powerup
+{
+  Default
+  {
+  +INVENTORY.AUTOACTIVATE;
+  +INVENTORY.ALWAYSPICKUP;
+  Powerup.Duration -4;
+  }
+  
+  override void PostBeginPlay()
+  {
+	super.PostBeginPlay();
+	if (owner && owner.bISMONSTER) owner.SetStateLabel("Pain");
+  }
+  
+  override void DoEffect()
+  {
+	super.DoEffect();
+	if (owner)
+	{
+		owner.A_SetTics(500);
+		if (!(GetAge() % random(2, 12)))
+		{
+			let binary = Spawn("DCY_CinerealBinary", owner.pos + (frandom(owner.radius, -owner.radius), frandom(owner.radius, -owner.radius), frandom(0, owner.height)));
+			if (binary) binary.vel.z += frandom(-3, 3);
+		}
+		
+		owner.vel *= 0.96;
+	}
+  }
+  
+  override void DetachFromOwner()
+  { 
+	super.DetachFromOwner();
+	if(owner && owner.health > 0 && owner.bISMONSTER) owner.A_SetTics(5);
+  }
+  
+  override void EndEffect()
+  {
+	Super.EndEffect();
+	if(owner && owner.health > 0 && owner.bISMONSTER) owner.A_SetTics(5);
+  }
+
+  override void OwnerDied()
+  {
+	if(owner && owner.health > 0 && owner.bISMONSTER) owner.A_SetTics(5);
+	super.OwnerDied();
+	Destroy();
+  }
+}
+
 
 Class DCY_CinerealTakesAwayTheThreat : Actor
 {

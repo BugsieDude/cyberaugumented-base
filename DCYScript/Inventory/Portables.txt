@@ -499,8 +499,13 @@ Class DCY_Lifeline : DCY_InvItem
   States
   {
   Spawn:
+	_407 A 0 NoDelay
+	{
+		A_StartSound("Lifeline/IdleNoise", 300, CHANF_LOOP, 0.685, 0.8);
+		A_AttachLight("DCYLifeline", DynamicLight.PulseLight, "5b6687", 0, 70, DynamicLight.LF_DONTLIGHTSELF, ofs: (0, 0, 30), param: 5);
+	}
 	_407 AAAABBBBCCCCDDDD 1;
-	Loop;
+	Goto Spawn+1;
   }
   
   override bool Use(bool pickup)
@@ -509,6 +514,12 @@ Class DCY_Lifeline : DCY_InvItem
 	Owner.A_GiveInventory("DCY_LifelinePersistent", 1);
 	A_RuneEffect("2a2d3b");
 	return true;
+  }
+  
+  override void DoPickupSpecial(actor toucher)
+  {
+	A_StopSound(300);
+	A_RemoveLight("DCYLifeline");
   }
   
   override bool TryPickup(in out actor toucher)
