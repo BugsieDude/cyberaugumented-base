@@ -94,13 +94,10 @@ Class DCY_Endogravity : DCY_Weapon
   
   action void DCY_EndoReset()
   {
-	FLineTraceData d;
-	LineTrace(angle, 8192, pitch, TRF_NOSKY, height / 2, 0, 0, d);
-	let b = d.HitActor;
-	if (b)
+	if (invoker.lastvictim)
 	{
-		if (b.ResolveState("Pain")) { b.tics = 10; }
-		b.bNOGRAVITY = invoker.saveflag;
+		if (invoker.lastvictim.ResolveState("Pain")) { invoker.lastvictim.tics = 10; }
+		invoker.lastvictim.bNOGRAVITY = invoker.saveflag;
 	}
   }
   
@@ -111,6 +108,7 @@ Class DCY_Endogravity : DCY_Weapon
   
   float str;
   bool saveflag;
+  actor lastvictim;
   vector3 v;
   
   States
@@ -222,6 +220,7 @@ Class DCY_Endogravity : DCY_Weapon
 			if (DCY_CheckForPull(b))
 			{
 				invoker.saveflag = b.bNOGRAVITY;
+				invoker.lastvictim = b;
 				if (b.ResolveState("Pain")) { b.A_Pain(); b.SetStateLabel("Pain"); b.tics = -1; }
 				A_StartSound("Endogravity/Start", CHAN_WEAPON);
 				A_StartSound("Endogravity/Add", 9, volume: 0.7);
@@ -248,7 +247,7 @@ Class DCY_Endogravity : DCY_Weapon
 		let b = d.HitActor;
 		
 		A_WeaponReady(WRF_NOPRIMARY|WRF_NOSWITCH);
-		if (d.HitType != TRACE_HitActor) Return ResolveState("Cool");
+		if (d.HitType != TRACE_HitActor) { DCY_EndoReset(); Return ResolveState("Cool"); }
 		else if (DCY_CheckForPull(b)) DCY_EndoPull(b);
 		Return ResolveState(null);
 	}
