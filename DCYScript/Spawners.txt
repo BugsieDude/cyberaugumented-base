@@ -3,6 +3,7 @@ Class DCY_Supercharged : RandomSpawner
   Default
   {
 	DropItem "DCY_Luminescence", 255, 100;
+	DropItem "DCY_Buoyancy", 255, 50;
 	DropItem "DCY_Rehabiliation", 255, 30;
 	DropItem "DCY_Supremacy", 255, 10;
   }

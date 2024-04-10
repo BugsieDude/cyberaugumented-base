@@ -351,7 +351,7 @@ Class DCY_UncoRipple : Actor
   +ROLLSPRITE
   +NOGRAVITY
   +BRIGHT
-  Alpha 0.000000000000000000001;
+  Alpha 0.01;
   }
   
   bool fading;
@@ -403,4 +403,46 @@ Class DCY_UncoShield : BasicArmorBonus
     PDFS ABCD 2 Bright;
     Loop;
   }
+}
+
+Class DCY_Buoyancy : DCY_Powerup
+{
+  Default
+  {
+  Tag "Buoyancy";
+  Inventory.PickupSound "dcy/healingsphere";
+  DCY_Powerup.EffectColor1 "34ebd2";
+  Inventory.PickupMessage "\c[n8]It's a glimpse of buoyancy.\c-";
+  }
+  
+  override void Tick()
+  {
+	if (level.isFrozen()) return;
+	super.Tick();
+	
+	if (DCY_EffectDistance(900))
+	{
+		A_SpawnParticleEx(effectcolor, TexMan.CheckForTexture("graphics/Particles/dcysmokep.png"), STYLE_ADD, SPF_FULLBRIGHT|SPF_RELATIVE|SPF_ROLL, 60, 70, 0, frandom(25, -25), frandom(-25, 25), frandom(-25, 25) + 25, frandom(-0.3, 0.3), frandom(-0.3, 0.3), frandom(0.3, 0.6), frandom(-.001, .001), frandom(-.001, .001), 0.015, startalphaf: 0.175, fadestepf: 0.0025, sizestep: -0.5, startroll: frandom(0, 360), rollvel: random(0, 1) ? 0.5 : -0.5);
+		if (!random(0, 12))
+		{
+			let ring = Spawn("DCY_SpinningRing", Vec3Offset(0, 0, 30));
+			if (ring) ring.SetShade(effectcolor);
+		}
+	}
+  }
+  
+  States
+  {
+  Spawn:
+	ULT_ A -1 Bright;
+	Loop;
+  }
+  
+  override bool Use(bool pickup)
+  {
+	Owner.GiveBody(200, 200);
+	Owner.A_SetBlend("bdfffd", 0.5, 20, "Cyan");
+	A_SphereEffect();
+	return true;
+  }  
 }

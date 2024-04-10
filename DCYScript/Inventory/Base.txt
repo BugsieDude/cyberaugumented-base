@@ -116,3 +116,55 @@ Class DCY_InvCustomItem : CustomInventory
   mixin DCY_ItemEffects;
   mixin DCY_FX;
 }
+
+//Some FX
+Class DCY_SpinningRing : Actor
+{
+  Default
+  {
+	Scale 1;
+	Alpha 0.01;
+	RenderStyle "AddShaded";
+	+THRUACTORS
+	+NOINTERACTION
+	+FLATSPRITE
+	+ROLLSPRITE
+	+BRIGHT
+	+ROLLCENTER
+	-SOLID
+  }
+  
+  override void PostBeginPlay()
+  {
+	super.PostBeginPlay();
+	rollv = frandom(-10, 10);
+	scale.x = frandom(0.5, 1.2);
+	scale.y = scale.x;
+	roll = frandom(0, 360);
+	angle = frandom(0, 360);
+	pitch = frandom(0, 360);
+  }
+  
+  float rollv;
+  
+  States
+  {
+  Spawn:
+	R0N_ G 1 Bright
+	{
+		If(alpha >= 1) SetStateLabel("Fade");
+		A_FadeIn(0.1, 0);
+		roll += rollv;
+		scale.x += 0.05; scale.y = scale.x;
+	}
+	Loop;
+  Fade:
+	R0N_ G 1 Bright
+	{
+		A_FadeOut(0.1, 0);
+		roll += rollv;
+		scale.x += 0.025; scale.y = scale.x;
+	}
+	Wait;
+  }
+}
